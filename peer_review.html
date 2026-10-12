@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>相互レビューと制度検証｜AI時代のウェルビーイング</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans JP -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 共通設定ファイル -->
+    <script src="portal-config.js"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: #f8fafc;
+      color: #1f2937;
+    }
+    /* 甲南高校デザインシステム共通定義 */
+    .main-color-bg { background-color: #4A90E2; }
+    .main-color-text { color: #4A90E2; }
+    .accent-color-bg { background-color: #F5A623; }
+    .accent-color-text { color: #F5A623; }
+    .accent-hover:hover { background-color: #E0961F; }
+    .main-hover:hover { background-color: #3B7DC4; }
+
+    /* スムーズ遷移 */
+    .smooth-transition {
+      transition: all 0.25s ease-in-out;
+    }
+
+    /* ステップ番号の丸バッジ */
+    .step-badge {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      background-color: #4A90E2;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    /* 選択状態の強調表示 */
+    .is-selected {
+      border-color: #4A90E2 !important;
+      background-color: #eff6ff !important;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2) !important;
+    }
+
+    button, a {
+      touch-action: manipulation;
+    }
+
+    /* 入力フォームのフォーカススタイル */
+    textarea:focus, select:focus, input:focus {
+      outline: none;
+      border-color: #4A90E2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
+
+    .stage-hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+  <!-- ==========================================
+      1. Navigation Header (共通デザイン)
+  ========================================== -->
+  <header class="sticky top-0 z-40 main-color-bg text-white shadow-md">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner">
+          <i data-lucide="route" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
+          <span class="block font-bold text-sm sm:text-base leading-tight">相互レビュー・制度検証 進行ガイド</span>
+        </div>
+      </div>
+      <span class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
+        <i data-lucide="message-square-text" class="w-3.5 h-3.5"></i>
+        <span>第4時 STEP 3</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- ==========================================
+      Main Content
+  ========================================== -->
+  <main class="flex-grow">
+    <!-- Hero Area -->
+    <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-10 sm:py-12 px-4 shadow-inner">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-1.5 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-3.5 py-1 text-xs font-bold text-yellow-300 shadow-sm">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>一方向循環：次の班へ届け、前の班から受け取る</span>
+        </div>
+        <h1 class="mt-4 text-3xl sm:text-5xl font-black tracking-tight leading-tight">問いを届け、制度を確かめる</h1>
+        <p class="mt-3 text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto leading-relaxed">
+          相互レビュー、制度検証、班の判断は、すべて共通Googleスライドの指定欄へ記録します。
+        </p>
+        
+        <div class="mt-6 max-w-2xl mx-auto text-left rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-4 sm:p-5 backdrop-blur shadow-lg">
+          <p class="font-bold text-yellow-300 flex items-center gap-2 text-sm sm:text-base">
+            <i data-lucide="shield-check" class="w-4 h-4 text-[#F5A623]"></i>
+            大切な区別
+          </p>
+          <p class="mt-2 text-xs sm:text-sm leading-relaxed text-slate-200">
+            相互レビューは他班からの問いです。制度を確かめるための応答カードは、エマ本人の気持ちや最終的な意思ではありません。カードにない心理、健康状態、家庭事情、希望、理由を付け加えないようにしましょう。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- メインコンテンツコンテナ -->
+    <div class="max-w-5xl mx-auto px-4 py-8 space-y-7">
+      
+      <!-- STEP 1: 自班選択と役割確認 -->
+      <section id="step1Section" class="rounded-2xl bg-white border border-slate-200 p-5 sm:p-6 shadow-sm">
+        <div class="flex gap-3 sm:gap-4">
+          <span class="step-badge">1</span>
+          <div class="flex-1">
+            <h2 class="text-xl font-black text-slate-800">自分の班と役割を確認する</h2>
+            <p class="mt-1 text-xs sm:text-sm text-slate-500">自分の班を選ぶと、訪問先と担当スライドが表示されます。</p>
+            
+            <div id="groupButtons" class="grid grid-cols-3 sm:grid-cols-6 gap-2.5 mt-4">
+              <!-- JSで動的生成 -->
+            </div>
+
+            <!-- 自班選択後の割当エリア -->
+            <div id="assignment" class="hidden mt-5 grid gap-4 lg:grid-cols-2">
+              <div class="rounded-xl border-2 border-blue-200 bg-blue-50/70 p-4">
+                <span class="text-xs font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-md inline-block">一方向循環</span>
+                <p id="routeText" class="mt-2 text-xl font-black text-blue-950"></p>
+                <p id="slideText" class="mt-1.5 text-xs sm:text-sm text-blue-900 font-medium leading-relaxed"></p>
+                
+                <div class="mt-3.5">
+                  <a id="slideLinkStep1" href="#" target="_blank" rel="noopener noreferrer" 
+                     class="inline-flex rounded-xl main-color-bg main-hover px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm smooth-transition items-center gap-1.5 active:scale-95">
+                    <span>共通Googleスライドを開く</span>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  </a>
+                </div>
+
+                <p class="mt-2.5 text-xs font-bold text-rose-700 flex items-center gap-1">
+                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 shrink-0"></i>
+                  <span>訪問先では、青い「訪問班記入欄」だけを編集します。ほかの欄は変更しません。</span>
+                </p>
+              </div>
+
+              <div class="grid gap-3 sm:grid-cols-2">
+                <div class="rounded-xl border border-emerald-200 bg-emerald-50/60 p-4">
+                  <h3 class="font-black text-emerald-900 flex items-center gap-1.5 text-sm sm:text-base">
+                    <i data-lucide="home" class="w-4 h-4 text-emerald-600"></i>
+                    ホームチーム
+                  </h3>
+                  <ul class="mt-2 text-xs sm:text-sm leading-6 text-slate-700 list-disc pl-5">
+                    <li><strong>プレゼンター：</strong>自班案を説明し、必要な場合は30秒以内で追加説明する</li>
+                    <li><strong>エディター：</strong>相互レビュー、質問の区分、検証用応答を自班スライドへ記録する</li>
+                    <li><strong>リサーチャー：</strong>ケース資料・公式資料との関係を確認し、追加説明を支える</li>
+                    <!-- ★Aの修正：訪問組を含めず「ホームチーム全員」に明確化 -->
+                    <li><strong>ホームチーム全員：</strong>受け取った問いと検証用応答を基に、暫定的な判断を行う</li>
+                  </ul>
+                </div>
+
+                <div class="rounded-xl border border-amber-200 bg-amber-50/60 p-4">
+                  <h3 class="font-black text-amber-900 flex items-center gap-1.5 text-sm sm:text-base">
+                    <i data-lucide="send" class="w-4 h-4 text-[#F5A623]"></i>
+                    訪問チーム
+                  </h3>
+                  <ul class="mt-2 text-xs sm:text-sm leading-6 text-slate-700 list-disc pl-5">
+                    <li><strong>クリエイター：</strong>他班の青い欄へレビューを入力する</li>
+                    <!-- ★Bの修正：訪問先での判断ではなく「資料との区別チェック」に特化 -->
+                    <li><strong>リサーチャー：</strong>訪問先の提案がケース資料・公式資料と区別されているかを確認する</li>
+                    <!-- ★Cの修正：時間管理の具体的な対象を明記 -->
+                    <li><strong>タイムキーパー：</strong>相互レビューから制度検証への切替と、追加説明の30秒を管理する</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2: 相互レビューを届ける -->
+      <section class="rounded-2xl bg-white border border-slate-200 p-5 sm:p-6 shadow-sm">
+        <div class="flex gap-3 sm:gap-4">
+          <span class="step-badge">2</span>
+          <div class="flex-1">
+            <h2 class="text-xl font-black text-slate-800">相互レビューを届ける</h2>
+            <p class="mt-1 text-xs sm:text-sm text-slate-500">訪問先スライドの青い欄へ4点を入力し、短く口頭で伝えます。</p>
+            
+            <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div class="rounded-xl bg-blue-50 border border-blue-100 p-4">
+                <b class="text-blue-900 block text-sm">維持してほしい価値</b>
+                <p class="mt-1 text-xs text-slate-600 leading-relaxed">残してほしい大切な点</p>
+              </div>
+              <div class="rounded-xl bg-emerald-50 border border-emerald-100 p-4">
+                <b class="text-emerald-900 block text-sm">広がる選択肢</b>
+                <p class="mt-1 text-xs text-slate-600 leading-relaxed">選びやすくなること</p>
+              </div>
+              <div class="rounded-xl bg-rose-50 border border-rose-100 p-4">
+                <b class="text-rose-900 block text-sm">狭まる可能性</b>
+                <p class="mt-1 text-xs text-slate-600 leading-relaxed">新たな不利益や見落とし</p>
+              </div>
+              <div class="rounded-xl bg-amber-50 border border-amber-100 p-4">
+                <b class="text-amber-900 block text-sm">最も考えてほしい問い</b>
+                <p class="mt-1 text-xs text-slate-600 leading-relaxed">疑問文で一つ</p>
+              </div>
+            </div>
+
+            <!-- 重複ボタンを無くし、STEP 1で開いたタブを使うよう明快に案内 -->
+            <div class="mt-4 rounded-xl border border-blue-200 bg-blue-50/70 p-3.5 text-xs sm:text-sm font-bold text-blue-950 flex items-center gap-2">
+              <i data-lucide="info" class="w-4 h-4 text-[#4A90E2] shrink-0"></i>
+              <span>STEP 1で開いたスライドの該当ページ（青い「訪問班記入欄」）へ入力してください。</span>
+            </div>
+            <p class="mt-2 text-xs text-slate-500">※訪問班は青い欄だけに入力します。制度検証と班の判断は、ホームチームが自班スライドへ記録します。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 3: 制度検証へ切り替える -->
+      <section class="rounded-2xl border-2 border-amber-300 bg-amber-50/60 p-5 sm:p-6 shadow-sm">
+        <div class="flex gap-3 sm:gap-4">
+          <span class="step-badge accent-color-bg">3</span>
+          <div class="flex-1">
+            <h2 class="text-xl font-black text-amber-950">相互レビューから制度検証へ切り替える</h2>
+            <p class="mt-2 text-xs sm:text-sm leading-relaxed text-slate-700">
+              ここからは他班の意見を述べません。訪問チームはエマを演じず、判定手順とカードの文だけを使います。
+            </p>
+            <button id="startVerification" type="button" 
+                    class="mt-4 rounded-xl bg-slate-900 hover:bg-slate-800 px-5 py-3 text-white font-bold text-xs sm:text-sm smooth-transition shadow-sm active:scale-95 flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+              <span>制度検証を始める</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 4: 第3時の質問を確かめる（初期非表示） -->
+      <section id="questionStage" class="stage-hidden rounded-2xl bg-white border border-slate-200 p-5 sm:p-6 shadow-sm smooth-transition">
+        <div class="flex gap-3 sm:gap-4">
+          <span class="step-badge">4</span>
+          <div class="flex-1">
+            <h2 class="text-xl font-black text-slate-800">第3時の質問を確かめる</h2>
+            <p class="mt-1 text-xs sm:text-sm text-slate-500">質問はそのまま使わなくてもかまいません。元の質問と判断理由は自班スライドへ残します。</p>
+            
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+              <label class="block">
+                <span class="text-xs sm:text-sm font-bold text-slate-700">第3時の元の質問</span>
+                <textarea id="originalQuestion" class="mt-2 w-full min-h-24 rounded-xl border border-slate-300 p-3 text-xs sm:text-sm smooth-transition" placeholder="第3時出口フォームの質問を入力"></textarea>
+              </label>
+              <label class="block">
+                <span class="text-xs sm:text-sm font-bold text-slate-700">第4時で使う質問</span>
+                <textarea id="currentQuestion" class="mt-2 w-full min-h-24 rounded-xl border border-slate-300 p-3 text-xs sm:text-sm smooth-transition" placeholder="エマのケースに合わせた質問"></textarea>
+              </label>
+            </div>
+
+            <fieldset class="mt-4">
+              <legend class="text-xs sm:text-sm font-bold text-slate-700 mb-2">この質問をどう扱いますか</legend>
+              <div class="grid gap-2 sm:grid-cols-2 text-xs sm:text-sm">
+                <label class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white p-3 cursor-pointer hover:border-blue-300 smooth-transition">
+                  <input type="radio" name="transfer" value="そのまま使う" class="w-4 h-4 accent-[#4A90E2]">
+                  <span>そのままエマに使う</span>
+                </label>
+                <label class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white p-3 cursor-pointer hover:border-blue-300 smooth-transition">
+                  <input type="radio" name="transfer" value="書き直す" class="w-4 h-4 accent-[#4A90E2]">
+                  <span>エマに合わせて書き直す</span>
+                </label>
+                <label class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white p-3 cursor-pointer hover:border-blue-300 smooth-transition">
+                  <input type="radio" name="transfer" value="使わない" class="w-4 h-4 accent-[#4A90E2]">
+                  <span>今回は使わない</span>
+                </label>
+                <label class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white p-3 cursor-pointer hover:border-blue-300 smooth-transition">
+                  <input type="radio" name="transfer" value="対話まで保留" class="w-4 h-4 accent-[#4A90E2]">
+                  <span>本人との実際の対話まで保留する</span>
+                </label>
+              </div>
+            </fieldset>
+            <p class="mt-3 text-xs text-slate-400">※この入力は進行確認用です。保存されません。必要な内容は自班のGoogleスライドへ記録してください。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 5: 質問をA・B・Cに分ける（初期非表示） -->
+      <section id="classificationStage" class="stage-hidden rounded-2xl bg-white border border-slate-200 p-5 sm:p-6 shadow-sm smooth-transition">
+        <div class="flex gap-3 sm:gap-4">
+          <span class="step-badge">5</span>
+          <div class="flex-1">
+            <h2 class="text-xl font-black text-slate-800">質問をA・B・Cに分ける</h2>
+            <p class="mt-1 text-xs sm:text-sm text-slate-500">迷った場合は、より慎重な区分を選びます。</p>
+            
+            <!-- インライン警告（班未選択時に表示） -->
+            <div id="unselectedGroupWarning" class="hidden mt-3 rounded-xl border border-rose-200 bg-rose-50 p-3.5 text-xs text-rose-800 font-bold flex items-center gap-2">
+              <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+              <span>先に STEP 1 で自分の班を選択してください。</span>
+            </div>
+
+            <div class="mt-4 space-y-3">
+              <button type="button" data-classification="C" 
+                      class="classification w-full rounded-xl border-2 border-slate-200 bg-white p-4 text-left hover:border-rose-400 smooth-transition shadow-sm">
+                <b class="text-rose-800 block text-sm sm:text-base">1．ケースにない本人固有の希望や事情を聞いている</b>
+                <span class="block mt-1 text-xs sm:text-sm text-slate-600">はい → C　ケースだけでは答えられない。本人との実際の対話まで決めない</span>
+              </button>
+              
+              <button type="button" data-classification="B" 
+                      class="classification w-full rounded-xl border-2 border-slate-200 bg-white p-4 text-left hover:border-amber-400 smooth-transition shadow-sm">
+                <b class="text-amber-800 block text-sm sm:text-base">2．制度の説明が足りないため答えられない</b>
+                <span class="block mt-1 text-xs sm:text-sm text-slate-600">はい → B　担当者、期限、手続、評価、結果返却をもう少し聞く</span>
+              </button>
+              
+              <button type="button" data-classification="A" 
+                      class="classification w-full rounded-xl border-2 border-slate-200 bg-white p-4 text-left hover:border-blue-400 smooth-transition shadow-sm">
+                <b class="text-blue-800 block text-sm sm:text-base">3．今ある情報で制度を確かめられる</b>
+                <span class="block mt-1 text-xs sm:text-sm text-slate-600">A　ケース資料に示された条件を使って制度案を点検する</span>
+              </button>
+            </div>
+
+            <div id="classificationNotice" class="hidden mt-4 rounded-xl bg-blue-50 border border-blue-200 p-4 text-xs sm:text-sm font-bold text-blue-950"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 6: 制度検証用応答カード（初期非表示） -->
+      <section id="cardStage" class="stage-hidden rounded-2xl border-2 border-blue-300 bg-blue-50/50 p-5 sm:p-6 shadow-sm smooth-transition">
+        <div class="flex gap-3 sm:gap-4">
+          <span class="step-badge">6</span>
+          <div class="flex-1">
+            <h2 class="text-xl font-black text-blue-950">制度を確かめるための応答カード</h2>
+            <div class="mt-3 rounded-xl border-l-4 border-rose-500 bg-white p-3.5 text-xs sm:text-sm text-slate-700 shadow-sm">
+              <b class="text-rose-800">注意：</b>このカードは、エマ本人の気持ちや最終的な意思を示すものではありません。カードの文だけを読み、理由を付け加えないでください。
+            </div>
+
+            <article id="responseCard" class="mt-4 rounded-2xl bg-white border-2 border-blue-300 p-5 shadow-sm">
+              <span id="cardLabel" class="text-xs font-black main-color-text block mb-1"></span>
+              <h3 id="cardTitle" class="text-xl sm:text-2xl font-black text-slate-900 leading-tight"></h3>
+              <p id="cardBody" class="mt-3 leading-relaxed text-xs sm:text-sm text-slate-700"></p>
+            </article>
+
+            <!-- ホームチーム追加説明エリア -->
+            <div id="explanationArea" class="hidden mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4">
+              <h3 class="font-black text-amber-950 text-sm sm:text-base">ホームチーム：30秒以内で追加説明</h3>
+              <p class="mt-1 text-xs sm:text-sm text-slate-700">担当者、期限、手続、評価、結果返却のうち、不足している点を説明します。</p>
+              
+              <button id="showReResponse" type="button" 
+                      class="mt-3 rounded-xl accent-color-bg accent-hover px-5 py-2.5 text-white text-xs sm:text-sm font-bold shadow-sm smooth-transition active:scale-95">
+                説明後の応答を1回だけ表示
+              </button>
+
+              <article id="reResponseCard" class="hidden mt-4 rounded-xl border-2 border-amber-300 bg-white p-4 shadow-sm">
+                <span class="text-xs font-black accent-color-text block mb-1">説明を聞いた後の応答</span>
+                <h4 id="reTitle" class="text-base sm:text-lg font-black text-slate-800 leading-tight"></h4>
+                <p id="reBody" class="mt-2 text-xs sm:text-sm leading-relaxed text-slate-700"></p>
+              </article>
+              <p class="mt-3 text-xs font-bold text-rose-700">※受入れを得るまで説明を続けません。追加説明と説明後の応答は各1回です。</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 7: 自班スライドへ記録し、判断する（初期非表示） -->
+      <section id="finishStage" class="stage-hidden rounded-2xl bg-white border border-slate-200 p-5 sm:p-6 shadow-sm smooth-transition">
+        <div class="flex gap-3 sm:gap-4">
+          <span class="step-badge">7</span>
+          <div class="flex-1">
+            <h2 class="text-xl font-black text-slate-800">自班スライドへ記録し、班で判断する</h2>
+            
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+                <b class="text-slate-800 text-sm block mb-2">スライドに記録すること</b>
+                <ul class="text-xs sm:text-sm leading-relaxed space-y-1.5 text-slate-700 list-disc pl-5">
+                  <li>他班から受けた問い</li>
+                  <li>質問のA・B・C区分</li>
+                  <li>制度検証用の応答</li>
+                  <li>追加説明と説明後の応答</li>
+                  <li>実際の対話まで保留すること</li>
+                </ul>
+              </div>
+
+              <div class="rounded-xl bg-blue-50/70 border border-blue-200 p-4">
+                <b class="text-blue-950 text-sm block mb-2">班が行う判断</b>
+                <div class="grid grid-cols-2 gap-2 text-center font-black text-xs sm:text-sm">
+                  <span class="rounded-lg bg-white p-3 shadow-sm border border-blue-100 text-slate-800">採用</span>
+                  <span class="rounded-lg bg-white p-3 shadow-sm border border-blue-100 text-slate-800">修正</span>
+                  <span class="rounded-lg bg-white p-3 shadow-sm border border-blue-100 text-slate-800">保留</span>
+                  <span class="rounded-lg bg-white p-3 shadow-sm border border-blue-100 text-slate-800">不採用</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="mt-4 text-xs sm:text-sm font-bold text-slate-700 leading-relaxed">
+              カードが班の判断を決めるのではありません。ケース資料、公式資料、他班レビュー、制度検証、班内の検討を区別して、人間が判断します。
+            </p>
+
+            <!-- ★Dの追加：自班に戻って全員で最終判断を行う案内枠 -->
+            <div class="mt-4 rounded-xl border border-violet-200 bg-violet-50 p-4">
+              <p class="text-xs sm:text-sm font-bold text-violet-900 flex items-center gap-1.5">
+                <i data-lucide="users-round" class="w-4 h-4 text-violet-700"></i>
+                <span>訪問チームが自班へ戻った後、班全員で最終判断を行います。</span>
+              </p>
+              <p class="mt-1 text-xs sm:text-sm leading-relaxed text-slate-700">
+                訪問先で得た気付きも共有し、採用・修正・保留・不採用と、制度として変更する内容を決めてください。
+              </p>
+            </div>
+
+            <!-- ★全画面共通の「次の操作」枠（出口UX） -->
+            <div class="mt-5 rounded-xl border-l-4 border-[#F5A623] bg-amber-50/70 p-4 text-left shadow-sm">
+              <span class="text-xs font-bold text-amber-900 block mb-1 flex items-center gap-1.5">
+                <i data-lucide="info" class="w-4 h-4 text-[#F5A623]"></i>
+                <span>次の操作</span>
+              </span>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                自班スライドへの記録と判断が終わったら、ブラウザ上部の<strong>「×」ボタンでこのタブを閉じて</strong>授業ポータルに戻り、<strong>STEP 3の「完了」ボタン</strong>を押して進捗を記録してください。
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+      Footer (スリム化された共通スタイル)
+  ========================================== -->
+  <footer class="mt-12 bg-slate-800 text-slate-400 py-5 text-center text-xs border-t border-slate-700">
+    <p>© 2026 鹿児島県立甲南高等学校 公民科</p>
+  </footer>
+
+  <!-- ==========================================
+      JavaScript Logic
+  ========================================== -->
+  <script>
+    'use strict';
+
+    /* ===== 教師用設定：共通スライドURL（portal-config.js から自動読込、実URLフォールバックなし） ===== */
+    const SETTINGS = {
+      slidesUrl: (window.PORTAL_CONFIG && window.PORTAL_CONFIG.slidesLesson4) 
+        ? window.PORTAL_CONFIG.slidesLesson4 
+        : "",
+      groups: {
+        1: { target: 2, ownSlide: 6, targetSlide: 5, card: '一部変更' },
+        2: { target: 3, ownSlide: 5, targetSlide: 4, card: '別案' },
+        3: { target: 4, ownSlide: 4, targetSlide: 3, card: '今は不要' },
+        4: { target: 5, ownSlide: 3, targetSlide: 2, card: '保留' },
+        5: { target: 6, ownSlide: 2, targetSlide: 1, card: '負担の分散を確認' },
+        6: { target: 1, ownSlide: 1, targetSlide: 6, card: '制度条件として確認' }
+      }
+    };
+
+    /* ===== 制度検証カード定義（全8種類：省略なし） ===== */
+    const CARDS = {
+      '制度条件として確認': {
+        title: '制度の条件を確認できた',
+        body: 'この制度案は、ケースに示された願いと選択条件に対応しています。制度の条件としては確認できました。実際に本人が利用するかどうかは、本人との対話まで決めません。',
+        needsExplanation: false
+      },
+      '負担の分散を確認': {
+        title: '役割と負担の分散を確認してください',
+        body: '提案された仕組みを続けるために、特定の班員や特定の教員だけに連絡・調整の負担が集中していませんか。誰が、いつ、どのような役割で支えるのかを制度として確認してください。',
+        needsExplanation: false
+      },
+      '一部変更': {
+        title: '一部を変えてください',
+        body: '学習内容を確認する方法はありますが、後から提出した意見を誰が確認し、どのように意思決定へ反映し、結果を返すのかが十分に分かりません。その部分を変更してください。',
+        needsExplanation: false
+      },
+      '別案': {
+        title: '別の方法も用意してください',
+        body: '提案された方法以外にも、同期と非同期、文章と図などを組み合わせたり、途中で切り替えたりできる別の経路を用意してください。',
+        needsExplanation: false
+      },
+      '今は不要': {
+        title: '今回は利用しない条件で確かめます',
+        body: '今回はこの経路を利用しないという条件で、制度を点検します。利用しないことで不利益が生じず、後から利用を選べる仕組みになっていますか。',
+        needsExplanation: false
+      },
+      '保留': {
+        title: '今は決めずに保留します',
+        body: '途中変更の方法、評価の扱い、結果を返す手続を確認するまで、判断を保留するという条件で制度を点検します。',
+        needsExplanation: false
+      },
+      '追加説明要求': {
+        title: '制度の説明をもう少し聞く必要があります',
+        body: '判断するために、担当者、期限、意見を意思決定へ反映する手続、結果と理由を返す方法を説明してください。',
+        needsExplanation: true,
+        reResponse: '説明後に条件確認'
+      },
+      '実際の対話まで保留': {
+        title: 'ケースだけでは答えられません',
+        body: 'この質問には、ケース資料だけでは答えられません。実在する本人の希望や事情を確認する必要があるため、本人との実際の対話まで決めません。',
+        needsExplanation: false
+      }
+    };
+
+    /* ===== 追加説明後の応答定義 ===== */
+    const RE_RESPONSES = {
+      '説明後に条件確認': {
+        title: '制度の条件を確認できた',
+        body: '追加説明によって、担当者、手続、結果を返す方法を確認できました。制度の条件としては確認できました。ただし、本人が実際に利用するかは、本人との対話まで決めません。'
+      },
+      '説明後も一部変更': {
+        title: '説明後も一部変更が必要',
+        body: '追加説明は確認できましたが、途中で経路を変更する手続、または利用しない場合の扱いが明確ではありません。その部分を変更してください。'
+      },
+      '説明後も保留': {
+        title: '説明後も保留',
+        body: '追加説明は確認できましたが、本人固有の希望についてはケース資料だけでは判断できません。本人との実際の対話まで決めません。'
+      }
+    };
+
+    let ownGroup = null;
+    let classification = null;
+
+    function initialize() {
+      renderGroupButtons();
+      setupEvents();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderGroupButtons() {
+      const container = document.getElementById('groupButtons');
+      container.innerHTML = [1, 2, 3, 4, 5, 6].map(n => `
+        <button type="button" data-group="${n}" 
+                class="group-btn rounded-xl border-2 border-slate-200 bg-white py-3 text-sm font-black hover:border-blue-400 smooth-transition" 
+                aria-pressed="false">
+          ${n}班
+        </button>
+      `).join('');
+
+      container.querySelectorAll('.group-btn').forEach(btn => {
+        btn.addEventListener('click', () => selectGroup(Number(btn.dataset.group)));
+      });
+    }
+
+    function selectGroup(group) {
+      ownGroup = group;
+      classification = null;
+
+      // 未選択警告を隠す
+      const warning = document.getElementById('unselectedGroupWarning');
+      if (warning) warning.classList.add('hidden');
+
+      document.querySelectorAll('.group-btn').forEach(btn => {
+        const selected = Number(btn.dataset.group) === group;
+        btn.classList.toggle('is-selected', selected);
+        btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      });
+
+      const config = SETTINGS.groups[group];
+      document.getElementById('assignment').classList.remove('hidden');
+      document.getElementById('routeText').textContent = `${group}班 → ${config.target}班`;
+      document.getElementById('slideText').textContent = `自班：スライド${config.ownSlide}を編集 ／ 訪問先：スライド${config.targetSlide}の青い「訪問班記入欄」へ入力`;
+      
+      // STEP 1 のスライドリンクを設定
+      configureLink('slideLinkStep1', SETTINGS.slidesUrl);
+
+      // スライドURLが未設定('#')の場合は、注意メッセージを表示する
+      const unsetNotice = document.getElementById('slideUnsetNotice');
+      if (unsetNotice) {
+        unsetNotice.classList.toggle('hidden', SETTINGS.slidesUrl !== '#');
+      }
+    }
+
+    function configureLink(id, url) {
+      const link = document.getElementById(id);
+      if (!link) return;
+      if (url && url !== '#') {
+        link.href = url;
+        link.removeAttribute('aria-disabled');
+        link.classList.remove('opacity-50', 'cursor-not-allowed');
+      } else {
+        link.href = '#';
+        link.setAttribute('aria-disabled', 'true');
+        link.classList.add('opacity-50', 'cursor-not-allowed');
+        link.addEventListener('click', (e) => e.preventDefault());
+      }
+    }
+
+    function setupEvents() {
+      // 制度検証開始ボタン
+      document.getElementById('startVerification').addEventListener('click', () => {
+        ['questionStage', 'classificationStage'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.classList.remove('stage-hidden');
+        });
+        document.getElementById('questionStage').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // 質問分類ボタン（A・B・C）
+      document.querySelectorAll('.classification').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!ownGroup) {
+            const warning = document.getElementById('unselectedGroupWarning');
+            if (warning) warning.classList.remove('hidden');
+            document.getElementById('step1Section').scrollIntoView({ behavior: 'smooth' });
+            return;
+          }
+
+          classification = btn.dataset.classification;
+          document.querySelectorAll('.classification').forEach(b => {
+            b.classList.toggle('is-selected', b === btn);
+          });
+
+          const notice = document.getElementById('classificationNotice');
+          const labels = {
+            A: 'A　今ある情報で制度を確かめられる',
+            B: 'B　制度の説明をもう少し聞く必要がある',
+            C: 'C　ケースだけでは答えられない。本人との実際の対話まで決めない'
+          };
+          if (notice) {
+            notice.textContent = `選んだ区分：${labels[classification]}`;
+            notice.classList.remove('hidden');
+          }
+          showCard();
+        });
+      });
+
+      // 追加説明後の応答表示ボタン
+      document.getElementById('showReResponse').addEventListener('click', () => {
+        const config = SETTINGS.groups[ownGroup];
+        const baseCard = classification === 'B' ? CARDS['追加説明要求'] : CARDS[config.card];
+        const key = baseCard.reResponse || '説明後も保留';
+        const re = RE_RESPONSES[key];
+
+        document.getElementById('reTitle').textContent = re.title;
+        document.getElementById('reBody').textContent = re.body;
+        document.getElementById('reResponseCard').classList.remove('hidden');
+        
+        const btn = document.getElementById('showReResponse');
+        btn.disabled = true;
+        btn.classList.add('opacity-50', 'cursor-not-allowed');
+        
+        document.getElementById('finishStage').classList.remove('stage-hidden');
+        document.getElementById('finishStage').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+
+    function showCard() {
+      const config = SETTINGS.groups[ownGroup];
+      let cardKey;
+      if (classification === 'C') cardKey = '実際の対話まで保留';
+      else if (classification === 'B') cardKey = '追加説明要求';
+      else cardKey = config.card;
+
+      const card = CARDS[cardKey];
+      if (!card) {
+        console.error('カードが見つかりません:', cardKey);
+        return;
+      }
+
+      document.getElementById('cardLabel').textContent = `質問区分 ${classification} ／ 検証カード：${cardKey}`;
+      document.getElementById('cardTitle').textContent = card.title;
+      document.getElementById('cardBody').textContent = card.body;
+      
+      document.getElementById('cardStage').classList.remove('stage-hidden');
+      document.getElementById('explanationArea').classList.toggle('hidden', !card.needsExplanation);
+      document.getElementById('reResponseCard').classList.add('hidden');
+      
+      const reBtn = document.getElementById('showReResponse');
+      reBtn.disabled = false;
+      reBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+      if (!card.needsExplanation) {
+        document.getElementById('finishStage').classList.remove('stage-hidden');
+      }
+      
+      document.getElementById('cardStage').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    document.addEventListener('DOMContentLoaded', initialize);
+  </script>
+</body>
+</html>

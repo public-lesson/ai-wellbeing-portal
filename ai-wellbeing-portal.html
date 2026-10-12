@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公共「AI時代のウェルビーイング」授業ポータル</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans JP -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 共通設定ファイル -->
+    <script src="portal-config.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f8fafc;
+            color: #1f2937;
+        }
+        /* 甲南高校デザインシステム */
+        .main-color-bg { background-color: #4A90E2; }
+        .main-color-text { color: #4A90E2; }
+        .accent-color-bg { background-color: #F5A623; }
+        .accent-color-text { color: #F5A623; }
+        .accent-hover:hover { background-color: #E0961F; }
+        .main-hover:hover { background-color: #3B7DC4; }
+        
+        /* ステップ番号の丸バッジ */
+        .step-badge {
+            background-color: #4A90E2;
+            color: white;
+            border-radius: 9999px;
+            width: 2rem;
+            height: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        /* スムーズな遷移 */
+        .smooth-transition {
+            transition: all 0.25s ease-in-out;
+        }
+        /* ルビのバランス微調整 */
+        rt {
+            user-select: none;
+        }
+        /* アコーディオンの矢印アニメーション用 */
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- ==========================================
+        1. Navigation Header (甲南高校共通スタイル)
+    ========================================== -->
+    <header class="sticky top-0 z-40 main-color-bg text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" onclick="switchLesson(1); return false;" class="flex items-center gap-3 group text-left">
+                <div class="w-10 h-10 rounded-lg bg-white/15 flex items-center justify-center shadow-inner group-hover:scale-105 smooth-transition">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span id="headerSubTitle" class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
+                    <span class="block text-sm sm:text-base font-bold leading-tight">公共「AI時代のウェルビーイングを考える」</span>
+                </div>
+            </a>
+
+            <!-- デスクトップ ナビゲーション（第1時〜第4時 タブ） -->
+            <nav class="hidden md:flex space-x-1.5" id="desktopNav" aria-label="授業時間選択"></nav>
+
+            <!-- モバイル メニューボタン -->
+            <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-white/20 focus:outline-none" aria-label="メニュー開閉" aria-expanded="false">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- モバイル メニュー展開エリア -->
+        <div id="mobileMenu" class="hidden md:hidden bg-blue-700 border-t border-blue-500/50 px-4 py-3">
+            <div class="grid grid-cols-2 gap-2" id="mobileNav">
+                <!-- JSで動的にボタン生成 -->
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+        Main Content
+    ========================================== -->
+    <main class="flex-grow">
+        <!-- 2. Hero Area (濃紺グラデーション + 中心となる問い) -->
+        <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-12 md:py-16 px-4 shadow-inner relative">
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <div class="inline-flex items-center gap-1.5 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-3.5 py-1 text-xs font-bold text-yellow-300 mb-4 shadow-sm">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                    <span id="heroBadge">第1時 / 全4時間構成</span>
+                </div>
+                <h1 id="heroTitle" class="text-2xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+                    <!-- タイトル挿入 -->
+                </h1>
+                <p id="heroSubtitle" class="mt-2 text-sm sm:text-lg text-slate-300 font-light">
+                    <!-- サブタイトル挿入 -->
+                </p>
+
+                <!-- 中心の問い (黄色のアクセントボックス) -->
+                <div class="mt-8 max-w-2xl mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-5 text-left backdrop-blur shadow-lg">
+                    <span class="text-xs font-bold uppercase tracking-wider text-yellow-300 block mb-1">本時の中心となる問い</span>
+                    <p id="heroQuestion" class="text-lg sm:text-xl font-bold leading-snug text-white">
+                        <!-- 問い挿入 -->
+                    </p>
+                    <p id="heroSummary" class="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        <!-- 概要挿入 -->
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="max-w-4xl mx-auto px-4 py-8 sm:py-12 space-y-10">
+            <!-- 3. 今日の進み具合（プログレスカード） -->
+            <section class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-800">本時の活動進度</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">活動が終わったら「完了」ボタンを押して進捗を記録しましょう。</p>
+                    </div>
+                    <div class="text-right">
+                        <span id="progressCount" class="text-2xl font-black main-color-text">0</span>
+                        <span id="progressTotal" class="text-sm font-bold text-slate-400">/6</span>
+                    </div>
+                </div>
+                <!-- プログレスバー -->
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-3 overflow-hidden p-0.5 shadow-inner">
+                    <div id="progressBar" class="bg-gradient-to-r from-[#4A90E2] to-emerald-500 h-full rounded-full smooth-transition" style="width: 0%"></div>
+                </div>
+            </section>
+
+            <!-- 4. 今日の学習ステップ (Tasks) -->
+            <section class="space-y-4">
+                <div class="border-b-2 border-blue-200 pb-2 flex items-center justify-between">
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="step-badge">✓</span>
+                        本日の学習ステップ
+                    </h2>
+                    <span class="text-xs font-medium text-slate-500">順番に取り組んでください</span>
+                </div>
+
+                <div id="tasksList" class="space-y-3.5 pt-2">
+                    <!-- タスクカードが動的に挿入されます -->
+                </div>
+            </section>
+
+            <!-- 5. 4人の学習者ケース -->
+            <section id="cases" class="space-y-4 pt-4">
+                <div class="border-b-2 border-blue-200 pb-2">
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="step-badge">👥</span>
+                        4人の学習者ケース
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                        本人の「苦手さ」ではなく、願い・強みと「学校が保障すべき選択肢（潜在能力）」を捉えます。
+                    </p>
+                </div>
+
+                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 pt-2">
+                    <!-- 剛（takeshi） -->
+                    <div class="group relative overflow-hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:shadow-md smooth-transition">
+                        <img src="images/case-takeshi.webp" alt="" aria-hidden="true" 
+                             class="pointer-events-none absolute -right-2 -bottom-2 w-32 h-32 object-contain opacity-20 mix-blend-multiply group-hover:opacity-30 group-hover:scale-105 transition-all duration-300">
+                        
+                        <div class="relative z-10">
+                            <div class="h-1.5 w-10 bg-sky-500 rounded-full mb-3"></div>
+                            <h3 class="font-bold text-slate-800 text-lg leading-tight">
+                                <ruby>剛<rp>（</rp><rt class="text-[10px] font-normal text-slate-500">たけし</rt><rp>）</rp></ruby>
+                            </h3>
+                            <span class="text-[11px] font-bold text-[#4A90E2] block mt-2">本人の願い</span>
+                            <p class="text-xs font-bold text-slate-700 mt-0.5">考える時間と表現方法を選びたい</p>
+                            <span class="text-[11px] font-bold text-slate-400 block mt-2.5">強み</span>
+                            <p class="text-xs text-slate-600 mt-0.5">じっくり思考を深め、図解で表現する力</p>
+                        </div>
+                        <div class="relative z-10 mt-4 pt-3 border-t border-slate-100">
+                            <span class="text-[11px] font-bold accent-color-text">広げたい経路：</span>
+                            <p class="text-xs text-slate-700 mt-0.5">書く・図示する・後から意見を加える</p>
+                        </div>
+                    </div>
+
+                    <!-- 明（akira） -->
+                    <div class="group relative overflow-hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:shadow-md smooth-transition">
+                        <img src="images/case-akira.webp" alt="" aria-hidden="true" 
+                             class="pointer-events-none absolute -right-2 -bottom-2 w-32 h-32 object-contain opacity-20 mix-blend-multiply group-hover:opacity-30 group-hover:scale-105 transition-all duration-300">
+
+                        <div class="relative z-10">
+                            <div class="h-1.5 w-10 bg-emerald-500 rounded-full mb-3"></div>
+                            <h3 class="font-bold text-slate-800 text-lg leading-tight">
+                                <ruby>明<rp>（</rp><rt class="text-[10px] font-normal text-slate-500">あきら</rt><rp>）</rp></ruby>
+                            </h3>
+                            <span class="text-[11px] font-bold text-[#4A90E2] block mt-2">本人の願い</span>
+                            <p class="text-xs font-bold text-slate-700 mt-0.5">AIを使いながら自分で判断したい</p>
+                            <span class="text-[11px] font-bold text-slate-400 block mt-2.5">強み</span>
+                            <p class="text-xs text-slate-600 mt-0.5">AIへの指示出しが速く論点を広げる力</p>
+                        </div>
+                        <div class="relative z-10 mt-4 pt-3 border-t border-slate-100">
+                            <span class="text-[11px] font-bold accent-color-text">広げたい経路：</span>
+                            <p class="text-xs text-slate-700 mt-0.5">根拠確認・AI出力の保留／不採用の判断</p>
+                        </div>
+                    </div>
+
+                    <!-- 直（nao） -->
+                    <div class="group relative overflow-hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:shadow-md smooth-transition">
+                        <img src="images/case-nao.webp" alt="" aria-hidden="true" 
+                             class="pointer-events-none absolute -right-2 -bottom-2 w-32 h-32 object-contain opacity-20 mix-blend-multiply group-hover:opacity-30 group-hover:scale-105 transition-all duration-300">
+
+                        <div class="relative z-10">
+                            <div class="h-1.5 w-10 bg-indigo-500 rounded-full mb-3"></div>
+                            <h3 class="font-bold text-slate-800 text-lg leading-tight">
+                                <ruby>直<rp>（</rp><rt class="text-[10px] font-normal text-slate-500">なお</rt><rp>）</rp></ruby>
+                            </h3>
+                            <span class="text-[11px] font-bold text-[#4A90E2] block mt-2">本人の願い</span>
+                            <p class="text-xs font-bold text-slate-700 mt-0.5">AIを使わない学び方も選びたい</p>
+                            <span class="text-[11px] font-bold text-slate-400 block mt-2.5">強み</span>
+                            <p class="text-xs text-slate-600 mt-0.5">自分の言葉を大切にし対話を紡ぐ力</p>
+                        </div>
+                        <div class="relative z-10 mt-4 pt-3 border-t border-slate-100">
+                            <span class="text-[11px] font-bold accent-color-text">広げたい経路：</span>
+                            <p class="text-xs text-slate-700 mt-0.5">AI利用／非利用を納得して切り替える</p>
+                        </div>
+                    </div>
+
+                    <!-- エマ（emma） -->
+                    <div class="group relative overflow-hidden bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:shadow-md smooth-transition" id="case-emma">
+                        <img src="images/case-emma.webp" alt="" aria-hidden="true" 
+                             class="pointer-events-none absolute -right-2 -bottom-2 w-32 h-32 object-contain opacity-20 mix-blend-multiply group-hover:opacity-30 group-hover:scale-105 transition-all duration-300">
+
+                        <div class="relative z-10">
+                            <div class="h-1.5 w-10 accent-color-bg rounded-full mb-3"></div>
+                            <h3 class="font-bold text-slate-800 text-lg leading-tight">
+                                エマ
+                            </h3>
+                            <span class="text-[11px] font-bold text-[#4A90E2] block mt-2">本人の願い</span>
+                            <p class="text-xs font-bold text-slate-700 mt-0.5">状況に合う場所と方法で学び、考えを話合いや意思決定へ届けたい</p>
+                            <span class="text-[11px] font-bold text-slate-400 block mt-2.5">強み</span>
+                            <p class="text-xs text-slate-600 mt-0.5">資料を時間をかけて読み、文章で考えを丁寧に表現できる</p>
+                        </div>
+                        <div class="relative z-10 mt-4 pt-3 border-t border-slate-100">
+                            <span class="text-[11px] font-bold accent-color-text">広げたい経路：</span>
+                            <p class="text-xs text-slate-700 mt-0.5">同期・非同期を選び直し、後から意見を意思決定へ届ける経路</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. 対話と探究の5原則（アコーディオン収納で視認性を向上） -->
+            <section class="pt-2">
+                <details class="group rounded-xl border border-slate-200 bg-white p-3.5 shadow-sm smooth-transition open:border-blue-300">
+                    <summary class="flex cursor-pointer items-center justify-between font-bold text-xs sm:text-sm text-slate-700 select-none">
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="info" class="w-4 h-4 text-[#4A90E2]"></i>
+                            <span>対話と探究の5原則を確認する</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 smooth-transition"></i>
+                    </summary>
+                    <div class="mt-3 pt-3 border-t border-slate-100">
+                        <ul class="space-y-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            <li><strong>1. 人を決めつけない</strong>（ラベリングの回避）</li>
+                            <li><strong>2. カードにない事情を推測しない</strong>（事実・根拠重視）</li>
+                            <li><strong>3. 選べる道を増やす</strong>（潜在能力の拡大）</li>
+                            <li><strong>4. AIの出力は参考の一つ</strong>（批判的吟味）</li>
+                            <li><strong>5. 最終判断と責任は人間が行う</strong></li>
+                        </ul>
+                    </div>
+                </details>
+            </section>
+        </div>
+    </main>
+
+    <!-- ==========================================
+        7. Footer (スリム化された甲南高校共通スタイル)
+    ========================================== -->
+    <footer class="mt-12 bg-slate-800 text-slate-400 py-5 text-center text-xs border-t border-slate-700">
+        <p>© 2026 鹿児島県立甲南高等学校 公民科</p>
+    </footer>
+
+    <!-- ==========================================
+        JavaScript（状態管理・描画）
+    ========================================== -->
+    <script>
+    'use strict';
+
+    // ===== 教師用URL一括設定（portal-config.js を優先参照・実URLフォールバックは完全排除） =====
+    const PORTAL_CONFIG = window.PORTAL_CONFIG || {
+      classId: "",
+      className: "",
+      geminiNotebookUrl: "",
+      slidesLesson1to3: "#",
+      slidesLesson4: "#",
+      formLesson1Pre: "#",
+      formLesson1Exit: "#",
+      formLesson2Exit: "#",
+      formLesson3Exit: "#",
+      formLesson4Exit: "#"
+    };
+
+    // 授業データ定義
+    const lessonsData = [
+      {
+        id: 1,
+        short: "第1時",
+        title: "『選べない』のは本人の問題なのか",
+        subtitle: "～ケイパビリティ・アプローチで捉え直す学びにくさ～",
+        question: "同じ教材、同じ時間、同じAIがあれば、誰もが同じように学べるのだろうか。",
+        summary: "3人のケースを比べ、学びにくさを本人の不足ではなく、「学校の条件」との関係から捉え直します。",
+        tasks: [
+          {
+            icon: "clipboard-list",
+            label: "事前アンケートに回答する",
+            detail: "単元に入る前の初期の考えや経験をフォームに入力します。",
+            action: "アンケートを開く",
+            href: PORTAL_CONFIG.formLesson1Pre || "#",
+            primary: true
+          },
+          {
+            icon: "book-open",
+            label: "ケイパビリティ・アプローチを確認する",
+            detail: "潜在能力（選択可能性）と、機能の見方を確認します。",
+            action: "理論を見る",
+            href: "images/capability_approach.webp",
+            primary: false
+          },
+          {
+            icon: "help-circle",
+            label: "理論の確認テスト",
+            detail: "全10問のクイズで、機能・潜在能力・変換要因などの基本概念を確かめます。",
+            action: "テストに挑戦",
+            href: "capability_approach_quiz.html",
+            primary: true
+          },
+          {
+            icon: "users",
+            label: "ケースを分析する",
+            detail: "剛・明・直の願い、強み、選びにくさを整理します。",
+            action: "各ケースを見る",
+            href: "learner_cases.html?lesson=1",
+            primary: false
+          },
+          {
+            icon: "presentation",
+            label: "Googleスライドを作る",
+            detail: "班の初期案を自由な形式の1枚スライドにまとめます。",
+            action: "班でスライド作成",
+            href: PORTAL_CONFIG.slidesLesson1to3 || "#",
+            primary: true
+          },
+          {
+            icon: "clipboard-check",
+            label: "個人で振り返る",
+            detail: "本人の問題から学校の条件へ捉え直した点をフォームに入力します。",
+            action: "振り返り",
+            href: PORTAL_CONFIG.formLesson1Exit || "#",
+            primary: true
+          }
+        ]
+      },
+      {
+        id: 2,
+        short: "第2時",
+        title: "相手に届けるために公式資料を学ぶ",
+        subtitle: "～エビデンスに基づく学習経路の構想～",
+        question: "相手の学ぶ選択肢を広げるために、自分たちは何を理解する必要があるだろうか。",
+        summary: "Gemini Notebook（旧NotebookLM）で公式資料の根拠箇所に戻り、同じ学習目標へつながる複数の経路を構想します。",
+        tasks: [
+          {
+            icon: "book-open",
+            label: "資料の見方を確認する",
+            detail: "資料に書かれた事実、資料を根拠にした解釈、資料だけでは判断できない推測を区別します。",
+            action: "例題に挑戦",
+            href: "evidence_reading_check.html",
+            primary: true
+          },
+          {
+            icon: "file-search",
+            label: "公式資料を調べる",
+            detail: "共通資料とケース別資料をGemini Notebookで確認・精査します。",
+            action: "Geminiに質問",
+            href: "step2_official_sources_guide.html?lesson=2",
+            primary: false
+          },
+          {
+            icon: "presentation",
+            label: "複数の経路を構想する",
+            detail: "AI利用・非利用、話す・書くなど最低2つの経路をスライドに示します。",
+            action: "班でスライド作成",
+            href: PORTAL_CONFIG.slidesLesson1to3 || "#",
+            primary: true
+          },
+          {
+            icon: "clipboard-check",
+            label: "根拠を記録する",
+            detail: "資料名、発行主体、要点、判断できないことをフォームに残します。",
+            action: "振り返り",
+            href: PORTAL_CONFIG.formLesson2Exit || "#",
+            primary: true
+          }
+        ]
+      },
+      {
+        id: 3,
+        short: "第3時",
+        title: "AIとの批判的対話で提案を問い直す",
+        subtitle: "～前提・反例・見落とされた立場の吟味～",
+        question: "私たちの案は、本当に相手の選択肢を広げているだろうか。",
+        summary: "Geminiを「答えの生成者」ではなく、前提や見落とされた立場を問う「対話のパートナー」として使います。",
+        tasks: [
+          {
+            icon: "book-open",
+            label: "AI利用の原則を確認",
+            detail: "人間が先に考え、AIの出力は参考の一つ（相対化）として扱います。",
+            action: "ルールを確認",
+            href: "step3_common_rules.html",
+            primary: false
+          },
+          {
+            icon: "message-square-share",
+            label: "問い直しの方法を選んで対話する",
+            detail: "Geminiとの対話、または問い直しカードのどちらかを選び、前提や見落としを確かめる問いを一つ選びます。",
+            actions: [
+              {
+                label: "Geminiと対話",
+                href: "step3_critique_guide.html#gemini",
+                primary: true,
+                icon: "bot"
+              },
+              {
+                label: "問い直しカード",
+                href: "step3_critique_guide.html#cards",
+                primary: true,
+                icon: "layers"
+              }
+            ]
+          },
+          {
+            icon: "file-text",
+            label: "根拠を公式資料と照合",
+            detail: "AIの指摘が妥当かを、公式資料の根拠と照らし合わせて確認します。",
+            action: "照合ガイドを開く",
+            href: "step3_evidence_check_guide.html",
+            primary: false
+          },
+          {
+            icon: "presentation",
+            label: "採否と理由を記録",
+            detail: "採用・修正・保留・不採用の区分と、その理由をスライドに残します。",
+            action: "班でスライド作成",
+            href: PORTAL_CONFIG.slidesLesson1to3 || "#",
+            primary: true
+          },
+          {
+            icon: "clipboard-check",
+            label: "個人で自己評価",
+            detail: "AIで気付いた前提と、自分自身の最終判断を出口フォームに記録します。",
+            action: "振り返り",
+            href: PORTAL_CONFIG.formLesson3Exit || "#",
+            primary: true
+          }
+        ]
+      },
+      {
+        id: 4,
+        short: "第4時",
+        title: "学び方の選択と意思決定への参加を保障する制度へ",
+        subtitle: "～エマへの転移・相互レビュー・制度検証～",
+        question: "エマが状況に応じて学び方を選び、学びの意思決定にも参加できるようにするため、どのような学習経路と制度を保障する必要があるだろうか。",
+        summary: "全6班でエマのケースを扱い、第3時までの学びを転移します。相互レビューと制度検証を通して、選び直せる学習経路を一部の人の善意に頼らない制度へとつなげます。",
+        tasks: [
+          {
+            icon: "users",
+            label: "エマへ学びを転移する",
+            detail: "剛・明・直のケースで得た視点から、エマの願い・強み・現在選べること・選びにくいことを捉え直します。ケースにない事情は推測しません。",
+            action: "ケースを見る",
+            href: "learner_cases.html?lesson=4",
+            primary: false
+          },
+          {
+            icon: "presentation",
+            label: "経路と制度の二層構想",
+            detail: "本人が選べる【学習経路】と、善意に頼らず学校が保障する【制度・ルール】を整理します。",
+            actions: [
+              {
+                label: "公式資料を開く",
+                href: "step2_official_sources_guide.html?lesson=4",
+                primary: false,
+                icon: "file-search"
+              },
+              {
+                label: "班でスライド作成",
+                href: PORTAL_CONFIG.slidesLesson4 || "#",
+                primary: true,
+                icon: "presentation"
+              }
+            ]
+          },
+          {
+            icon: "message-square-text",
+            label: "相互レビューと制度検証",
+            detail: "訪問班から問いを受け取り、異なる応答条件で制度案を確かめます。最後に、班が採用・修正・保留・不採用を判断します。",
+            action: "役割と手順を確認",
+            href: "peer_review.html",
+            primary: true
+          },
+          {
+            icon: "clipboard-check",
+            label: "判断の変化を個人で振り返る",
+            detail: "何によって判断が変わったか、学校制度として必要なこと、本人との実際の対話まで保留することを記録します。",
+            action: "振り返り",
+            href: PORTAL_CONFIG.formLesson4Exit || "#",
+            primary: true
+          }
+        ]
+      }
+    ];
+
+    // 状態管理（安全な読み込み処理：エラー時も必ず初期値「1」で安全に起動）
+    let currentLessonId = 1;
+    let completedTasks = {};
+
+    try {
+      const savedLesson = parseInt(sessionStorage.getItem("aiWellbeingCurrentLesson"), 10);
+      if ([1, 2, 3, 4].includes(savedLesson)) {
+        currentLessonId = savedLesson;
+      }
+      const savedTasks = sessionStorage.getItem("aiWellbeingCompletedTasks");
+      if (savedTasks) {
+        completedTasks = JSON.parse(savedTasks);
+      }
+    } catch (e) {
+      console.warn("sessionStorageの読み込みをスキップしました:", e);
+    }
+
+    // 初期化
+    function init() {
+      if (PORTAL_CONFIG.className) {
+        const subTitle = document.getElementById('headerSubTitle');
+        if (subTitle) subTitle.textContent = `甲南高校${PORTAL_CONFIG.className} 公民科`;
+      }
+      renderNavButtons();
+      renderCurrentLesson();
+      setupMobileMenu();
+    }
+
+    // ナビゲーションボタン描画
+    function renderNavButtons() {
+      const desktopNav = document.getElementById('desktopNav');
+      const mobileNav = document.getElementById('mobileNav');
+      if (!desktopNav || !mobileNav) return;
+
+      desktopNav.innerHTML = '';
+      mobileNav.innerHTML = '';
+
+      lessonsData.forEach(lesson => {
+        const isActive = lesson.id === currentLessonId;
+
+        // Desktop button
+        const dBtn = document.createElement('button');
+        dBtn.textContent = lesson.short;
+        dBtn.setAttribute('aria-current', isActive ? 'page' : 'false');
+        dBtn.className = `rounded-md px-3.5 py-1.5 text-sm font-bold smooth-transition ${
+          isActive ? "bg-white text-[#4A90E2] shadow-sm" : "text-white hover:bg-white/20 hover:text-yellow-200"
+        }`;
+        dBtn.onclick = () => switchLesson(lesson.id);
+        desktopNav.appendChild(dBtn);
+
+        // Mobile button
+        const mBtn = document.createElement('button');
+        mBtn.textContent = `${lesson.short}`;
+        mBtn.setAttribute('aria-current', isActive ? 'page' : 'false');
+        mBtn.className = `rounded-md p-2.5 text-center text-xs font-bold smooth-transition ${
+          isActive ? "bg-white text-[#4A90E2] shadow" : "bg-blue-800 text-white hover:bg-blue-900"
+        }`;
+        mBtn.onclick = () => {
+          switchLesson(lesson.id);
+          document.getElementById('mobileMenu').classList.add('hidden');
+          document.getElementById('mobileMenuBtn').setAttribute('aria-expanded', 'false');
+        };
+        mobileNav.appendChild(mBtn);
+      });
+    }
+
+    // レッスン切り替え
+    function switchLesson(id) {
+      currentLessonId = id;
+      try {
+        sessionStorage.setItem("aiWellbeingCurrentLesson", id.toString());
+      } catch (e) {}
+
+      renderNavButtons();
+      renderCurrentLesson();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 完了状態の保存
+    function toggleTask(lessonId, taskIndex) {
+      const key = `${lessonId}-${taskIndex}`;
+      completedTasks[key] = !completedTasks[key];
+
+      try {
+        sessionStorage.setItem(
+          "aiWellbeingCompletedTasks",
+          JSON.stringify(completedTasks)
+        );
+      } catch (e) {}
+
+      renderCurrentLesson();
+    }
+
+    // 現在のレッスン内容を描画
+    function renderCurrentLesson() {
+      const lesson = lessonsData.find(l => l.id === currentLessonId) || lessonsData[0];
+
+      // ヒーロー更新
+      const heroBadge = document.getElementById('heroBadge');
+      const heroTitle = document.getElementById('heroTitle');
+      const heroSubtitle = document.getElementById('heroSubtitle');
+      const heroQuestion = document.getElementById('heroQuestion');
+      const heroSummary = document.getElementById('heroSummary');
+
+      if (heroBadge) heroBadge.textContent = `${lesson.short} / 全4時間構成`;
+      if (heroTitle) heroTitle.textContent = lesson.title;
+      if (heroSubtitle) heroSubtitle.textContent = lesson.subtitle;
+      if (heroQuestion) heroQuestion.textContent = `「${lesson.question}」`;
+      if (heroSummary) heroSummary.textContent = lesson.summary;
+
+      // 進捗バー計算
+      const totalTasks = lesson.tasks.length;
+      let doneCount = 0;
+      lesson.tasks.forEach((_, index) => {
+        if (completedTasks[`${lesson.id}-${index}`]) doneCount++;
+      });
+
+      const percent = Math.round((doneCount / totalTasks) * 100);
+      const progressCount = document.getElementById('progressCount');
+      const progressTotal = document.getElementById('progressTotal');
+      const progressBar = document.getElementById('progressBar');
+
+      if (progressCount) progressCount.textContent = doneCount;
+      if (progressTotal) progressTotal.textContent = `/${totalTasks}`;
+      if (progressBar) progressBar.style.width = `${percent}%`;
+
+      // タスクカード生成
+      const tasksList = document.getElementById('tasksList');
+      if (!tasksList) return;
+      tasksList.innerHTML = '';
+
+      lesson.tasks.forEach((task, index) => {
+        const key = `${lesson.id}-${index}`;
+        const isDone = !!completedTasks[key];
+
+        // アクションボタン生成
+        let actionButtonsHtml = '';
+
+        if (task.actions && Array.isArray(task.actions)) {
+          const buttons = task.actions.map(act => {
+            const isExt = act.href.startsWith('http') || 
+                          /\.html([?#].*)?$/i.test(act.href) || 
+                          /\.(webp|png|jpe?g|gif|svg|pdf)([?#].*)?$/i.test(act.href);
+            const target = isExt ? 'target="_blank" rel="noopener noreferrer"' : '';
+            const iconName = act.icon || (isExt ? 'external-link' : 'arrow-down-circle');
+            const colorClass = act.primary ? "accent-color-bg accent-hover" : "main-color-bg main-hover";
+            return `
+              <a href="${act.href}" ${target} class="w-full sm:w-36 px-3 py-1.5 rounded-lg text-xs font-bold text-white ${colorClass} shadow-sm smooth-transition flex items-center justify-center gap-1.5 active:translate-y-0.5 whitespace-nowrap">
+                <span>${act.label}</span>
+                <i data-lucide="${iconName}" class="w-3.5 h-3.5 shrink-0"></i>
+              </a>
+            `;
+          }).join('');
+
+          actionButtonsHtml = `
+            <div class="flex flex-col gap-1.5 w-full sm:w-auto">
+              ${buttons}
+            </div>
+          `;
+        } else {
+          const isExternalOrFile = task.href.startsWith('http') || 
+                                   /\.html([?#].*)?$/i.test(task.href) || 
+                                   /\.(webp|png|jpe?g|gif|svg|pdf)([?#].*)?$/i.test(task.href);
+          const linkTarget = isExternalOrFile ? 'target="_blank" rel="noopener noreferrer"' : '';
+
+          actionButtonsHtml = `
+            <a href="${task.href}" ${linkTarget} class="w-full sm:w-36 justify-center rounded-lg px-3 py-2 text-xs font-bold text-white smooth-transition flex items-center gap-1.5 shadow-sm active:translate-y-0.5 ${
+              task.primary ? "accent-color-bg accent-hover" : "main-color-bg main-hover"
+            }">
+              <span class="truncate">${task.action}</span>
+              <i data-lucide="${isExternalOrFile ? 'external-link' : 'arrow-down-circle'}" class="w-3.5 h-3.5 shrink-0"></i>
+            </a>
+          `;
+        }
+
+        const card = document.createElement('div');
+        card.className = `group rounded-xl border-2 p-4 sm:p-5 smooth-transition flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+          isDone 
+          ? "border-emerald-400 bg-emerald-50/40 shadow-sm" 
+          : "border-slate-200 bg-white hover:border-blue-300 hover:shadow-md"
+        }`;
+
+        card.innerHTML = `
+          <div class="flex items-start sm:items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 font-bold shadow-sm smooth-transition ${
+              isDone ? "bg-emerald-600 text-white" : "bg-blue-50 text-[#4A90E2] group-hover:bg-[#4A90E2] group-hover:text-white"
+            }">
+              <i data-lucide="${task.icon}" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] font-black tracking-wider text-slate-400">STEP ${index + 1}</span>
+                ${isDone ? '<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">完了済み</span>' : ''}
+              </div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-800">${task.label}</h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-0.5 leading-relaxed">${task.detail}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2.5 self-end sm:self-center shrink-0 pt-2 sm:pt-0 w-full sm:w-auto justify-end">
+            ${actionButtonsHtml}
+
+            <button onclick="toggleTask(${lesson.id}, ${index})" 
+                    aria-pressed="${isDone}"
+                    aria-label="${task.label}を完了としてマーク"
+                    class="w-20 justify-center rounded-lg px-2.5 py-2 text-xs font-bold border smooth-transition flex items-center gap-1.5 shadow-sm active:scale-95 shrink-0 ${
+              isDone 
+              ? "border-emerald-600 bg-emerald-600 text-white hover:bg-emerald-700 hover:border-emerald-700" 
+              : "border-slate-300 bg-white text-slate-600 hover:bg-slate-100 hover:border-slate-400"
+            }">
+              <i data-lucide="${isDone ? 'check' : 'circle'}" class="w-3.5 h-3.5 shrink-0 ${isDone ? 'text-white' : 'text-slate-400'}"></i>
+              <span>${isDone ? "完了済" : "完了"}</span>
+            </button>
+          </div>
+        `;
+
+        tasksList.appendChild(card);
+      });
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    // モバイルメニュー開閉
+    function setupMobileMenu() {
+      const btn = document.getElementById('mobileMenuBtn');
+      const menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+
+      btn.addEventListener('click', () => {
+        const isExpanded = menu.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', !isExpanded);
+      });
+    }
+
+    // 実行開始
+    document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

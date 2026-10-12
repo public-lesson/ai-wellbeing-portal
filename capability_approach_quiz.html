@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第1時 STEP 2 理論の確認テスト｜公共「AI時代のウェルビーイング」</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans JP -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: #f8fafc;
+      color: #1f2937;
+    }
+    /* 甲南高校デザインシステム（ポータル共通） */
+    .main-color-bg { background-color: #4A90E2; }
+    .main-color-text { color: #4A90E2; }
+    .accent-color-bg { background-color: #F5A623; }
+    .accent-color-text { color: #F5A623; }
+    .accent-hover:hover { background-color: #E0961F; }
+    .main-hover:hover { background-color: #3B7DC4; }
+    
+    .smooth-transition {
+      transition: all 0.25s ease-in-out;
+    }
+
+    /* 見出しフォーカス時のブラウザ既定黒枠を非表示（アクセシビリティは維持） */
+    h2:focus {
+      outline: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+  <!-- ==========================================
+      1. Navigation Header (ポータル共通スタイル)
+  ========================================== -->
+  <header class="sticky top-0 z-40 main-color-bg text-white shadow-md">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <!-- ボタンと縦線を撤廃し、統一されたアイコン＋タイトル表示に -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner">
+          <i data-lucide="help-circle" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
+          <span class="block text-sm sm:text-base font-bold leading-tight">第1時 STEP 2「理論の確認テスト」</span>
+        </div>
+      </div>
+
+      <span class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
+        <i data-lucide="help-circle" class="w-3.5 h-3.5 text-yellow-300"></i>
+        <span>全10問</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- ==========================================
+      2. Hero Area
+  ========================================== -->
+  <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-10 sm:py-12 px-4 shadow-inner">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-1.5 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-3.5 py-1 text-xs font-bold text-yellow-300 mb-3 shadow-sm">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>第1時 STEP 2</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold leading-tight">
+        理論の確認テスト
+      </h1>
+      <p class="mt-2 text-xs sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
+        ケイパビリティ・アプローチの基本概念（機能・潜在能力・財・変換要因）を全10問のクイズで確かめます。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+      3. プログレスバーカード
+  ========================================== -->
+  <div class="max-w-4xl mx-auto px-4 -mt-6 w-full relative z-10">
+    <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 shadow-md">
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <i data-lucide="activity" class="w-4 h-4 main-color-text"></i>
+          <span class="text-sm sm:text-base font-bold text-slate-800">テスト進度</span>
+        </div>
+        <div>
+          <span id="progressCount" class="text-xl sm:text-2xl font-black main-color-text">Q 1 / 10</span>
+        </div>
+      </div>
+      <div class="mt-3 w-full bg-slate-100 rounded-full h-2.5 overflow-hidden p-0.5 shadow-inner">
+        <div id="progressBar" class="bg-gradient-to-r from-[#4A90E2] to-emerald-500 h-full rounded-full smooth-transition" style="width: 10%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+      Main Interactive Container
+  ========================================== -->
+  <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+    <div id="quizApp" class="bg-white rounded-xl border border-slate-200 p-5 sm:p-8 shadow-sm" aria-live="polite">
+
+      <!-- クイズ進行エリア -->
+      <div id="quizContent">
+        <div class="text-xs sm:text-sm font-bold tracking-wider main-color-text flex items-center gap-1.5 mb-2">
+          <i data-lucide="help-circle" class="w-4 h-4"></i>
+          <span id="questionBadge">問題 1</span>
+        </div>
+
+        <h2 id="questionText" class="text-lg sm:text-xl font-bold text-slate-800 leading-snug mb-6 outline-none">
+          <!-- 質問文 -->
+        </h2>
+
+        <!-- 選択肢一覧 -->
+        <div id="answerOptions" class="space-y-3 mb-6" role="group" aria-label="選択肢">
+          <!-- 動的生成 -->
+        </div>
+
+        <!-- ヒントエリア -->
+        <div id="hintContainer" class="hidden rounded-xl border-l-4 border-[#F5A623] bg-amber-50/70 p-4 mb-6 shadow-sm">
+          <div class="flex items-center gap-2 text-xs font-bold text-amber-900 mb-1">
+            <i data-lucide="lightbulb" class="w-4 h-4 text-[#F5A623]"></i>
+            <span>ヒント</span>
+          </div>
+          <p id="hintText" class="text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
+        </div>
+
+        <!-- フィードバック（解説）エリア -->
+        <div id="feedbackContainer" class="hidden rounded-xl border-l-4 p-4 mb-6 shadow-sm" role="status">
+          <div id="feedbackTitle" class="font-bold flex items-center gap-2 text-sm sm:text-base mb-1"></div>
+          <p id="rationaleText" class="text-xs sm:text-sm leading-relaxed text-slate-700 mt-1"></p>
+        </div>
+
+        <!-- アクションボタンエリア -->
+        <div class="flex items-center justify-between gap-3 pt-4 border-t border-slate-100">
+          <button id="hintButton" type="button" class="border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-800 px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1.5 smooth-transition shadow-sm active:scale-95">
+            <i data-lucide="lightbulb" class="w-4 h-4 text-[#F5A623]"></i>
+            <span>ヒントを見る</span>
+          </button>
+
+          <div class="flex items-center gap-3 ml-auto">
+            <button id="submitButton" type="button" disabled class="accent-color-bg accent-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 smooth-transition active:scale-95 text-xs sm:text-sm">
+              <span>決定する</span>
+              <i data-lucide="check" class="w-4 h-4"></i>
+            </button>
+
+            <button id="nextButton" type="button" class="hidden main-color-bg main-hover text-white font-bold px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 smooth-transition active:scale-95 text-xs sm:text-sm">
+              <span id="nextButtonText">次の問題へ</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 完了画面エリア -->
+      <div id="completionMessage" class="hidden text-center py-6">
+        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 shadow-inner">
+          <i data-lucide="award" class="w-8 h-8"></i>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-black text-slate-800 outline-none">確認テスト完了！</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">全10問の解答お疲れさまでした。</p>
+
+        <!-- スコアカード -->
+        <div class="my-6 max-w-sm mx-auto bg-slate-50 rounded-xl border border-slate-200 p-5 shadow-sm">
+          <span class="text-xs font-bold text-slate-400 block mb-1">あなたのスコア</span>
+          <div class="flex items-baseline justify-center gap-1">
+            <span id="scoreDisplay" class="text-4xl font-black main-color-text">0</span>
+            <span class="text-lg font-bold text-slate-400">/ 10 問 正解</span>
+          </div>
+          <p id="scoreComment" class="text-xs sm:text-sm font-bold text-slate-700 mt-3 border-t border-slate-200/80 pt-3"></p>
+        </div>
+
+        <!-- 次の操作案内：ブラウザのタブを閉じるよう分かりやすく明示 -->
+        <div class="max-w-md mx-auto my-6 rounded-xl border-l-4 border-[#F5A623] bg-amber-50/70 p-4 text-left shadow-sm">
+          <span class="text-xs font-bold text-amber-900 block mb-1 flex items-center gap-1.5">
+            <i data-lucide="info" class="w-4 h-4 text-[#F5A623]"></i>
+            <span>次の操作</span>
+          </span>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            ブラウザの上部にある<strong>「×」ボタンでこのタブを閉じて</strong>授業ポータルに戻り、<strong>STEP 2の「完了」ボタン</strong>を押して進捗を記録してください。
+          </p>
+        </div>
+
+        <!-- ボタンエリア：「もう一度挑戦する」のみにして迷いを無くす -->
+        <div class="flex items-center justify-center mt-6">
+          <button id="retryButton" type="button" class="border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold px-6 py-2.5 rounded-lg shadow-sm flex items-center justify-center gap-2 smooth-transition active:scale-95 text-xs sm:text-sm">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            <span>もう一度挑戦する</span>
+          </button>
+        </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+      Footer (スリム化された共通スタイル)
+  ========================================== -->
+  <footer class="mt-12 bg-slate-800 text-slate-400 py-5 text-center text-xs border-t border-slate-700">
+    <p>© 2026 鹿児島県立甲南高等学校 公民科</p>
+  </footer>
+
+  <!-- ==========================================
+      JavaScript Logic
+  ========================================== -->
+  <script>
+    'use strict';
+
+    const quizData = {
+      "questions": [
+        {
+          "question": "あなたは毎朝、学校まで健康な足で歩いて通学しています。この「歩いている」という状態は、ケイパビリティ・アプローチにおいて何に最も近いですか？",
+          "answerOptions": [
+            { "text": "機能（Functioning）", "isCorrect": true, "rationale": "「機能」は、人が実際に達成している状態や活動そのものを指します。この場合、歩いて通学するという行為がそれにあたります。" },
+            { "text": "潜在能力（Capability）", "isCorrect": false, "rationale": "「潜在能力」は、歩くこと以外にも自転車に乗ったり、公共交通機関を利用したりできる「選択肢の広がり」を指します。" },
+            { "text": "財（Resource）", "isCorrect": false, "rationale": "歩くための靴や通学路などが「財」にあたりますが、歩くという行為そのものではありません。" },
+            { "text": "変換要因", "isCorrect": false, "rationale": "健康な足という個人の状態や、安全な通学路という環境が「変換要因」にあたります。歩くという行為そのものではありません。" }
+          ],
+          "hint": "実際に「行っていること」や「なれている状態」を指す言葉は何だったでしょうか？"
+        },
+        {
+          "question": "あなたが定期テストで良い点を取るために、インターネットで無料の学習動画を視聴しました。この「無料の学習動画」は、ケイパビリティ・アプローチにおいて何に分類されますか？",
+          "answerOptions": [
+            { "text": "機能（Functioning）", "isCorrect": false, "rationale": "「機能」は、動画を視聴して「学習できた」という活動自体や、その結果として「良い点が取れた」という状態を指します。" },
+            { "text": "潜在能力（Capability）", "isCorrect": false, "rationale": "「潜在能力」は、動画だけでなく参考書や塾など、様々な方法で学習できる「選択肢の広がり」を指します。" },
+            { "text": "財（Resource）", "isCorrect": true, "rationale": "無料の学習動画は、学習という機能や潜在能力を達成するために利用される「手段」や「モノ」であり、財と位置づけられます。" },
+            { "text": "変換要因", "isCorrect": false, "rationale": "学習動画を理解できる個人の学習能力や、動画を視聴できるインターネット環境が「変換要因」にあたります。" }
+          ],
+          "hint": "何かを達成するための「道具」や「材料」となるものは、このアプローチでは何と呼ばれていたでしょうか。"
+        },
+        {
+          "question": "ある生徒は、学校から学習用端末（タブレット）を配布されましたが、自宅にWi-Fi環境がなく、夜間にオンライン学習や友達との情報共有ができませんでした。この「自宅にWi-Fi環境がないこと」は、ケイパビリティ・アプローチにおいて何に最も近いですか？",
+          "answerOptions": [
+            { "text": "環境的要因", "isCorrect": true, "rationale": "そのとおりです！Wi-Fi設備や電波状況、地域の地理的条件といった物理的・技術的なインフラ環境は「環境的要因」に分類されます。財（タブレット）が全員に配られても、この環境が整っていなければ、実質的な選択肢（潜在能力）に格差が生じてしまいます。" },
+            { "text": "個人的要因", "isCorrect": false, "rationale": "個人の健康状態やICTスキルなどは「個人的要因」ですが、Wi-Fi設備という外部の物理的・インフラ条件は該当しません。" },
+            { "text": "社会的要因", "isCorrect": false, "rationale": "法律、社会規範、制度などは「社会的要因」にあたりますが、電波やWi-Fiといった物理的な通信インフラ環境とは区別されます。" },
+            { "text": "機能（Functioning）", "isCorrect": false, "rationale": "「機能」は実際にオンライン学習や情報共有を達成できた状態を指します。通信環境はその状態に到達するための変換要因です。" }
+          ],
+          "hint": "理論カードを思い出してみましょう。変換要因のうち、本人の健康やスキル（個人的要因）、法律や社会制度（社会的要因）に対して、「Wi-Fiや電波などの通信インフラ設備」は何的要因に分類されるでしょうか？"
+        },
+        {
+          "question": "高校が、生徒全員が学校生活を楽しめるように、多種多様な部活動や委員会活動を新設し、参加費用も無料にしました。この政策は、生徒のどのような潜在能力を向上させようとしていますか？",
+          "answerOptions": [
+            { "text": "学業成績を向上させる潜在能力", "isCorrect": false, "rationale": "直接的な目的は成績向上ではなく、学校生活への参加や自己実現の機会を広げることです。" },
+            { "text": "将来の職業を選択する潜在能力", "isCorrect": false, "rationale": "間接的に影響する可能性はありますが、直接的な目的は学校生活における活動選択の自由の拡大です。" },
+            { "text": "自分の興味や能力に基づいて、学校生活における活動を選択し、参加できる潜在能力", "isCorrect": true, "rationale": "多様な選択肢を費用なしで提供することで、生徒が自身の興味や能力に合った活動を自由に選び、参加できる機会を広げています。これは潜在能力の核心です。" },
+            { "text": "部活動や委員会活動に強制的に参加する機能", "isCorrect": false, "rationale": "「強制」ではなく「自由に選択できる」点が重要であり、機能ではなく潜在能力の向上を目指しています。" }
+          ],
+          "hint": "多くの選択肢が提供され、費用もかからないことで、生徒の何に関する「自由」が広がるでしょうか。"
+        },
+        {
+          "question": "ある日、あなたは体調が悪く、学校を休みました。一方、友人も体調が悪く、学校を休みましたが、家庭の経済状況が悪く病院に行くことができません。両者とも「学校を休む」という同じ状態ですが、ケイパビリティ・アプローチの観点から見て、特に問題視されるのはどちらの状況ですか？",
+          "answerOptions": [
+            { "text": "あなたの状況。学校を休むという選択は、学習の機会を失う可能性があるため。", "isCorrect": false, "rationale": "あなたの状況は自己決定に基づいた休息であり、健康回復の選択肢は確保されていると推測されます。" },
+            { "text": "友人の状況。体調を回復させるための基本的な選択肢（病院に行く）を奪われているため。", "isCorrect": true, "rationale": "友人の状況は、経済的な理由により、健康を回復するという価値ある機能を実現するための機会（潜在能力）が欠如しているため、アプローチが解消を目指す中心的な課題です。" },
+            { "text": "両者とも同じ。「学校を休む」という客観的な事実が等しく重要であるため。", "isCorrect": false, "rationale": "このアプローチは、客観的な事実の背後にある「実質的な機会の有無」を区別することを重要視します。" },
+            { "text": "どちらも問題ない。病気で学校を休むのは自然なことだから。", "isCorrect": false, "rationale": "機会の欠如は、自然なこととは異なり、個人の尊厳に関わる問題として捉えられます。" }
+          ],
+          "hint": "このアプローチが重視するのは、「休む」という結果の背後にある「健康を回復する選択肢があったかどうか」です。"
+        },
+        {
+          "question": "あなたはスマートフォンを持っていますが、利用制限が多く、家族としか連絡が取れません。友人はスマートフォンを持っていないが、公衆電話が近くにあり、いつでも友達と連絡が取れます。この状況で、より高い「社会と交流できる潜在能力」を持っているのはどちらですか？",
+          "answerOptions": [
+            { "text": "スマートフォンを持っているあなた。", "isCorrect": false, "rationale": "スマートフォンという財を持っていても、利用制限によって社会と交流する自由が制限されているため、必ずしも潜在能力が高いとは言えません。" },
+            { "text": "スマートフォンを持っていない友人。", "isCorrect": true, "rationale": "友人はスマートフォンを持っていませんが、公衆電話という別の手段で「いつでも」友達と連絡が取れるため、実質的に社会と交流できる潜在能力が高いと言えます。" },
+            { "text": "どちらも同じ。手段が違うだけで結果は同じだから。", "isCorrect": false, "rationale": "ケイパビリティ・アプローチは、手段だけでなく、その手段を通じてどれだけの選択肢を自由に選べるかという「機会の質」を重視します。" },
+            { "text": "この状況では判断できない。", "isCorrect": false, "rationale": "提供された情報から、どちらがより多くの機会を持っているかを判断することは可能です。" }
+          ],
+          "hint": "「社会と交流できる」という目的を達成するための「選択肢の広がり」に注目しましょう。持っているモノではなく、「できること」を基準に考えてみてください。"
+        },
+        {
+          "question": "学校が、全生徒に「全員参加必須」の年間行事（例：体育祭の特定の競技）を設けました。ケイパビリティ・アプローチの観点から、この「全員参加必須」という規則に対する潜在的な懸念点は何ですか？",
+          "answerOptions": [
+            { "text": "生徒の身体能力には個人差があるため、公平性に欠ける可能性がある。", "isCorrect": false, "rationale": "公平性の問題はありますが、アプローチの主な懸念は、活動の強制が個人の選択の自由を奪うことに関連しています。" },
+            { "text": "生徒が、その競技以外に興味のある活動や、別の形で学校生活に参加する機会を制約する可能性がある。", "isCorrect": true, "rationale": "特定の活動を義務付けることは、生徒が自身の興味や能力に基づいて他の価値ある機能を選択・追求する自由を奪う可能性があり、これがケイパビリティ・アプローチの主要な懸念点です。" },
+            { "text": "教員や生徒の準備に時間がかかり、「財」を過度に消費するため。", "isCorrect": false, "rationale": "財の消費は運用上の課題ですが、ケイパビリティ・アプローチの核心は、選択の機会が失われる点にあります。" },
+            { "text": "全員が協力することで、団結力が高まるという良い「機能」が期待できるから。", "isCorrect": false, "rationale": "期待される良い機能があるとしても、それが「強制」されることで、個人の自由がどこまで尊重されるかが問われます。" }
+          ],
+          "hint": "強制される活動は、生徒の「選ぶ自由」にどのような影響を与えるでしょうか。たとえ良い活動であっても、その点が重要です。"
+        },
+        {
+          "question": "学校のテストの点数だけで生徒の「学習の豊かさ」を測ることについて、ケイパビリティ・アプローチの観点から最も妥当な批判は何ですか？",
+          "answerOptions": [
+            { "text": "テストの採点方法が複雑すぎるから。", "isCorrect": false, "rationale": "採点方法の複雑さではなく、テストの点数が「何を測っているのか」という本質的な点が論点です。" },
+            { "text": "テストの点数は、生徒が学習方法を自由に選択できる機会や、学習の過程で得られる深い理解、好奇心の育成といった多様な「学習の潜在能力」を反映しないから。", "isCorrect": true, "rationale": "テストの点数は、学習という「機能」の一側面を測るに過ぎず、生徒が学習の過程でどのような選択肢を持ち、どのような機会を得られたかという「潜在能力」を捉えきれないため、この批判は妥当です。" },
+            { "text": "テストの点数が高い生徒は、他の生徒よりも努力しているとは限らないから。", "isCorrect": false, "rationale": "努力の有無は重要な要素ですが、ケイパビリティ・アプローチからの主な批判は、点数という「結果」だけでは見えない「機会」に焦点を当てています。" },
+            { "text": "テストの点数が低い生徒は、学習の「機能」を全く実現できていないから。", "isCorrect": false, "rationale": "点数が低くても、何らかの形で学習機能は実現している可能性があり、批判の本質は点数と機会の間の関係にあります。" }
+          ],
+          "hint": "同じ点数でも、そこに至るまでの「過程」や「選択肢」が異なる場合を考えてみましょう。点数だけで見えないものは何でしょうか。"
+        },
+        {
+          "question": "あなたは、特定の教科の学習に困難を抱えています。学校が、個別指導の時間を設けたり、特別な教材を提供したりして、あなたをサポートしてくれるようになりました。この出来事は、ケイパビリティ・アプローチにおけるどの要素の相互作用を示していますか？",
+          "answerOptions": [
+            { "text": "あなたの「個人的要因」のみが学習困難の原因であったこと。", "isCorrect": false, "rationale": "個人の要因だけでなく、学校の支援という社会的要因がなければ、状況は改善しなかったかもしれません。" },
+            { "text": "学校の「財」提供のみが重要であり、あなたの努力は関係ないこと。", "isCorrect": false, "rationale": "財提供は重要ですが、それを利用する個人の意思や努力も、学習という機能の実現には不可欠です。" },
+            { "text": "あなたの「個人的要因」（学習困難）と、学校による「財」や「機会提供」（個別指導、教材）という「社会的変換要因」が組み合わさって、学習の潜在能力が実現されたこと。", "isCorrect": true, "rationale": "この選択肢は、生徒の個別の状況（個人的要因）と、学校が提供するサポート（社会的変換要因）が相互に作用することで、初めて学習の機会（潜在能力）が拡大されるという、アプローチの核心を示しています。" },
+            { "text": "個別指導と教材という「機能」が直接的にあなたの学習能力を高めたこと。", "isCorrect": false, "rationale": "個別指導や教材は機能を生み出すための「手段」や「財」であり、それによって学習の「潜在能力」が向上しました。" }
+          ],
+          "hint": "あなたの「個人的な状態」と、学校という「社会的な支援」がどのように結びついて、学習の機会が広がったのかを考えてみましょう。"
+        },
+        {
+          "question": "高校卒業後、あなたは大学進学か就職か、どちらの道に進むか悩んでいます。ケイパビリティ・アプローチにおける「目的」と「手段」の関係性を踏まえると、この決断において最も重視すべきことは何ですか？",
+          "answerOptions": [
+            { "text": "より高い収入を得られる方を選択すること。", "isCorrect": false, "rationale": "収入は重要な手段ですが、このアプローチでは、収入そのものが目的ではなく、それがもたらす選択の自由を重視します。" },
+            { "text": "社会的に「成功」していると見なされる道を選択すること。", "isCorrect": false, "rationale": "他者の評価ではなく、自分自身が価値あると考える生き方を自由に選択できることが重要です。" },
+            { "text": "あなたが本当に価値あると考える「機能」を将来にわたって自由に選択し、実現できる機会（潜在能力）を最大化する道を選択すること。", "isCorrect": true, "rationale": "大学進学や就職は、様々な機能（学習、仕事、社会貢献など）を実現するための「手段」であり、その手段を通じて、自分が望む生き方を「自由に選択できる」機会を広げることが究極の目的とされます。" },
+            { "text": "親や先生に勧められた道を選ぶこと。", "isCorrect": false, "rationale": "他者の意見は参考になりますが、最終的には自身の自由な選択に基づくことが、このアプローチの核心です。" }
+          ],
+          "hint": "大学進学や就職は、あなたの人生における何を達成するための「道具」となるでしょうか。最も本質的な価値は何でしょうか。"
+        }
+      ]
+    };
+
+    let currentQuestionIndex = 0;
+    let selectedAnswerIndex = null;
+    let currentShuffledOptions = [];
+    let score = 0;
+
+    // DOM要素
+    const progressCount = document.getElementById('progressCount');
+    const progressBar = document.getElementById('progressBar');
+    const questionBadge = document.getElementById('questionBadge');
+    const questionText = document.getElementById('questionText');
+    const answerOptions = document.getElementById('answerOptions');
+    const hintContainer = document.getElementById('hintContainer');
+    const hintText = document.getElementById('hintText');
+    const feedbackContainer = document.getElementById('feedbackContainer');
+    const feedbackTitle = document.getElementById('feedbackTitle');
+    const rationaleText = document.getElementById('rationaleText');
+    const hintButton = document.getElementById('hintButton');
+    const submitButton = document.getElementById('submitButton');
+    const nextButton = document.getElementById('nextButton');
+    const nextButtonText = document.getElementById('nextButtonText');
+    const quizContent = document.getElementById('quizContent');
+    const completionMessage = document.getElementById('completionMessage');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const scoreComment = document.getElementById('scoreComment');
+    const retryButton = document.getElementById('retryButton');
+
+    function safeCreateIcons() {
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
+    }
+
+    // （handleBackToPortal 関数をまるごと削除）
+
+    function shuffleArray(array) {
+      const newArray = [...array]; 
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+
+    function loadQuestion() {
+      if (currentQuestionIndex >= quizData.questions.length) {
+        showCompletion();
+        return;
+      }
+
+      const total = quizData.questions.length;
+      const current = currentQuestionIndex + 1;
+      
+      // プログレスバー更新
+      progressCount.textContent = `Q ${current} / ${total}`;
+      progressBar.style.width = `${(current / total) * 100}%`;
+
+      const question = quizData.questions[currentQuestionIndex];
+      questionBadge.textContent = `問題 ${current} / ${total}`;
+      questionText.textContent = `Q${current}. ${question.question}`;
+      currentShuffledOptions = shuffleArray(question.answerOptions);
+      
+      // リセット
+      answerOptions.innerHTML = '';
+      hintContainer.classList.add('hidden');
+      feedbackContainer.classList.add('hidden');
+      selectedAnswerIndex = null;
+      
+      submitButton.classList.remove('hidden');
+      submitButton.disabled = true;
+      nextButton.classList.add('hidden');
+      hintButton.classList.remove('hidden');
+      hintButton.disabled = false;
+
+      // 最後の問題の場合はボタン文言を変更
+      if (current === total) {
+        nextButtonText.textContent = '結果を見る';
+      } else {
+        nextButtonText.textContent = '次の問題へ';
+      }
+
+      // 選択肢ボタン生成
+      currentShuffledOptions.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'opt-btn w-full text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-[#4A90E2] text-xs sm:text-sm font-medium text-slate-700 smooth-transition shadow-sm flex items-start gap-3';
+        button.dataset.index = index;
+        
+        button.innerHTML = `
+          <span class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-xs font-bold text-slate-500 mt-0.5">${String.fromCharCode(65 + index)}</span>
+          <span class="leading-relaxed pt-0.5">${option.text}</span>
+        `;
+
+        button.addEventListener('click', () => selectOption(button, index));
+        answerOptions.appendChild(button);
+      });
+
+      safeCreateIcons();
+      questionText.focus();
+    }
+
+    function selectOption(button, index) {
+      if (!nextButton.classList.contains('hidden')) return; // 判定後は選択不可
+      selectedAnswerIndex = index;
+      
+      const buttons = answerOptions.querySelectorAll('.opt-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('border-[#F5A623]', 'bg-amber-50/50', 'text-amber-950', 'font-bold');
+        btn.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+        const badge = btn.querySelector('span:first-child');
+        if (badge) {
+          badge.className = 'w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-xs font-bold text-slate-500 mt-0.5';
+        }
+      });
+
+      // 選択状態の強調
+      button.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+      button.classList.add('border-[#F5A623]', 'bg-amber-50/50', 'text-amber-950', 'font-bold');
+      const activeBadge = button.querySelector('span:first-child');
+      if (activeBadge) {
+        activeBadge.className = 'w-6 h-6 rounded-full accent-color-bg text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5';
+      }
+
+      submitButton.disabled = false;
+    }
+
+    function submitAnswer() {
+      if (selectedAnswerIndex === null) return;
+
+      const selectedOption = currentShuffledOptions[selectedAnswerIndex];
+      const buttons = answerOptions.querySelectorAll('.opt-btn');
+      const isCorrect = selectedOption.isCorrect;
+
+      if (isCorrect) {
+        score++;
+      }
+
+      // 全ボタン非活性化
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('cursor-default');
+      });
+
+      // 正解・不正解のスタイリング
+      buttons.forEach((btn, idx) => {
+        if (currentShuffledOptions[idx].isCorrect) {
+          btn.classList.remove('border-slate-200', 'border-[#F5A623]', 'bg-amber-50/50');
+          btn.classList.add('border-emerald-500', 'bg-emerald-50/60', 'text-emerald-950', 'font-bold');
+          const b = btn.querySelector('span:first-child');
+          if (b) b.className = 'w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5';
+        } else if (idx === selectedAnswerIndex && !isCorrect) {
+          btn.classList.remove('border-slate-200', 'border-[#F5A623]', 'bg-amber-50/50');
+          btn.classList.add('border-rose-400', 'bg-rose-50', 'text-rose-950', 'font-bold');
+          const b = btn.querySelector('span:first-child');
+          if (b) b.className = 'w-6 h-6 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5';
+        }
+      });
+
+      // フィードバック表示
+      feedbackContainer.className = `rounded-xl border-l-4 p-4 mb-6 shadow-sm ${
+        isCorrect ? 'border-emerald-500 bg-emerald-50' : 'border-rose-400 bg-rose-50'
+      }`;
+      feedbackTitle.innerHTML = `
+        <i data-lucide="${isCorrect ? 'check-circle' : 'alert-circle'}" class="w-5 h-5 ${isCorrect ? 'text-emerald-600' : 'text-rose-600'}"></i>
+        <span class="${isCorrect ? 'text-emerald-950' : 'text-rose-950'}">${isCorrect ? '正解です！' : '不正解です。'}</span>
+      `;
+      rationaleText.textContent = selectedOption.rationale;
+      feedbackContainer.classList.remove('hidden');
+
+      // ボタン切り替え
+      submitButton.classList.add('hidden');
+      hintButton.classList.add('hidden');
+      nextButton.classList.remove('hidden');
+      
+      safeCreateIcons();
+      nextButton.focus();
+    }
+
+    function showHint() {
+      const question = quizData.questions[currentQuestionIndex];
+      hintText.textContent = question.hint;
+      hintContainer.classList.remove('hidden');
+      safeCreateIcons();
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      loadQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showCompletion() {
+      quizContent.classList.add('hidden');
+      completionMessage.classList.remove('hidden');
+
+      // スコア表示
+      scoreDisplay.textContent = score;
+
+      // コメント分岐
+      if (score === 10) {
+        scoreComment.textContent = '全問正解！ケイパビリティ・アプローチの考え方が完全に身についています。';
+      } else if (score >= 8) {
+        scoreComment.textContent = '素晴らしい理解です！基本概念（機能・潜在能力・変換要因）をしっかり捉えられています。';
+      } else if (score >= 6) {
+        scoreComment.textContent = 'よく頑張りました！間違えた問題の解説を振り返り、潜在能力（選択肢の広がり）の視点を深めましょう。';
+      } else {
+        scoreComment.textContent = 'お疲れさまでした。理論カードをもう一度確認して、再度チャレンジしてみましょう！';
+      }
+
+      safeCreateIcons();
+      const heading = completionMessage.querySelector('h2');
+      if (heading) heading.focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      completionMessage.classList.add('hidden');
+      quizContent.classList.remove('hidden');
+      loadQuestion();
+    }
+
+    // イベント登録
+    hintButton.addEventListener('click', showHint);
+    submitButton.addEventListener('click', submitAnswer);
+    nextButton.addEventListener('click', nextQuestion);
+    retryButton.addEventListener('click', resetQuiz);
+
+    // 起動
+    loadQuestion();
+  </script>
+</body>
+</html>

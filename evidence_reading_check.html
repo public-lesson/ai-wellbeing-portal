@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第2時 STEP 1 資料の見方を確認する｜公共「AI時代のウェルビーイング」</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans JP -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: #f8fafc;
+      color: #1f2937;
+    }
+    /* 甲南高校デザインシステム（ポータル共通） */
+    .main-color-bg { background-color: #4A90E2; }
+    .main-color-text { color: #4A90E2; }
+    .accent-color-bg { background-color: #F5A623; }
+    .accent-color-text { color: #F5A623; }
+    .accent-hover:hover { background-color: #E0961F; }
+    .main-hover:hover { background-color: #3B7DC4; }
+    
+    .smooth-transition {
+      transition: all 0.25s ease-in-out;
+    }
+
+    /* 見出しフォーカス時のブラウザ既定黒枠を非表示（アクセシビリティは維持） */
+    h2:focus {
+      outline: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+  <!-- ==========================================
+      1. Navigation Header (ポータル共通スタイル)
+  ========================================== -->
+  <header class="sticky top-0 z-40 main-color-bg text-white shadow-md">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <!-- ボタンと縦線を撤廃し、統一されたアイコン＋タイトル表示に -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner">
+          <i data-lucide="check-square" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
+          <span class="block text-sm sm:text-base font-bold leading-tight">第2時 STEP 1「資料の見方を確認する」</span>
+        </div>
+      </div>
+
+      <span class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
+        <i data-lucide="check-square" class="w-3.5 h-3.5 text-yellow-300"></i>
+        <span>全8ステップ</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- ==========================================
+      2. Hero Area
+  ========================================== -->
+  <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-10 sm:py-12 px-4 shadow-inner">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-1.5 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-3.5 py-1 text-xs font-bold text-yellow-300 mb-3 shadow-sm">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>第2時 STEP 1</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold leading-tight">
+        資料の見方を確認する
+      </h1>
+      <p class="mt-2 text-xs sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
+        資料に書かれた事実、資料を根拠にした解釈、資料だけでは判断できない推測を区別します。
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+      3. プログレスバーカード
+  ========================================== -->
+  <div class="max-w-4xl mx-auto px-4 -mt-6 w-full relative z-10">
+    <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 shadow-md">
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <i data-lucide="activity" class="w-4 h-4 main-color-text"></i>
+          <span class="text-sm sm:text-base font-bold text-slate-800">見方の確認ステップ</span>
+        </div>
+        <div>
+          <span id="progressCount" class="text-xl sm:text-2xl font-black main-color-text">1 / 8</span>
+        </div>
+      </div>
+      <div class="mt-3 w-full bg-slate-100 rounded-full h-2.5 overflow-hidden p-0.5 shadow-inner">
+        <div id="progressBar" class="bg-gradient-to-r from-[#4A90E2] to-emerald-500 h-full rounded-full smooth-transition" style="width: 12.5%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+      Main Interactive Container
+  ========================================== -->
+  <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+    <div id="app" aria-live="polite"></div>
+  </main>
+
+  <!-- ==========================================
+      Footer (スリム化された共通スタイル)
+  ========================================== -->
+  <footer class="mt-12 bg-slate-800 text-slate-400 py-5 text-center text-xs border-t border-slate-700">
+    <p>© 2026 鹿児島県立甲南高等学校 公民科</p>
+  </footer>
+
+  <!-- ==========================================
+      HTML Template: 学習カード（資料本体）
+  ========================================== -->
+  <template id="studyCardsTemplate">
+    <div class="space-y-3.5 my-4">
+      <div class="grid sm:grid-cols-3 gap-3">
+        <!-- 1. 前日 -->
+        <div class="bg-slate-50 rounded-xl border border-slate-200 p-3.5 shadow-sm">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-500 mb-2">
+            <span>① 前日の学習記録</span>
+            <span class="bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded text-[10px]">実績</span>
+          </div>
+          <ul class="text-xs space-y-1.5 text-slate-700">
+            <li class="flex justify-between border-b border-slate-200/60 pb-1"><span>国語</span><span class="font-medium">復習 30分</span></li>
+            <li class="flex justify-between border-b border-slate-200/60 pb-1"><span>数学</span><span class="font-medium">問題集 40分</span></li>
+            <li class="flex justify-between border-b border-slate-200/60 pb-1"><span>英語</span><span class="font-medium">単語 20分</span></li>
+            <li class="text-[11px] text-slate-500 pt-1">翌日課題: 国・数・英</li>
+          </ul>
+        </div>
+        <!-- 2. AI提案 -->
+        <div class="bg-blue-50/50 rounded-xl border border-blue-200 p-3.5 shadow-sm">
+          <div class="flex items-center justify-between text-xs font-bold text-blue-700 mb-2">
+            <span>② AIが提案した計画</span>
+            <span class="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded text-[10px]">提案</span>
+          </div>
+          <ul class="text-xs space-y-1.5 text-slate-700">
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span>国語</span><span class="font-medium">60分</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span>数学</span><span class="font-medium">60分</span></li>
+            <li class="flex justify-between border-b border-blue-100 pb-1"><span>英語</span><span class="font-medium">60分</span></li>
+            <li class="flex justify-between font-bold text-blue-900 pt-1"><span>合計</span><span>180分</span></li>
+          </ul>
+        </div>
+        <!-- 3. 実際の学習 -->
+        <div class="bg-emerald-50/50 rounded-xl border border-emerald-200 p-3.5 shadow-sm">
+          <div class="flex items-center justify-between text-xs font-bold text-emerald-800 mb-2">
+            <span>③ 実際に取り組んだ学習</span>
+            <span class="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded text-[10px]">実行</span>
+          </div>
+          <ul class="text-xs space-y-1.5 text-slate-700">
+            <li class="flex justify-between border-b border-emerald-100 pb-1"><span>国語</span><span class="font-medium">50分</span></li>
+            <li class="flex justify-between border-b border-emerald-100 pb-1"><span>数学</span><span class="font-medium">60分</span></li>
+            <li class="flex justify-between border-b border-emerald-100 pb-1"><span>英語</span><span class="font-medium">40分</span></li>
+            <li class="flex justify-between font-bold text-emerald-900 pt-1"><span>合計</span><span>150分</span></li>
+          </ul>
+        </div>
+      </div>
+      <!-- 4. 学習後の本人の記録 -->
+      <div class="bg-amber-50/60 rounded-xl border border-amber-200 p-3.5 shadow-sm flex items-start gap-3">
+        <i data-lucide="message-square" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+        <div>
+          <div class="text-xs font-bold text-amber-900 mb-1">④ 学習後の本人の振り返り記録</div>
+          <p class="text-sm font-bold text-slate-800 bg-white px-3 py-2 rounded-lg border border-amber-200/70 inline-block shadow-inner">
+            「何をすればよいか分かりやすくなった。」
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="rounded-xl border-l-4 border-[#F5A623] bg-amber-50/70 p-4 text-xs sm:text-sm text-slate-700 shadow-sm mt-3">
+      <strong>注記：</strong>この資料は情報の順序を示したものです。AIの提案がその後の結果を直接生み出したことを証明するものではありません。
+    </div>
+  </template>
+
+  <!-- ==========================================
+      JavaScript Logic
+  ========================================== -->
+  <script>
+    'use strict';
+
+    const app = document.getElementById('app');
+    const progressCount = document.getElementById('progressCount');
+    const progressBar = document.getElementById('progressBar');
+    const totalScreens = 8;
+    let screenIndex = 0;
+    let locked = false;
+
+    // （handleBackToPortal 関数をまるごと削除）
+
+    const classificationItems = [
+      {
+        statement: '生徒は、学習後に「何をすればよいか分かりやすくなった」と記録した。',
+        answer: '事実',
+        success: 'そのとおりです！',
+        rationale: '資料に、生徒がこのように記録したことが直接示されているため「事実」です。ただし、この記述だけで生徒の内面全体や、AIの効果が証明されたとは言えません。'
+      },
+      {
+        statement: 'AIの提案は、この生徒が学習に取り組む内容を整理する助けになった可能性がある。',
+        answer: '解釈',
+        success: 'そのとおりです！',
+        rationale: 'AIが計画を提案し、生徒が「分かりやすくなった」と記録していることから導かれる妥当な「解釈」です。「可能性がある」と限定表現を使っており、効果を断定していません。'
+      },
+      {
+        statement: 'AIの提案によって、この生徒の成績とウェルビーイングは高まった。',
+        answer: '推測',
+        success: 'そのとおりです！',
+        rationale: '資料には成績の変化やウェルビーイング全体を判断する客観的データがありません。可能性はあっても、この資料だけでは決められないため「推測」です。判断には継続的な振り返りや生活への影響など、追加情報が必要です。'
+      }
+    ];
+
+    const screens = [
+      renderIntroduction,
+      renderMaterial,
+      () => renderClassification(0),
+      () => renderClassification(1),
+      () => renderClassification(2),
+      renderReview,
+      renderActionQuestion,
+      renderSummary
+    ];
+
+    function safeCreateIcons() {
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
+    }
+
+    function updateProgress() {
+      const current = screenIndex + 1;
+      progressCount.textContent = `${current} / ${totalScreens}`;
+      progressBar.style.width = `${(current / totalScreens) * 100}%`;
+    }
+
+    function goNext() {
+      if (screenIndex >= screens.length - 1) return;
+      screenIndex += 1;
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function render() {
+      locked = false;
+      updateProgress();
+      app.innerHTML = '';
+      screens[screenIndex]();
+      safeCreateIcons();
+      const heading = app.querySelector('h2');
+      if (heading) {
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+      }
+    }
+
+    function shell(kicker, title, bodyHtml) {
+      const panel = document.createElement('div');
+      panel.className = 'bg-white rounded-xl border border-slate-200 p-5 sm:p-8 shadow-sm transition-all duration-300';
+      panel.innerHTML = `
+        <div class="text-xs sm:text-sm font-bold tracking-wider main-color-text flex items-center gap-1.5 mb-1.5">
+          <i data-lucide="tag" class="w-4 h-4"></i>
+          <span>${kicker}</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-800 leading-snug outline-none">${title}</h2>
+        <div class="mt-4">${bodyHtml}</div>
+      `;
+      app.appendChild(panel);
+      return panel;
+    }
+
+    function getStudyCards() {
+      return document.getElementById('studyCardsTemplate').content.cloneNode(true);
+    }
+
+    // Screen 1: イントロダクション
+    function renderIntroduction() {
+      const panel = shell('最初に確認', '「事実・解釈・推測」を分けて読む', `
+        <p class="text-sm sm:text-base text-slate-600 leading-relaxed mb-6">
+          探究や対話で資料を読むときは、<strong>「資料に書かれていること」</strong>と<strong>「自分が考えたこと」</strong>を明確に分ける姿勢が不可欠です。
+        </p>
+        <div class="grid gap-3.5 sm:grid-cols-3 mb-6">
+          <div class="rounded-xl border border-blue-200 bg-blue-50/40 p-4 border-t-4 border-t-blue-500 shadow-sm">
+            <span class="text-base font-bold text-blue-900 block mb-1">事実</span>
+            <span class="text-[11px] font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full inline-block mb-2">資料に書いてある</span>
+            <p class="text-xs text-slate-600 leading-relaxed">資料の該当箇所を、そのまま一言一句示せる客観的な記述。</p>
+          </div>
+          <div class="rounded-xl border border-purple-200 bg-purple-50/40 p-4 border-t-4 border-t-purple-500 shadow-sm">
+            <span class="text-base font-bold text-purple-900 block mb-1">解釈</span>
+            <span class="text-[11px] font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full inline-block mb-2">資料を根拠に考える</span>
+            <p class="text-xs text-slate-600 leading-relaxed">資料の事実を根拠にして論理的に導いた見解（直接書かれてはいない）。</p>
+          </div>
+          <div class="rounded-xl border border-amber-200 bg-amber-50/40 p-4 border-t-4 border-t-amber-500 shadow-sm">
+            <span class="text-base font-bold text-amber-900 block mb-1">推測</span>
+            <span class="text-[11px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full inline-block mb-2">資料だけでは決められない</span>
+            <p class="text-xs text-slate-600 leading-relaxed">可能性はあるが、資料の情報だけでは判断できず追加情報が必要な事柄。</p>
+          </div>
+        </div>
+        <div class="rounded-xl border-l-4 border-[#4A90E2] bg-blue-50/70 p-4 text-xs sm:text-sm text-slate-700 shadow-sm mb-6 flex items-center gap-2">
+          <i data-lucide="info" class="w-5 h-5 main-color-text shrink-0"></i>
+          <span>この活動はテストではありません。なぜその分類になるのかの「理由」を捉えましょう。</span>
+        </div>
+        <div class="flex justify-end">
+          <button id="nextBtn" class="main-color-bg main-hover text-white font-bold px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 smooth-transition active:scale-95 text-sm sm:text-base">
+            <span>資料を読む</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `);
+      panel.querySelector('#nextBtn').addEventListener('click', goNext);
+    }
+
+    // Screen 2: 資料閲覧
+    function renderMaterial() {
+      const panel = shell('資料を読む', 'AIによる学習計画と「学習の記録」', `
+        <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+          ある生徒が、前日の学習記録を入力したところ、AIが翌日の課題を参考にして学習計画を提案しました。生徒は提案を参考に自分で取り組む内容を決めました。次の資料は、その記録です。
+        </p>
+        <div id="materialSlot"></div>
+        <div class="flex justify-end mt-6">
+          <button id="nextBtn" class="accent-color-bg accent-hover text-white font-bold px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 smooth-transition active:scale-95 text-sm sm:text-base">
+            <span>判定を始める</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `);
+      panel.querySelector('#materialSlot').appendChild(getStudyCards());
+      panel.querySelector('#nextBtn').addEventListener('click', goNext);
+    }
+
+    // アコーディオン参照機能の追加
+    function addReference(panel) {
+      const holder = document.createElement('div');
+      holder.className = 'my-4';
+      holder.innerHTML = `
+        <button type="button" class="ref-toggle w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 hover:bg-slate-100 text-xs sm:text-sm font-bold text-slate-700 smooth-transition" aria-expanded="false">
+          <span class="flex items-center gap-2">
+            <i data-lucide="file-search" class="w-4 h-4 main-color-text"></i>
+            <span class="ref-title">資料（学習記録）を確認する</span>
+          </span>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 ref-icon smooth-transition"></i>
+        </button>
+        <div class="ref-panel hidden mt-3 p-4 rounded-xl border border-slate-200 bg-slate-50/50"></div>
+      `;
+      const toggle = holder.querySelector('.ref-toggle');
+      const refPanel = holder.querySelector('.ref-panel');
+      refPanel.appendChild(getStudyCards());
+
+      toggle.addEventListener('click', () => {
+        const isOpen = !refPanel.classList.contains('hidden');
+        refPanel.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        holder.querySelector('.ref-title').textContent = isOpen ? '資料（学習記録）を確認する' : '資料を閉じる';
+        const icon = holder.querySelector('.ref-icon');
+        if (icon) {
+          icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+        safeCreateIcons();
+      });
+
+      const qBox = panel.querySelector('.question-box');
+      if (qBox && qBox.parentNode) {
+        qBox.parentNode.insertBefore(holder, qBox);
+      } else {
+        panel.appendChild(holder);
+      }
+    }
+
+    // Screen 3~5: 分類ワーク
+    function renderClassification(itemIndex) {
+      const item = classificationItems[itemIndex];
+      const panel = shell('文を分類する', `文 ${itemIndex + 1} を判定しよう`, `
+        <div class="question-box bg-blue-50/60 rounded-xl border border-blue-200 p-5 shadow-inner my-4">
+          <div class="flex items-center gap-2 text-xs font-bold main-color-text mb-1">
+            <i data-lucide="help-circle" class="w-4 h-4"></i>
+            <span>判定課題 (${itemIndex + 1} / 3)</span>
+          </div>
+          <p class="text-base sm:text-lg font-bold text-slate-800 leading-snug">「${item.statement}」</p>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-500 mb-3">この記述は「事実」「解釈」「推測」のどれにあたりますか？</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-4" role="group" aria-label="分類を選ぶ">
+          <button class="choice-btn p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-[#4A90E2] text-left smooth-transition shadow-sm" type="button" data-choice="事実">
+            <span class="block text-base font-bold text-slate-800">事実</span>
+            <span class="block text-xs text-slate-500 mt-0.5">資料に書いてある</span>
+          </button>
+          <button class="choice-btn p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-[#4A90E2] text-left smooth-transition shadow-sm" type="button" data-choice="解釈">
+            <span class="block text-base font-bold text-slate-800">解釈</span>
+            <span class="block text-xs text-slate-500 mt-0.5">資料を根拠に考えられる</span>
+          </button>
+          <button class="choice-btn p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-[#4A90E2] text-left smooth-transition shadow-sm" type="button" data-choice="推測">
+            <span class="block text-base font-bold text-slate-800">推測</span>
+            <span class="block text-xs text-slate-500 mt-0.5">資料だけでは決められない</span>
+          </button>
+        </div>
+
+        <div id="feedback" class="hidden rounded-xl border-l-4 p-4 shadow-sm my-4" role="status"></div>
+
+        <div class="flex justify-end mt-6">
+          <button id="nextBtn" class="hidden main-color-bg main-hover text-white font-bold px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 smooth-transition active:scale-95 text-sm sm:text-base">
+            <span>${itemIndex === 2 ? '3つの一覧を振り返る' : '次の文へ進む'}</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `);
+
+      addReference(panel);
+
+      const buttons = [...panel.querySelectorAll('.choice-btn')];
+      const feedback = panel.querySelector('#feedback');
+      const next = panel.querySelector('#nextBtn');
+
+      buttons.forEach(button => button.addEventListener('click', () => {
+        if (locked) return;
+        locked = true;
+        const selected = button.dataset.choice;
+        const isCorrect = selected === item.answer;
+
+        buttons.forEach(btn => {
+          btn.disabled = true;
+          btn.classList.add('cursor-default');
+          if (btn.dataset.choice === item.answer) {
+            btn.classList.add('border-emerald-500', 'bg-emerald-50/50', 'text-emerald-900');
+          }
+        });
+
+        if (!isCorrect) {
+          button.classList.add('border-rose-400', 'bg-rose-50', 'text-rose-900');
+        }
+
+        feedback.className = `rounded-xl border-l-4 p-4 shadow-sm my-4 ${
+          isCorrect ? 'border-emerald-500 bg-emerald-50 text-emerald-950' : 'border-amber-500 bg-amber-50 text-amber-950'
+        }`;
+        feedback.innerHTML = `
+          <div class="font-bold flex items-center gap-2 text-sm sm:text-base mb-1">
+            <i data-lucide="${isCorrect ? 'check-circle' : 'alert-circle'}" class="w-5 h-5 ${isCorrect ? 'text-emerald-600' : 'text-amber-600'}"></i>
+            <span>${isCorrect ? item.success : `確認しましょう。正解は「${item.answer}」です。`}</span>
+          </div>
+          <p class="text-xs sm:text-sm leading-relaxed ${isCorrect ? 'text-emerald-900' : 'text-slate-700'} mt-1">
+            ${item.rationale}
+          </p>
+        `;
+        feedback.classList.remove('hidden');
+        next.classList.remove('hidden');
+        safeCreateIcons();
+        next.focus();
+      }));
+
+      next.addEventListener('click', goNext);
+    }
+
+    // Screen 6: 振り返り一覧
+    function renderReview() {
+      const panel = shell('3つを比較', '分類と根拠を一覧で振り返る', `
+        <p class="text-sm sm:text-base text-slate-600 mb-4">
+          同じ資料を扱っていても、文の表現や論理の深さによって「事実・解釈・推測」の境界がはっきりと分かれます。
+        </p>
+        <div class="space-y-3.5 my-4">
+          <div class="rounded-xl border border-blue-200 bg-blue-50/30 p-4 shadow-sm">
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="bg-blue-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">事実</span>
+              <span class="text-xs font-bold text-slate-500">資料に直接書いてあること</span>
+            </div>
+            <p class="text-sm sm:text-base font-bold text-slate-800">「${classificationItems[0].statement}」</p>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">根拠：資料に生徒本人の言葉がそのまま記載されているため確実です。</p>
+          </div>
+
+          <div class="rounded-xl border border-purple-200 bg-purple-50/30 p-4 shadow-sm">
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="bg-purple-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">解釈</span>
+              <span class="text-xs font-bold text-slate-500">資料の事実を根拠にした見解</span>
+            </div>
+            <p class="text-sm sm:text-base font-bold text-slate-800">「${classificationItems[1].statement}」</p>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">根拠：AIの計画提案と「分かりやすくなった」という本人の記述を結びつけた妥当な推論です。</p>
+          </div>
+
+          <div class="rounded-xl border border-amber-200 bg-amber-50/30 p-4 shadow-sm">
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="bg-amber-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">推測</span>
+              <span class="text-xs font-bold text-slate-500">資料だけでは判断できないこと</span>
+            </div>
+            <p class="text-sm sm:text-base font-bold text-slate-800">「${classificationItems[2].statement}」</p>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">根拠：成績の変化や生活全体の幸福度を測るデータはなく、想像で埋めることはできません。</p>
+          </div>
+        </div>
+        <div class="flex justify-end mt-6">
+          <button id="nextBtn" class="main-color-bg main-hover text-white font-bold px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 smooth-transition active:scale-95 text-sm sm:text-base">
+            <span>次に何を確かめるか考える</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `);
+      panel.querySelector('#nextBtn').addEventListener('click', goNext);
+    }
+
+    // Screen 7: 次の確認行動
+    function renderActionQuestion() {
+      const panel = shell('次の確認行動', '資料だけで判断できないとき、どうする？', `
+        <div class="bg-blue-50/60 rounded-xl border border-blue-200 p-5 shadow-inner my-4">
+          <p class="text-base sm:text-lg font-bold text-slate-800 leading-snug">
+            この生徒のウェルビーイングが高まったかを、より適切に捉えるために、次に確認すべきことはどれですか？
+          </p>
+        </div>
+
+        <div class="space-y-3 my-4" role="group" aria-label="次に確認すべきことを選ぶ">
+          <button class="option-btn w-full p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-[#4A90E2] text-left font-bold text-slate-700 text-xs sm:text-sm smooth-transition shadow-sm flex items-start gap-3" type="button" data-correct="true">
+            <span class="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-xs font-bold text-slate-500 mt-0.5">A</span>
+            <span>本人が学習や生活をどのように捉えているか、追加の記録や対話の内容を確認する</span>
+          </button>
+          <button class="option-btn w-full p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-[#4A90E2] text-left font-bold text-slate-700 text-xs sm:text-sm smooth-transition shadow-sm flex items-start gap-3" type="button" data-correct="false">
+            <span class="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-xs font-bold text-slate-500 mt-0.5">B</span>
+            <span>最新のAIが作った学習計画なので、効果があったとそのまま判断する</span>
+          </button>
+          <button class="option-btn w-full p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-[#4A90E2] text-left font-bold text-slate-700 text-xs sm:text-sm smooth-transition shadow-sm flex items-start gap-3" type="button" data-correct="false">
+            <span class="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-xs font-bold text-slate-500 mt-0.5">C</span>
+            <span>学習時間が増えていれば、ウェルビーイングも自然と高まったと判断する</span>
+          </button>
+        </div>
+
+        <div id="feedback" class="hidden rounded-xl border-l-4 p-4 shadow-sm my-4" role="status"></div>
+
+        <div class="flex justify-end mt-6">
+          <button id="nextBtn" class="hidden main-color-bg main-hover text-white font-bold px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 smooth-transition active:scale-95 text-sm sm:text-base">
+            <span>4つの見方を確認する</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `);
+
+      const buttons = [...panel.querySelectorAll('.option-btn')];
+      const feedback = panel.querySelector('#feedback');
+      const next = panel.querySelector('#nextBtn');
+
+      buttons.forEach(button => button.addEventListener('click', () => {
+        if (locked) return;
+        locked = true;
+        const isCorrect = button.dataset.correct === 'true';
+
+        buttons.forEach(btn => {
+          btn.disabled = true;
+          btn.classList.add('cursor-default');
+          if (btn.dataset.correct === 'true') {
+            btn.classList.add('border-emerald-500', 'bg-emerald-50/50', 'text-emerald-950');
+          }
+        });
+
+        if (!isCorrect) {
+          button.classList.add('border-rose-400', 'bg-rose-50', 'text-rose-950');
+        }
+
+        feedback.className = `rounded-xl border-l-4 p-4 shadow-sm my-4 ${
+          isCorrect ? 'border-emerald-500 bg-emerald-50 text-emerald-950' : 'border-amber-500 bg-amber-50 text-amber-950'
+        }`;
+        feedback.innerHTML = `
+          <div class="font-bold flex items-center gap-2 text-sm sm:text-base mb-1">
+            <i data-lucide="${isCorrect ? 'check-circle' : 'alert-circle'}" class="w-5 h-5 ${isCorrect ? 'text-emerald-600' : 'text-amber-600'}"></i>
+            <span>${isCorrect ? 'そのとおりです！' : 'もう一度、資料の限界を確かめましょう。'}</span>
+          </div>
+          <p class="text-xs sm:text-sm leading-relaxed ${isCorrect ? 'text-emerald-900' : 'text-slate-700'} mt-1">
+            学習時間や一言の記録だけでは、本人の納得感や負担感、生活全体への影響は測れません。推測で補わず、本人の声や追加の事実を確かめることが探究において最も誠実な態度です。
+          </p>
+        `;
+        feedback.classList.remove('hidden');
+        next.classList.remove('hidden');
+        safeCreateIcons();
+        next.focus();
+      }));
+
+      next.addEventListener('click', goNext);
+    }
+
+    // Screen 8: まとめ
+    function renderSummary() {
+      const panel = shell('ケース分析へ', '探究で常に意識する「4つの見方」', `
+        <div class="grid sm:grid-cols-2 gap-4 my-4">
+          <div class="rounded-xl border border-blue-200 bg-blue-50/40 p-5 shadow-sm">
+            <div class="flex items-center gap-2 text-blue-900 font-bold mb-3 text-base">
+              <i data-lucide="book-open" class="w-5 h-5 main-color-text"></i>
+              <h3>資料を読む視点</h3>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm">
+              <div class="border-b border-blue-100 pb-2">
+                <strong class="text-slate-800 block">① どこに書いてある？</strong>
+                <p class="text-slate-600 mt-0.5">資料に直接示されている事実を確かめる。</p>
+              </div>
+              <div class="border-b border-blue-100 pb-2">
+                <strong class="text-slate-800 block">② 何を根拠に考えた？</strong>
+                <p class="text-slate-600 mt-0.5">自分の解釈を支える資料の箇所を示す。</p>
+              </div>
+              <div>
+                <strong class="text-slate-800 block">③ まだ何が分からない？</strong>
+                <p class="text-slate-600 mt-0.5">想像で補わず、判断に必要な追加情報を考える。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-amber-200 bg-amber-50/40 p-5 shadow-sm">
+            <div class="flex items-center gap-2 text-amber-900 font-bold mb-3 text-base">
+              <i data-lucide="cpu" class="w-5 h-5 accent-color-text"></i>
+              <h3>AIと人間の関係を見る視点</h3>
+            </div>
+            <div class="text-xs sm:text-sm">
+              <strong class="text-slate-800 block">④ 誰が提案し、誰が選んだ？</strong>
+              <p class="text-slate-600 mt-0.5 leading-relaxed">
+                AIが提案した選択肢と、本人が納得して選んで実行したことを明確に区別する。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-amber-200/80 text-[11px] text-amber-800 leading-relaxed">
+              💡 AIの出力は参考の一つです。公式資料で裏付けを確かめ、最終的な選択と責任は人間が持ちます。
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button id="finishBtn" class="accent-color-bg accent-hover text-white font-bold px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 smooth-transition active:scale-95 text-sm sm:text-base">
+            <span>確認を完了する</span>
+            <i data-lucide="check" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `);
+      panel.querySelector('#finishBtn').addEventListener('click', renderCompletion);
+    }
+
+    // 終了画面
+    function renderCompletion() {
+      progressCount.textContent = `${totalScreens} / ${totalScreens}`;
+      progressBar.style.width = '100%';
+      app.innerHTML = `
+        <div class="bg-white rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm text-center">
+          <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 shadow-inner">
+            <i data-lucide="check" class="w-8 h-8"></i>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-800 outline-none">見方の確認が終わりました！</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">資料を読むときの「4つの見方」を身につけました。</p>
+
+          <!-- 生徒が次の行動で迷わないよう、ブラウザのタブを閉じる指示に一本化 -->
+          <div class="max-w-md mx-auto my-6 rounded-xl border-l-4 border-[#F5A623] bg-amber-50/70 p-4 text-left shadow-sm">
+            <span class="text-xs font-bold text-amber-900 block mb-1 flex items-center gap-1.5">
+              <i data-lucide="info" class="w-4 h-4 text-[#F5A623]"></i>
+              <span>次の操作</span>
+            </span>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              ブラウザの上部にある<strong>「×」ボタンでこのタブを閉じて</strong>授業ポータルに戻り、<strong>STEP 1の「完了」ボタン</strong>を押して進捗を記録してください。
+            </p>
+          </div>
+        </div>
+      `;
+      safeCreateIcons();
+
+      const heading = app.querySelector('h2');
+      heading.setAttribute('tabindex', '-1');
+      heading.focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 起動
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4人の学習者ケース｜AI時代のウェルビーイング</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans JP -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { 
+      font-family: 'Noto Sans JP', sans-serif; 
+      background: #f8fafc; 
+      color: #1f2937; 
+    }
+    /* 甲南高校デザインシステム（ポータル共通） */
+    .main-color-bg { background-color: #4A90E2; }
+    .main-color-text { color: #4A90E2; }
+    .accent-color-bg { background-color: #F5A623; }
+    .accent-color-text { color: #F5A623; }
+    .accent-hover:hover { background-color: #E0961F; }
+    .main-hover:hover { background-color: #3B7DC4; }
+    
+    .smooth-transition { 
+      transition: all 0.25s ease-in-out; 
+    }
+    
+    .case-card[aria-current="true"] { 
+      border-color: #4A90E2; 
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2), 0 10px 25px rgba(15, 23, 42, 0.1); 
+      transform: translateY(-2px); 
+    }
+    .case-card:focus-visible { 
+      outline: 3px solid rgba(245, 166, 35, 0.75); 
+      outline-offset: 3px; 
+    }
+    
+    .image-frame img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain; 
+      object-position: center bottom; 
+    }
+    
+    .detail-enter { 
+      animation: detailIn 0.28s ease-out; 
+    }
+    @keyframes detailIn { 
+      from { opacity: 0; transform: translateY(8px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+    
+    rt { 
+      user-select: none; 
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+  <!-- ==========================================
+      1. Navigation Header (ポータル共通スタイル)
+  ========================================== -->
+  <header class="sticky top-0 z-40 main-color-bg text-white shadow-md">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <!-- ボタンと縦線を撤廃し、アイコン＋タイトル表示に統一 -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner">
+          <i data-lucide="users" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
+          <span class="block text-sm sm:text-base font-bold leading-tight">4人の学習者ケース</span>
+        </div>
+      </div>
+
+      <span class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
+        <i data-lucide="users" class="w-3.5 h-3.5"></i>
+        <span>4人の学習者</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- ==========================================
+      Main Content
+  ========================================== -->
+  <main class="flex-grow">
+    <!-- Hero Area -->
+    <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-11 md:py-14 px-4 shadow-inner">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-1.5 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-3.5 py-1 text-xs font-bold text-yellow-300 mb-4 shadow-sm">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span id="lessonBadge">第1時 ケース分析</span>
+        </div>
+        <h1 id="pageTitle" class="text-2xl sm:text-4xl md:text-5xl font-extrabold leading-tight">「選べない」のは本人の問題なのか</h1>
+        <p id="pageSubtitle" class="mt-3 text-sm sm:text-lg text-slate-300 font-light">剛・明・直のケースから、学びの選択可能性を考える</p>
+        <p class="mt-7 max-w-3xl mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-4 text-left text-sm sm:text-base leading-relaxed text-slate-100 backdrop-blur shadow-sm">
+          4人は同じ学習活動に取り組んでいます。学習目標は同じですが、現在選びやすい方法と選びにくい方法は異なります。
+        </p>
+      </div>
+    </section>
+
+    <div class="max-w-5xl mx-auto px-4 py-8 sm:py-11 space-y-8">
+      <!-- 案内ボックス：ブラウザのタブを閉じる操作を明確に案内 -->
+      <div class="rounded-xl border-l-4 border-[#4A90E2] bg-blue-50/80 p-4 text-sm text-slate-700 shadow-sm flex items-start gap-3">
+        <i data-lucide="info" class="w-5 h-5 main-color-text shrink-0 mt-0.5"></i>
+        <div>
+          <p id="instruction" class="font-bold text-slate-800">担当するケースを選んで、詳しい情報を確認してください。</p>
+          <p class="mt-1 text-xs text-slate-500">確認が終わったら、ブラウザ上部の「×」ボタンでこのタブを閉じて授業ポータルへ戻りましょう。</p>
+        </div>
+      </div>
+
+      <!-- ケース選択セクション -->
+      <section aria-labelledby="caseListTitle">
+        <div class="border-b-2 border-blue-200 pb-2 mb-5">
+          <h2 id="caseListTitle" class="text-xl sm:text-2xl font-bold text-slate-800 flex items-center gap-2">
+            <span class="inline-flex w-7 h-7 rounded-full main-color-bg text-white items-center justify-center text-xs font-bold">1</span>
+            ケースを選ぶ
+          </h2>
+        </div>
+        <div id="caseGrid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4"></div>
+      </section>
+
+      <!-- 詳細分析セクション -->
+      <section id="detailSection" class="hidden" aria-live="polite" aria-labelledby="detailTitle">
+        <div class="border-b-2 border-blue-200 pb-2 mb-5">
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-800 flex items-center gap-2">
+            <span class="inline-flex w-7 h-7 rounded-full accent-color-bg text-white items-center justify-center text-xs font-bold">2</span>
+            詳しく分析する
+          </h2>
+        </div>
+        <article id="detailPanel" class="detail-enter overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg"></article>
+      </section>
+
+      <!-- ケースを読む約束と分析の中心 -->
+      <section class="grid gap-5 sm:grid-cols-2 pt-2">
+        <div class="rounded-xl border-l-4 border-[#4A90E2] bg-blue-50/70 p-5 shadow-sm">
+          <h3 class="flex items-center gap-2 font-bold text-blue-900 text-sm sm:text-base">
+            <i data-lucide="shield-check" class="w-5 h-5 main-color-text"></i>
+            ケースを読む約束
+          </h3>
+          <ul class="mt-3 space-y-1.5 text-xs sm:text-sm text-slate-700">
+            <li><strong>1.</strong> カードに書かれていない事情や気持ちを推測しない。</li>
+            <li><strong>2.</strong> 実在する同級生へ当てはめない。</li>
+            <li><strong>3.</strong> 困難だけでなく、願い・強み・他者へ届けられる価値を見る。</li>
+          </ul>
+        </div>
+        <div class="rounded-xl border-l-4 border-[#F5A623] bg-yellow-50/70 p-5 shadow-sm">
+          <h3 class="flex items-center gap-2 font-bold text-amber-900 text-sm sm:text-base">
+            <i data-lucide="focus" class="w-5 h-5 accent-color-text"></i>
+            分析の中心
+          </h3>
+          <p class="mt-3 text-xs sm:text-sm leading-relaxed text-slate-700">
+            「本人ができない」ではなく、現在の時間・場所・表現・評価・AI・人との関係のどの条件によって選びにくくなっているかを考えます。
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ==========================================
+      Footer (スリム化された共通スタイル)
+  ========================================== -->
+  <footer class="mt-12 bg-slate-800 text-slate-400 py-5 text-center text-xs border-t border-slate-700">
+    <p>© 2026 鹿児島県立甲南高等学校 公民科</p>
+  </footer>
+
+  <!-- ==========================================
+      JavaScript Logic
+  ========================================== -->
+  <script>
+    'use strict';
+
+    const CASES = {
+      "takeshi": {
+        "name": "剛",
+        "reading": "たけし",
+        "image": "images/case-takeshi.webp",
+        "color": "sky",
+        "wishShort": "考える時間と表現方法を選びたい",
+        "strengthShort": "じっくり思考を深め、図解で表現する力",
+        "pathShort": "書く・図示する・後から意見を加える",
+        "question": "発言の速さや回数だけが、学習への参加の証拠になっていないだろうか。",
+        "wish": "すぐに発言することだけでなく、考えを整理してから、文章や図で表したり、話合いの後から意見を加えたりして参加したいと考えています。",
+        "strengths": [
+          "資料や他者の意見を時間をかけて読み取れる",
+          "意見の共通点や違いを整理できる",
+          "文章や図を使って考えを構造化できる",
+          "速い対話の中で見落とされた論点を後から発見できる"
+        ],
+        "available": [
+          "個人で考えをノートに書く",
+          "共有スライドに文章や図を入力する",
+          "資料を読みながら考える",
+          "必要に応じてAIで言葉を整理する"
+        ],
+        "limited": [
+          "考える時間を取ってからグループで発言する",
+          "発話以外の方法で話合いに参加する",
+          "話合いの後から意見を加え、意思決定へ反映させる",
+          "AIが整えた表現と自分の考えを区別して示す"
+        ],
+        "value": "剛の整理や図解は、速い話合いでは見えにくかった考えを可視化し、班全体の思考を深めることにつながります。",
+        "hint": "書く・図示する・後から加える意見を、班の話合いや意思決定へどのように反映できますか。"
+      },
+      "akira": {
+        "name": "明",
+        "reading": "あきら",
+        "image": "images/case-akira.webp",
+        "color": "emerald",
+        "wishShort": "AIを使いながら自分で判断したい",
+        "strengthShort": "AIへの指示出しが速く、論点を広げる力",
+        "pathShort": "根拠確認・AI出力の棄却／保留の判断",
+        "question": "AIを使った成果物のどこに、学習者自身の理解と判断が表れているのだろうか。",
+        "wish": "AIの便利さを生かしながらも、AIが出した答えを使っただけではなく、自分で確かめ、選び、判断したことを説明できるようになりたいと考えています。",
+        "strengths": [
+          "AIへ目的に応じた複数の問いを出せる",
+          "情報や案を短時間で比較できる",
+          "AIの使い方を他者へ説明できる",
+          "異なる表現や具体例を試せる"
+        ],
+        "available": [
+          "AIに要約や説明を求める",
+          "AIに複数の案を示してもらう",
+          "AIの回答をスライドに整理する",
+          "AIを使って文章表現を整える"
+        ],
+        "limited": [
+          "AIを使う前に自分の考えを残す",
+          "AIの提案を棄却・保留する",
+          "AIの回答の根拠を公式資料で確かめる",
+          "AIの表現と自分の判断を区別して記録する"
+        ],
+        "value": "明の経験は、AIの便利さだけでなく、AIへ判断を委ねる危険や、AIと適切な距離を取る方法を班全体で考える材料になります。",
+        "hint": "AIが示した考えと、明自身が判断したことを、どのように区別して記録できますか。"
+      },
+      "nao": {
+        "name": "直",
+        "reading": "なお",
+        "image": "images/case-nao.webp",
+        "color": "indigo",
+        "wishShort": "AIを使わない学び方も選びたい",
+        "strengthShort": "自分の言葉を大切にし、対話を紡ぐ力",
+        "pathShort": "AI利用／非利用を納得して切り替える",
+        "question": "AIを使わない自由は、評価や学習機会の面でも実質的に保障されているだろうか。",
+        "wish": "自分で資料を読み、人と話しながら考える方法も正当な選択として認めてほしいと考えています。同時に、必要だと判断したときにはAI利用へ切り替えたいと考えています。",
+        "strengths": [
+          "一次資料を丁寧に読める",
+          "情報の出典を確認できる",
+          "人との対話から文脈や違いを捉えられる",
+          "結論を急がず、自分の言葉で考えられる"
+        ],
+        "available": [
+          "教科書や公式資料を読む",
+          "友人や教師と対話する",
+          "自分の言葉で文章を書く",
+          "複数の資料を比較する"
+        ],
+        "limited": [
+          "AIを使わずにAI利用者と同じ学習目標へ到達する",
+          "見栄えや完成速度ではなく理解と判断で評価される",
+          "必要に応じて途中からAI利用へ切り替える",
+          "AIを使わない理由を学習上の判断として説明する"
+        ],
+        "value": "直の資料の読み方や出典確認は、AIの回答を検証し、班全体の判断を根拠のあるものにすることにつながります。",
+        "hint": "AIを使わない学習経路を選んでも、評価上不利にならないためには何が必要ですか。"
+      },
+      "emma": {
+        "name": "エマ",
+        "reading": "",
+        "image": "images/case-emma.webp",
+        "color": "amber",
+        "wishShort": "教室とは別の場所からも参加したい",
+        "strengthShort": "テキストによる丁寧な記述と、独自の着眼点",
+        "pathShort": "同期・非同期で学びをつなぐルート",
+        "question": "教室にいることと、学習共同体の意思決定に参加していることは同じなのだろうか。",
+        "wish": "その日の状況に合う場所と方法で学び、授業時間内に参加できない場合も、考えたことをグループの話合いや意思決定へ届けたいと考えています。",
+        "strengths": [
+          "時間をかけて資料を読める",
+          "テキストで考えを丁寧に表現できる",
+          "録画教材やデジタル資料を繰り返し確認できる",
+          "教室中心の参加方法では見えにくい課題を指摘できる"
+        ],
+        "available": [
+          "Classroomから資料や課題を確認する",
+          "録画教材や配付資料を自分のペースで確認する",
+          "文章で考えや成果を提出する",
+          "状況により教室、校内の別スペース、自宅などから学ぶ"
+        ],
+        "limited": [
+          "授業時間内だけで行われる話合いへ参加する",
+          "後から加えた意見をグループの意思決定へ反映させる",
+          "状況に応じて同期参加と非同期参加を切り替える",
+          "発話、文章、図などから成果の表現方法を選ぶ"
+        ],
+        "value": "エマの視点から生まれる非同期参加や複数の表現方法は、教室外から学ぶ人だけでなく、考える時間が必要な人、欠席した人、その場で発言しにくい人の選択肢も広げます。",
+        "hint": "授業時間外や教室外から加えた意見を、班の話合いや意思決定へどのように反映できますか。"
+      }
+    };
+
+    const params = new URLSearchParams(location.search);
+    const lesson = params.get('lesson') === '4' ? 4 : 1;
+    const colorClasses = {
+      sky: { bar: 'bg-sky-500', frame: 'bg-sky-50', chip: 'bg-sky-100 text-sky-800' },
+      emerald: { bar: 'bg-emerald-500', frame: 'bg-emerald-50', chip: 'bg-emerald-100 text-emerald-800' },
+      indigo: { bar: 'bg-indigo-500', frame: 'bg-indigo-50', chip: 'bg-indigo-100 text-indigo-800' },
+      amber: { bar: 'accent-color-bg', frame: 'bg-amber-50', chip: 'bg-amber-100 text-amber-800' }
+    };
+    let selected = null;
+
+    // （handleBackToPortal 関数をまるごと削除）
+
+    function nameHtml(c) {
+      return c.reading 
+        ? `<ruby>${c.name}<rp>（</rp><rt class="text-[10px] font-normal text-slate-500">${c.reading}</rt><rp>）</rp></ruby>` 
+        : c.name;
+    }
+
+    function isPreview(key) { 
+      return lesson === 1 && key === 'emma'; 
+    }
+
+    function cardHtml(key, c) {
+      const preview = isPreview(key);
+      const col = colorClasses[c.color];
+      const muted = lesson === 4 && key !== 'emma';
+
+      return `
+        <button type="button" data-case="${key}" ${preview ? 'aria-disabled="true"' : ''}
+          class="case-card relative overflow-hidden rounded-2xl border-2 ${preview ? 'border-dashed border-amber-300' : 'border-slate-200'} bg-white p-4 text-left shadow-sm smooth-transition hover:shadow-md ${muted ? 'opacity-80' : ''}"
+          aria-current="false">
+          <div class="${col.bar} h-1.5 w-12 rounded-full mb-3"></div>
+          <div class="image-frame aspect-square rounded-xl ${col.frame} border border-white shadow-inner overflow-hidden p-2">
+            <img src="${c.image}" alt="${c.name}のケース画像">
+          </div>
+          <div class="mt-4">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="text-xl font-black text-slate-800">${nameHtml(c)}</h3>
+              ${preview ? '<span class="rounded-full bg-amber-100 px-2 py-1 text-[10px] font-bold text-amber-800">第4時</span>' : '<i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>'}
+            </div>
+            <span class="mt-3 block text-[11px] font-bold main-color-text">本人の願い</span>
+            <p class="mt-0.5 text-xs font-bold leading-5 text-slate-700">${c.wishShort}</p>
+            <span class="mt-2.5 block text-[11px] font-bold text-slate-400">強み</span>
+            <p class="mt-0.5 text-xs leading-5 text-slate-600">${c.strengthShort}</p>
+            <div class="mt-4 border-t border-slate-100 pt-3">
+              <span class="text-[11px] font-bold accent-color-text">広げたい経路</span>
+              <p class="mt-0.5 text-xs leading-5 text-slate-700">${c.pathShort}</p>
+            </div>
+            <div class="mt-3 rounded-lg bg-slate-50 p-2.5">
+              <span class="text-[10px] font-bold text-slate-500">学校への問い</span>
+              <p class="mt-1 text-xs font-medium leading-5 text-slate-700">${c.question}</p>
+            </div>
+            ${preview ? '<p class="mt-3 text-xs font-bold text-amber-700">このケースは第4時に詳しく扱います。</p>' : '<p class="mt-3 text-xs font-bold main-color-text">タップして詳細を確認</p>'}
+          </div>
+        </button>
+      `;
+    }
+
+    function listHtml(items, tone) {
+      const map = { blue: 'bg-blue-50 border-blue-100', amber: 'bg-amber-50 border-amber-100' };
+      return `
+        <ul class="mt-3 space-y-2">
+          ${items.map(x => `
+            <li class="flex gap-2 rounded-lg border ${map[tone]} p-2.5 text-xs sm:text-sm leading-relaxed text-slate-700">
+              <span class="mt-1.5 h-1.5 w-1.5 rounded-full ${tone === 'blue' ? 'main-color-bg' : 'accent-color-bg'} shrink-0"></span>
+              <span>${x}</span>
+            </li>
+          `).join('')}
+        </ul>
+      `;
+    }
+
+    function detailHtml(key, c) {
+      const col = colorClasses[c.color];
+      return `
+        <div class="${col.bar} h-2"></div>
+        <div class="grid gap-6 p-5 sm:p-7 lg:grid-cols-[230px_1fr]">
+          <aside class="text-center lg:text-left">
+            <div class="image-frame aspect-square rounded-2xl ${col.frame} border border-slate-100 p-3 overflow-hidden shadow-inner mx-auto max-w-[230px]">
+              <img src="${c.image}" alt="${c.name}のケース画像">
+            </div>
+            <h3 id="detailTitle" class="mt-4 text-center text-2xl sm:text-3xl font-black text-slate-800">${nameHtml(c)}</h3>
+            <p class="mt-2 text-center text-xs sm:text-sm font-bold main-color-text">${c.wishShort}</p>
+          </aside>
+          <div class="space-y-5">
+            <section>
+              <h4 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+                <i data-lucide="compass" class="w-4 h-4 main-color-text"></i>本人の願い
+              </h4>
+              <p class="mt-2 text-xs sm:text-sm leading-relaxed text-slate-700">${c.wish}</p>
+            </section>
+            <section>
+              <h4 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+                <i data-lucide="sparkles" class="w-4 h-4 main-color-text"></i>既に持っている強み
+              </h4>
+              ${listHtml(c.strengths, 'blue')}
+            </section>
+            <div class="grid gap-5 md:grid-cols-2">
+              <section>
+                <h4 class="font-bold text-blue-900 text-xs sm:text-sm">今、選べる学び方</h4>
+                ${listHtml(c.available, 'blue')}
+              </section>
+              <section>
+                <h4 class="font-bold text-amber-900 text-xs sm:text-sm">今、選びにくい学び方</h4>
+                ${listHtml(c.limited, 'amber')}
+              </section>
+            </div>
+            <section class="rounded-xl border-l-4 border-emerald-500 bg-emerald-50 p-4 shadow-sm">
+              <h4 class="font-bold text-emerald-900 text-xs sm:text-sm">他者へ届けられる価値</h4>
+              <p class="mt-2 text-xs sm:text-sm leading-relaxed text-slate-700">${c.value}</p>
+            </section>
+            <section class="rounded-xl border-l-4 border-[#F5A623] bg-yellow-50 p-4 shadow-sm">
+              <h4 class="font-bold text-amber-900 text-xs sm:text-sm">学校への問い</h4>
+              <p class="mt-2 text-sm sm:text-base font-bold leading-relaxed text-slate-800">${c.question}</p>
+            </section>
+            <section class="rounded-xl border border-blue-200 bg-white p-4 shadow-sm">
+              <h4 class="font-bold text-blue-900 flex items-center gap-2 text-xs sm:text-sm">
+                <i data-lucide="search" class="w-4 h-4 main-color-text"></i>ケース分析のヒント
+              </h4>
+              <ol class="mt-3 space-y-2 text-xs sm:text-sm leading-relaxed text-slate-700">
+                <li><strong>共通問1：</strong>本人が「できない」のではなく、学校のどの条件によって選びにくくなっていますか。</li>
+                <li><strong>共通問2：</strong>本人の強みは、ほかの人の学びをどのように広げられますか。</li>
+                <li><strong>${c.name}の固有問：</strong>${c.hint}</li>
+              </ol>
+            </section>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPage() {
+      if (lesson === 4) {
+        document.getElementById('lessonBadge').textContent = '第4時 共通ケース';
+        document.getElementById('pageTitle').textContent = '教室とは別の場所から学ぶ人を含む学校へ';
+        document.getElementById('pageSubtitle').textContent = 'エマのケースから、互いの学びを支える関係・役割・制度を考える';
+        document.getElementById('instruction').textContent = 'エマの詳細を確認してください。剛・明・直は、これまでに扱った視点を振り返るときに選べます。';
+      }
+      
+      document.getElementById('caseGrid').innerHTML = Object.entries(CASES).map(([k, c]) => cardHtml(k, c)).join('');
+      document.querySelectorAll('.case-card').forEach(btn => {
+        btn.addEventListener('click', () => selectCase(btn.dataset.case));
+      });
+      
+      if (lesson === 4) {
+        selectCase('emma', false);
+      }
+      
+      lucide.createIcons();
+    }
+
+    function selectCase(key, scroll = true) {
+      if (isPreview(key)) {
+        const btn = document.querySelector(`[data-case="${key}"]`);
+        btn.animate([
+          { transform: 'translateX(0)' },
+          { transform: 'translateX(-4px)' },
+          { transform: 'translateX(4px)' },
+          { transform: 'translateX(0)' }
+        ], { duration: 280 });
+        return;
+      }
+      
+      selected = key;
+      document.querySelectorAll('.case-card').forEach(x => {
+        x.setAttribute('aria-current', x.dataset.case === key ? 'true' : 'false');
+      });
+      
+      const section = document.getElementById('detailSection');
+      section.classList.remove('hidden');
+      const panel = document.getElementById('detailPanel');
+      panel.innerHTML = detailHtml(key, CASES[key]);
+      panel.classList.remove('detail-enter');
+      void panel.offsetWidth;
+      panel.classList.add('detail-enter');
+      
+      lucide.createIcons();
+      if (scroll) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', renderPage);
+  </script>
+</body>
+</html>

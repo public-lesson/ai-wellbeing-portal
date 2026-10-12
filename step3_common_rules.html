@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第3時｜問い直す前の共通ルール - 公共「AI時代のウェルビーイングを考える」</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans JP -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f8fafc;
+            color: #1f2937;
+        }
+        /* 甲南高校デザインシステム */
+        .main-color-bg { background-color: #4A90E2; }
+        .main-color-text { color: #4A90E2; }
+        .accent-color-bg { background-color: #F5A623; }
+        .accent-color-text { color: #F5A623; }
+        .accent-hover:hover { background-color: #E0961F; }
+        .main-hover:hover { background-color: #3B7DC4; }
+
+        /* ステップ番号の丸バッジ */
+        .step-badge {
+            background-color: #4A90E2;
+            color: white;
+            border-radius: 9999px;
+            width: 2rem;
+            height: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .smooth-transition {
+            transition: all 0.25s ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- ==========================================
+        1. Navigation Header
+    ========================================== -->
+    <header class="sticky top-0 z-40 main-color-bg text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner">
+                    <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                    <span class="block text-[11px] font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
+                    <span class="block text-sm sm:text-base font-bold leading-tight">公共「AI時代のウェルビーイングを考える」</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <span class="rounded-full bg-white/20 border border-white/30 px-3.5 py-1 text-xs font-bold tracking-wider">
+                    第3時
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+        Main Content
+    ========================================== -->
+    <main class="flex-grow">
+        <!-- 2. Hero Area -->
+        <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-10 md:py-14 px-4 shadow-inner relative">
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <div class="inline-flex items-center gap-1.5 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-3.5 py-1 text-xs font-bold text-yellow-300 mb-3.5 shadow-sm">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                    <span>STEP 1 / 共通ルール</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight">
+                    問い直す前に確認しよう
+                </h1>
+                <p class="mt-3 text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto leading-relaxed">
+                    今日の目的は、AIを使うことではありません。第2時に考えた案を別の視点から問い直し、根拠を確かめ、自分たちで判断することです。
+                </p>
+
+                <!-- アクセントボックス -->
+                <div class="mt-6 max-w-xl mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-3.5 text-center sm:text-left backdrop-blur shadow-sm">
+                    <p class="text-xs sm:text-sm font-bold text-yellow-200 flex items-center justify-center sm:justify-start gap-2">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-[#F5A623] shrink-0"></i>
+                        <span>AIを使う経路と、問い直しカードを使う経路は対等です。</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="max-w-5xl mx-auto px-4 py-8 sm:py-10 space-y-8">
+            <!-- 3. ルール本体（2カラムレイアウト） -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- 左側：5つの共通ルール（7カラム） -->
+                <section class="lg:col-span-7 bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-5">
+                    <div class="border-b border-slate-200 pb-3 flex items-center gap-2">
+                        <span class="step-badge">✓</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-800">5つの共通ルール</h2>
+                    </div>
+
+                    <ol class="space-y-4">
+                        <!-- ルール 1 -->
+                        <li class="flex items-start gap-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
+                            <span class="w-6 h-6 rounded-full main-color-bg text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">1</span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-800">自分たちの案から始める</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                                    第2時に記録した、<strong class="text-slate-800">根拠、資料だけでは判断できないこと、本人に確認すること、代表的な2つの経路</strong>を先に確認します。
+                                </p>
+                            </div>
+                        </li>
+
+                        <!-- ルール 2（画像枠を削除し、ポータルで選ぶ旨の注記にアップデート） -->
+                        <li class="flex items-start gap-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
+                            <span class="w-6 h-6 rounded-full main-color-bg text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">2</span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-800">問い直す方法を選ぶ</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                                    「Geminiとの対話」または「視点を広げる問い直しカード」を選びます。どちらを選んでも評価は同じです。途中で変更しても構いません。
+                                </p>
+                                <p class="text-xs font-semibold text-[#4A90E2] mt-2 flex items-center gap-1.5">
+                                    <i data-lucide="info" class="w-3.5 h-3.5 shrink-0"></i>
+                                    <span>※このあとの授業ポータル（STEP 2）で、どちらの経路に進むかを選択します。</span>
+                                </p>
+                            </div>
+                        </li>
+
+                        <!-- ルール 3 -->
+                        <li class="flex items-start gap-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
+                            <span class="w-6 h-6 rounded-full main-color-bg text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">3</span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-800">本人のことを決めつけない</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                                    ケースに書かれていない診断、健康状態、心理状態、家庭事情は推測しません。本人にしか決められないことは、第4時で確認する問いとして残します。
+                                </p>
+                            </div>
+                        </li>
+
+                        <!-- ルール 4 -->
+                        <li class="flex items-start gap-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
+                            <span class="w-6 h-6 rounded-full main-color-bg text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">4</span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-800">指摘をそのまま答えにしない</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                                    AIやカードから得た指摘は参考の一つです。公式資料と照合し、<strong class="text-slate-800">採用・修正・保留・不採用</strong>を班で判断します。
+                                </p>
+                            </div>
+                        </li>
+
+                        <!-- ルール 5 -->
+                        <li class="flex items-start gap-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
+                            <span class="w-6 h-6 rounded-full main-color-bg text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">5</span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-800">判断の過程を残す</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                                    何に気づき、何を変更し、なぜそう判断したかを記録します。第4時には、相手からの問いや本人の応答を受けて、もう一度見直します。
+                                </p>
+                            </div>
+                        </li>
+                    </ol>
+                </section>
+
+                <!-- 右側：Geminiとの対話を選ぶ班へ（5カラム） -->
+                <aside class="lg:col-span-5 bg-amber-50/60 rounded-xl border border-amber-200 p-5 sm:p-6 shadow-sm space-y-4">
+                    <div class="border-b border-amber-200 pb-3 flex items-center gap-2 text-amber-900">
+                        <div class="w-7 h-7 rounded-lg accent-color-bg text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                            <i data-lucide="bot" class="w-4 h-4"></i>
+                        </div>
+                        <h2 class="text-base sm:text-lg font-bold">Geminiとの対話を選ぶ班へ</h2>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-amber-900 font-medium leading-relaxed">
+                        生成AIは、完成案を任せる相手ではなく、考えを問い直すための参考の一つです。
+                    </p>
+
+                    <ul class="space-y-2 text-xs sm:text-sm text-slate-700">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-[#F5A623] shrink-0 mt-0.5"></i>
+                            <span>氏名、写真、成績などの<strong class="text-slate-900">個人情報を入力しません</strong>。</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-[#F5A623] shrink-0 mt-0.5"></i>
+                            <span>ケースに書かれていない個人事情を入力したり、推測させたりしません。</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-[#F5A623] shrink-0 mt-0.5"></i>
+                            <span>完成案ではなく、前提や見落としを確かめる<strong class="text-slate-900">問い</strong>を求めます。</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-[#F5A623] shrink-0 mt-0.5"></i>
+                            <span>AIの出力には、誤りや偏りが含まれることがあります。</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-[#F5A623] shrink-0 mt-0.5"></i>
+                            <span>AIの指摘を使うときは、公式資料で根拠を確認します。</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check" class="w-4 h-4 text-[#F5A623] shrink-0 mt-0.5"></i>
+                            <span>AIを利用したことと、指摘をどう判断したかを記録します。</span>
+                        </li>
+                    </ul>
+
+                    <div class="pt-3 border-t border-amber-200/70 text-[11px] text-amber-800 leading-relaxed">
+                        <strong>出典・参考：</strong>文部科学省「初等中等教育段階における生成AIの利活用に関するガイドライン Ver.2.0」（2024年12月）[1]
+                    </div>
+                </aside>
+            </div>
+
+            <!-- 4. 第4時への接続 -->
+            <section class="bg-emerald-50/70 rounded-xl border border-emerald-200 p-5 shadow-sm space-y-3">
+                <div class="flex items-center gap-2 text-emerald-900">
+                    <i data-lucide="git-branch" class="w-5 h-5 text-emerald-600"></i>
+                    <h2 class="text-base sm:text-lg font-bold">第4時への接続</h2>
+                </div>
+                <p class="text-xs sm:text-sm text-emerald-950 leading-relaxed">
+                    <strong>今日の判断は最終決定ではありません。</strong>
+                    第4時には、相手からの問いや、本人の選択・変更・保留・拒否などの応答を受けて、学習経路と制度案をもう一度見直します。
+                </p>
+                <div class="flex flex-wrap items-center gap-2 pt-1 text-xs font-bold text-emerald-900">
+                    <span class="bg-white border border-emerald-200 px-3 py-1.5 rounded-full shadow-2xs">第2時｜根拠と2経路を記録</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-emerald-600"></i>
+                    <span class="bg-emerald-600 text-white px-3 py-1.5 rounded-full shadow-2xs">第3時｜問い直し、照合、判断</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-emerald-600"></i>
+                    <span class="bg-white border border-emerald-200 px-3 py-1.5 rounded-full shadow-2xs">第4時｜応答を受けて再構成</span>
+                </div>
+            </section>
+
+            <!-- 5. 確認チェックパネル -->
+            <section id="confirmPanel" class="bg-blue-50/60 rounded-xl border-2 border-blue-200 p-5 sm:p-6 shadow-sm space-y-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="check-square" class="w-5 h-5 text-[#4A90E2]"></i>
+                        <span>確認チェック</span>
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-0.5">2つの項目を確認してチェックを入れると「確認しました」ボタンが押せるようになります。</p>
+                </div>
+
+                <div class="space-y-3">
+                    <label id="label-lesson2" class="flex items-start gap-3 p-3.5 rounded-lg border border-slate-200 bg-white cursor-pointer hover:border-blue-400 smooth-transition select-none">
+                        <input type="checkbox" id="check-lesson2" class="w-5 h-5 mt-0.5 accent-[#4A90E2] rounded cursor-pointer">
+                        <span class="text-xs sm:text-sm font-bold text-slate-700 leading-snug">
+                            第2時の記録を出発点にして、自分たちの案を問い直します。
+                        </span>
+                    </label>
+
+                    <label id="label-judgment" class="flex items-start gap-3 p-3.5 rounded-lg border border-slate-200 bg-white cursor-pointer hover:border-blue-400 smooth-transition select-none">
+                        <input type="checkbox" id="check-judgment" class="w-5 h-5 mt-0.5 accent-[#4A90E2] rounded cursor-pointer">
+                        <span class="text-xs sm:text-sm font-bold text-slate-700 leading-snug">
+                            AIやカードの内容をそのまま答えにせず、公式資料を確かめ、最後は班で判断します。
+                        </span>
+                    </label>
+                </div>
+
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <p class="text-xs text-slate-500">※確認後、このタブを閉じて元のポータルへ戻ります。</p>
+                    <button id="confirmBtn" type="button" disabled
+                            class="w-full sm:w-auto px-6 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-white main-color-bg main-hover disabled:bg-slate-300 disabled:cursor-not-allowed smooth-transition shadow-sm flex items-center justify-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        <span>確認しました</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 6. 完了案内メッセージ：ブラウザのタブを閉じる指示に一本化 -->
+            <section id="completeMessage" class="hidden rounded-xl border-2 border-emerald-400 bg-emerald-50 p-6 text-center space-y-4 shadow-md smooth-transition">
+                <div class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center mx-auto shadow-md">
+                    <i data-lucide="check" class="w-6 h-6 stroke-[3]"></i>
+                </div>
+                <div>
+                    <h2 class="text-lg sm:text-xl font-bold text-emerald-900">共通ルールの確認が終わりました！</h2>
+                    <p class="text-xs sm:text-sm text-emerald-800 font-medium mt-1.5 leading-relaxed max-w-lg mx-auto">
+                        問い直しの共通ルールの確認が完了しました。
+                    </p>
+                </div>
+
+                <!-- 他画面と統一された「次の操作」枠 -->
+                <div class="max-w-md mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white p-4 text-left shadow-sm">
+                    <span class="text-xs font-bold text-amber-900 block mb-1 flex items-center gap-1.5">
+                        <i data-lucide="info" class="w-4 h-4 text-[#F5A623]"></i>
+                        <span>次の操作</span>
+                    </span>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        ブラウザの上部にある<strong>「×」ボタンでこのタブを閉じて</strong>授業ポータルに戻り、<strong>STEP 1の「完了」ボタン</strong>を押して次の活動（STEP 2）へ進んでください。
+                    </p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ==========================================
+        7. Footer
+    ========================================== -->
+    <footer class="mt-12 bg-slate-800 text-slate-400 py-5 text-center text-xs border-t border-slate-700">
+        <p>© 2026 鹿児島県立甲南高等学校 公民科</p>
+    </footer>
+
+    <!-- ==========================================
+        JavaScript
+    ========================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            const check1 = document.getElementById('check-lesson2');
+            const check2 = document.getElementById('check-judgment');
+            const label1 = document.getElementById('label-lesson2');
+            const label2 = document.getElementById('label-judgment');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const confirmPanel = document.getElementById('confirmPanel');
+            const completeMessage = document.getElementById('completeMessage');
+
+            function updateCheckState() {
+                const checked1 = check1.checked;
+                const checked2 = check2.checked;
+
+                // チェック状態に応じたカード背景の装飾
+                label1.className = `flex items-start gap-3 p-3.5 rounded-lg border smooth-transition cursor-pointer select-none ${
+                    checked1 ? "border-[#4A90E2] bg-blue-50/50 shadow-inner" : "border-slate-200 bg-white hover:border-blue-400"
+                }`;
+                label2.className = `flex items-start gap-3 p-3.5 rounded-lg border smooth-transition cursor-pointer select-none ${
+                    checked2 ? "border-[#4A90E2] bg-blue-50/50 shadow-inner" : "border-slate-200 bg-white hover:border-blue-400"
+                }`;
+
+                // 2つともチェックでボタン有効化
+                confirmBtn.disabled = !(checked1 && checked2);
+            }
+
+            check1.addEventListener('change', updateCheckState);
+            check2.addEventListener('change', updateCheckState);
+
+            confirmBtn.addEventListener('click', () => {
+                if (confirmBtn.disabled) return;
+
+                // パネルの切り替え
+                confirmPanel.classList.add('hidden');
+                completeMessage.classList.remove('hidden');
+                lucide.createIcons();
+
+                // 完了メッセージへスムーズスクロール
+                completeMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+
+        // （closeCurrentTab 関数をまるごと削除）
+    </script>
+</body>
+</html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="docTitle">公式資料を調べる ガイド｜公共「AI時代のウェルビーイング」</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans JP -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- 共通設定ファイル -->
+  <script src="portal-config.js"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: #f8fafc;
+      color: #1f2937;
+    }
+    /* 甲南高校デザインシステム */
+    .main-color-bg { background-color: #4A90E2; }
+    .main-color-text { color: #4A90E2; }
+    .accent-color-bg { background-color: #F5A623; }
+    .accent-color-text { color: #F5A623; }
+    .accent-hover:hover { background-color: #E0961F; }
+    .main-hover:hover { background-color: #3B7DC4; }
+
+    .step-badge {
+      background-color: #4A90E2;
+      color: white;
+      border-radius: 9999px;
+      width: 1.75rem;
+      height: 1.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .smooth-transition {
+      transition: all 0.25s ease-in-out;
+    }
+
+    /* ルビのバランス微調整 */
+    rt {
+      user-select: none;
+    }
+
+    /* 選択中カードのアクティブスタイル */
+    .case-card[aria-current="true"] {
+      border-color: #4A90E2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25), 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+      transform: translateY(-2px);
+    }
+    .case-card:focus-visible, .action-btn:focus-visible {
+      outline: 3px solid rgba(245, 166, 35, 0.8);
+      outline-offset: 2px;
+    }
+
+    /* 調査手順のステップ接続ライン */
+    .step-line:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 15px;
+      top: 36px;
+      bottom: -16px;
+      width: 2px;
+      background: #e2e8f0;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    /* プレビュー時の揺れるアニメーション */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-4px); }
+      40%, 80% { transform: translateX(4px); }
+    }
+    .animate-shake {
+      animation: shake 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+  <!-- ==========================================
+      1. Navigation Header (ポータル共通デザイン)
+  ========================================== -->
+  <header class="sticky top-0 z-40 main-color-bg text-white shadow-md">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <!-- ボタンと縦線を撤廃し、統一されたアイコン＋タイトル表示に -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner">
+          <i data-lucide="file-search" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
+          <span id="headerTitle" class="block text-sm sm:text-base font-bold leading-tight">
+            第2時 STEP 2「公式資料を調べる」
+          </span>
+        </div>
+      </div>
+
+      <span id="headerBadge" class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
+        <i data-lucide="users" class="w-3.5 h-3.5"></i>
+        <span>剛・明・直の3ケース</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- ==========================================
+      Main Content
+  ========================================== -->
+  <main class="flex-grow">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white px-4 py-10 md:py-14 shadow-inner">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-4 py-1 text-xs font-bold text-yellow-300">
+          <i data-lucide="search-check" class="w-4 h-4"></i>
+          <span id="heroBadge">第2時　公式資料による再構成</span>
+        </div>
+        <h1 id="heroTitle" class="mt-4 text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
+          AIの答えではなく、資料を根拠に考える
+        </h1>
+        <p id="heroSubtitle" class="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+          担当ケースに関係する公式資料を<strong>Gemini Notebook</strong>で確認し、資料から言える事実と、対話を通じて判断すべきことを区別します。
+        </p>
+
+        <!-- 3つの指針カード -->
+        <div class="mt-8 grid gap-3 sm:grid-cols-3 text-left text-sm">
+          <div class="rounded-xl bg-white/10 p-4 border border-white/10 backdrop-blur shadow-sm">
+            <span class="font-bold text-yellow-300 block mb-1">1. 確認する</span>
+            <p class="text-xs text-slate-200 leading-relaxed">資料名・発行主体・根拠箇所（ページ）</p>
+          </div>
+          <div class="rounded-xl bg-white/10 p-4 border border-white/10 backdrop-blur shadow-sm">
+            <span class="font-bold text-yellow-300 block mb-1">2. 区別する</span>
+            <p class="text-xs text-slate-200 leading-relaxed">事実・解釈・推測／言えること・言えないこと</p>
+          </div>
+          <div class="rounded-xl bg-white/10 p-4 border border-white/10 backdrop-blur shadow-sm">
+            <span class="font-bold text-yellow-300 block mb-1">3. 持ち帰る</span>
+            <p class="text-xs text-slate-200 leading-relaxed">複数の経路や学校制度を構想するための確かな根拠</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- メインコンテンツ幅 -->
+    <div class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+      
+      <!-- 1. 担当ケースを選ぶ -->
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <h2 class="text-lg sm:text-xl font-black text-slate-800 flex items-center gap-2">
+            <span class="step-badge">1</span>
+            <span id="caseSelectHeading">担当ケースを選ぶ</span>
+          </h2>
+          <span id="caseSelectSub" class="text-xs text-slate-500">班の担当者を1つクリックしてください</span>
+        </div>
+        
+        <!-- エマ予告トースト案内（第2時でエマを押した際に表示） -->
+        <div id="previewToast" class="hidden mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800 font-bold flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-[#F5A623] shrink-0"></i>
+          <span>エマの公式資料は第4時で全班共通で調べます。第2時は「剛・明・直」から班のケースを選択してください。</span>
+        </div>
+
+        <div id="caseGrid" class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- JSで動的レンダリング -->
+        </div>
+      </section>
+
+      <!-- 2. 選択中ケースの調査ガイド（クリックで展開） -->
+      <section id="guide" class="hidden fade-in rounded-2xl border border-slate-200 bg-white shadow-md overflow-hidden" aria-live="polite">
+        <div class="h-2 main-color-bg"></div>
+        <div class="p-5 sm:p-7">
+          <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-4">
+            <div>
+              <span class="inline-flex items-center gap-1 text-xs font-bold main-color-text bg-blue-50 px-2.5 py-0.5 rounded-full">
+                <i data-lucide="user-check" class="w-3.5 h-3.5"></i> 選択中のケース
+              </span>
+              <h2 id="caseTitle" class="mt-1.5 text-2xl font-black text-slate-800"></h2>
+              <p id="caseSituation" class="mt-2 max-w-3xl text-xs sm:text-sm leading-relaxed text-slate-600"></p>
+            </div>
+            <button id="changeCase" class="action-btn text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-lg smooth-transition flex items-center gap-1.5">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              <span>ケースを選び直す</span>
+            </button>
+          </div>
+
+          <!-- 調査の中心と持ち帰るもの -->
+          <div class="mt-6 grid gap-5 lg:grid-cols-2">
+            <div class="rounded-xl border-l-4 border-[#4A90E2] bg-blue-50/70 p-5 shadow-sm">
+              <h3 class="font-bold text-blue-900 flex items-center gap-2 text-sm sm:text-base">
+                <i data-lucide="target" class="w-4 h-4 text-[#4A90E2]"></i>
+                調査の中心
+              </h3>
+              <p id="focus" class="mt-2 text-xs sm:text-sm leading-relaxed text-slate-700"></p>
+              
+              <!-- 関連公式資料のヒント（タグ表示） -->
+              <div class="mt-4 pt-3 border-t border-blue-200/60">
+                <span class="text-[11px] font-bold text-blue-800 block mb-1.5">優先して確認したい公式資料：</span>
+                <div id="caseTags" class="flex flex-wrap gap-1.5"></div>
+              </div>
+            </div>
+
+            <div class="rounded-xl border-l-4 border-[#F5A623] bg-amber-50/70 p-5 shadow-sm">
+              <h3 class="font-bold text-amber-900 flex items-center gap-2 text-sm sm:text-base">
+                <i data-lucide="package-check" class="w-4 h-4 text-[#F5A623]"></i>
+                <span id="takeawayHeading">STEP 3へ持ち帰るもの</span>
+              </h3>
+              <ul class="mt-2 space-y-1.5 text-xs sm:text-sm text-slate-700 list-disc pl-5 leading-relaxed">
+                <li>根拠にできる<strong>資料名と発行主体</strong></li>
+                <li>使える要点と該当ページなどの<strong>根拠箇所</strong></li>
+                <li>「資料だけでは判断できないこと」（対話が必要な点）</li>
+                <li>実現できそうな<strong>複数の学習経路や学校制度のアイデア</strong></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Gemini Notebook入力用プロンプト＆2ステップ・アクションバー -->
+          <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50/80 p-5 sm:p-6">
+            <div class="flex items-center justify-between gap-3 mb-2.5">
+              <h3 class="font-bold text-sm sm:text-base text-slate-800 flex items-center gap-2">
+                <i data-lucide="message-square-text" class="w-4 h-4 main-color-text"></i>
+                Gemini Notebookに入力する質問
+              </h3>
+              <span class="text-[11px] text-slate-500 hidden sm:inline font-medium">下の①・②の順に進めてください</span>
+            </div>
+
+            <pre id="prompt" class="whitespace-pre-wrap rounded-xl bg-white border border-slate-200 p-4 text-xs sm:text-sm leading-relaxed text-slate-700 font-sans shadow-inner"></pre>
+            <p id="copyStatus" class="mt-2 text-xs font-bold text-emerald-700 min-h-[1.25rem]" aria-live="polite"></p>
+
+            <!-- 2ステップ・アクションボタン -->
+            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+              <!-- ステップ1：コピーボタン -->
+              <button id="copyPrompt" class="action-btn rounded-xl bg-slate-800 hover:bg-slate-700 text-white p-3.5 smooth-transition flex items-center justify-center gap-2.5 shadow-sm active:scale-[0.98]">
+                <span class="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-black">1</span>
+                <i data-lucide="copy" class="w-4 h-4"></i>
+                <span class="font-bold text-sm" id="copyBtnText">質問をコピーする</span>
+              </button>
+
+              <!-- ステップ2：Gemini Notebookを開くボタン -->
+              <button id="openNotebook" class="action-btn rounded-xl main-color-bg main-hover text-white p-3.5 smooth-transition flex items-center justify-center gap-2.5 shadow active:scale-[0.98]">
+                <span class="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-black">2</span>
+                <span class="font-bold text-sm">Gemini Notebookを開く</span>
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+              </button>
+            </div>
+            <p class="mt-2.5 text-center text-xs text-slate-500">
+              ※「① 質問をコピー」してから「② Gemini Notebookを開く」を押し、画面の入力欄に貼り付けて調査を始めましょう。
+            </p>
+
+            <!-- 回答チェックパネル（localStorageに自動保存） -->
+            <div class="mt-5 rounded-xl border border-emerald-200 bg-emerald-50/70 p-4" id="answerCheckPanel">
+              <div class="flex items-start gap-2">
+                <i data-lucide="list-checks" class="mt-0.5 w-4 h-4 text-emerald-700 shrink-0"></i>
+                <div>
+                  <h4 class="text-sm font-bold text-emerald-950">Gemini Notebookの回答を確認する</h4>
+                  <p class="mt-1 text-[11px] leading-relaxed text-emerald-900/80">
+                    Gemini Notebookからこのタブへ戻り、原資料を開いて確かめながらチェックしてください。（※チェック状態は自動保存されます）
+                  </p>
+                </div>
+              </div>
+              <div class="mt-3 grid gap-2 sm:grid-cols-2" id="answerChecklist">
+                <label class="flex items-start gap-2 rounded-lg bg-white/80 p-2.5 text-xs text-slate-700 cursor-pointer hover:bg-white smooth-transition"><input type="checkbox" class="answer-check mt-0.5 accent-emerald-600"><span>使用した資料名と発行主体が示されている</span></label>
+                <label class="flex items-start gap-2 rounded-lg bg-white/80 p-2.5 text-xs text-slate-700 cursor-pointer hover:bg-white smooth-transition"><input type="checkbox" class="answer-check mt-0.5 accent-emerald-600"><span>ページ番号または見出しが示されている</span></label>
+                <label class="flex items-start gap-2 rounded-lg bg-white/80 p-2.5 text-xs text-slate-700 cursor-pointer hover:bg-white smooth-transition"><input type="checkbox" class="answer-check mt-0.5 accent-emerald-600"><span>資料の記載・推論・授業内提案が区別されている</span></label>
+                <label class="flex items-start gap-2 rounded-lg bg-white/80 p-2.5 text-xs text-slate-700 cursor-pointer hover:bg-white smooth-transition"><input type="checkbox" class="answer-check mt-0.5 accent-emerald-600"><span>資料だけでは判断できないことが示されている</span></label>
+                <label class="flex items-start gap-2 rounded-lg bg-white/80 p-2.5 text-xs text-slate-700 cursor-pointer hover:bg-white smooth-transition"><input type="checkbox" class="answer-check mt-0.5 accent-emerald-600"><span>本人との対話で確認することが示されている</span></label>
+                <label class="flex items-start gap-2 rounded-lg bg-white/80 p-2.5 text-xs text-slate-700 cursor-pointer hover:bg-white smooth-transition"><input type="checkbox" class="answer-check mt-0.5 accent-emerald-600"><span id="checkRouteLabel">検討できる経路や制度案が2〜3つある</span></label>
+                <label class="flex items-start gap-2 rounded-lg bg-white/80 p-2.5 text-xs text-slate-700 cursor-pointer hover:bg-white smooth-transition sm:col-span-2"><input type="checkbox" class="answer-check mt-0.5 accent-emerald-600"><span>引用番号から原資料の該当箇所を実際に開いて確認した</span></label>
+              </div>
+              <p id="checkProgress" class="mt-3 text-xs font-bold text-emerald-800" aria-live="polite">確認：0 / 7</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 調査手順の流れ -->
+      <section id="procedure" class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-sm">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-6">
+          <h2 class="text-lg sm:text-xl font-black text-slate-800 flex items-center gap-2">
+            <span class="step-badge accent-color-bg">2</span>
+            調査手順の流れ
+          </h2>
+          <span class="text-xs text-slate-500">手順に沿って調べましょう</span>
+        </div>
+
+        <div class="space-y-6">
+          <div class="step-line relative pl-11">
+            <span class="absolute left-0 top-0 w-7 h-7 rounded-full bg-blue-100 text-[#4A90E2] flex items-center justify-center font-black text-xs">1</span>
+            <h3 class="font-bold text-sm text-slate-800">上の質問文をコピーする</h3>
+            <p class="mt-0.5 text-xs sm:text-sm text-slate-600 leading-relaxed">担当ケースを選び、「① 質問をコピーする」ボタンを押します。</p>
+          </div>
+
+          <div class="step-line relative pl-11">
+            <span class="absolute left-0 top-0 w-7 h-7 rounded-full bg-blue-100 text-[#4A90E2] flex items-center justify-center font-black text-xs">2</span>
+            <h3 class="font-bold text-sm text-slate-800">学校アカウントでGemini Notebookを開く</h3>
+            <p class="mt-0.5 text-xs sm:text-sm text-slate-600 leading-relaxed">個人アカウントではなく、学校から配備されたGoogleアカウントでログインしているか確認します。</p>
+          </div>
+
+          <div class="step-line relative pl-11">
+            <span class="absolute left-0 top-0 w-7 h-7 rounded-full bg-blue-100 text-[#4A90E2] flex items-center justify-center font-black text-xs">3</span>
+            <h3 class="font-bold text-sm text-slate-800">対象ソースを絞る</h3>
+            <p class="mt-0.5 text-xs sm:text-sm text-slate-600 leading-relaxed">まず［共通］と自分のケース名が付いた資料を優先してチェックを入れます。</p>
+          </div>
+
+          <div class="step-line relative pl-11">
+            <span class="absolute left-0 top-0 w-7 h-7 rounded-full bg-blue-100 text-[#4A90E2] flex items-center justify-center font-black text-xs">4</span>
+            <h3 class="font-bold text-sm text-slate-800">回答文だけでなく「出典」を開く</h3>
+            <p class="mt-0.5 text-xs sm:text-sm text-slate-600 leading-relaxed">Gemini Notebookの回答末尾にある番号をクリックし、原資料の資料名・発行主体・該当箇所を直接確認します。</p>
+          </div>
+
+          <div class="step-line relative pl-11">
+            <span class="absolute left-0 top-0 w-7 h-7 rounded-full bg-blue-100 text-[#4A90E2] flex items-center justify-center font-black text-xs">5</span>
+            <h3 class="font-bold text-sm text-slate-800">「言えること」と「判断できないこと」を分ける</h3>
+            <p class="mt-0.5 text-xs sm:text-sm text-slate-600 leading-relaxed">公的な指針から確認できることと、ケース本人との合意・対話がなければ決められないことを区別してメモします。</p>
+          </div>
+
+          <!-- 最下部手順：ブラウザのタブを閉じる指示に一本化 -->
+          <div class="step-line relative pl-11">
+            <span class="absolute left-0 top-0 w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-black text-xs">6</span>
+            <h3 id="step6Heading" class="font-bold text-sm text-emerald-800">タブを閉じてポータルの「完了」を押し、STEP 3へ進む</h3>
+            <p id="step6Desc" class="mt-0.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              調べ学習が終わったら、ブラウザ上部の「×」ボタンでこのタブを閉じて<strong>授業ポータルの「STEP 2 完了」を押し</strong>、集めた根拠をもとにSTEP 3のスライド作成へ進んでください。
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+      Footer (ポータル共通デザイン)
+  ========================================== -->
+  <footer class="mt-16 bg-slate-800 text-slate-400 py-8 text-center text-xs border-t border-slate-700">
+    <div class="max-w-4xl mx-auto px-4 space-y-1.5">
+      <p class="text-slate-300 font-medium">高等学校「公共」 授業支援ポータル</p>
+      <p class="pt-2 text-slate-500">© 2026 鹿児島県立甲南高等学校 公民科</p>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+      JavaScript（動的制御・localStorage・レンダリング）
+  ========================================== -->
+  <script>
+    'use strict';
+
+    // ノートブックURL（portal-config.js から自動読込、実URLフォールバックなし）
+    const GEMINI_NOTEBOOK_URL = (window.PORTAL_CONFIG && window.PORTAL_CONFIG.geminiNotebookUrl)
+      ? window.PORTAL_CONFIG.geminiNotebookUrl
+      : "";
+
+    // URLパラメータの判定（?lesson=4 なら第4時、それ以外は第2時扱い）
+    const params = new URLSearchParams(window.location.search);
+    const lesson = params.get('lesson') === '4' ? 4 : 2;
+
+    // ケース別データ定義（用語は「採用・修正・保留・不採用」に統一）
+    const CASES = {
+      takeshi: {
+        name: "剛（たけし）",
+        rubyHtml: `<ruby>剛<rp>（</rp><rt class="text-[10px] font-normal text-slate-500">たけし</rt><rp>）</rp></ruby>`,
+        image: "images/case-takeshi.webp",
+        colorBar: "bg-sky-500",
+        situation: "考える時間を取り、文章や図で表したり、話合いの後から意見を加えたりして参加したいと考えています。",
+        focus: "口頭以外の表現、考える時間、話合い後の追記を、班の確認・検討・結果返却・最終確認までつなげる方法を調べます。",
+        tags: ["[剛] 01｜合理的配慮と校内支援体制"],
+        sources: ["[剛] 01｜合理的配慮と校内支援体制"],
+        task: "剛が、即時の口頭発言だけに限定されず、考える時間を取り、文章・図・チャット・話合い後の追記などから参加方法を選び、必要に応じて途中で変更できる班活動を検討してください。意見を提出するだけでなく、班が確認・検討し、結果と理由を返し、最終案を確認できるところまで扱ってください。剛が合理的配慮の法的対象であることや、診断・健康状態等は前提にしないでください。"
+      },
+      akira: {
+        name: "明（あきら）",
+        rubyHtml: `<ruby>明<rp>（</rp><rt class="text-[10px] font-normal text-slate-500">あきら</rt><rp>）</rp></ruby>`,
+        image: "images/case-akira.webp",
+        colorBar: "bg-emerald-500",
+        situation: "AIの便利さを生かしながら、AIの回答を自分で確かめ、選び、判断したことを説明したいと考えています。",
+        focus: "AI提案、原資料で確認した内容、人間の判断を分け、採用・修正・保留・不採用の理由を記録する方法を調べます。",
+        tags: ["[共通] 02｜人間中心のAI社会原則", "[共通] 03 [明] 01｜生成AI利活用ガイドラインVer.2.0"],
+        sources: ["[共通] 02｜人間中心のAI社会原則", "[共通] 03 [明] 01｜生成AI利活用ガイドラインVer.2.0"],
+        task: "明が生成AIを利用する場合に、【AI提案】【資料確認】【本人・班の判断】を区別し、AI出力を原資料で確かめて、採用・修正・保留・不採用を判断できる班活動を検討してください。AI利用の記録は授業で検討した部分に絞り、AIと資料が一致しない場合は、資料の発行日・版・対象・条件を確認してください。AIを使わない班員も対等に参加できるようにしてください。"
+      },
+      nao: {
+        name: "直（なお）",
+        rubyHtml: `<ruby>直<rp>（</rp><rt class="text-[10px] font-normal text-slate-500">なお</rt><rp>）</rp></ruby>`,
+        image: "images/case-nao.webp",
+        colorBar: "bg-indigo-500",
+        situation: "自分で資料を読み、人と話しながら考える方法も選びつつ、必要なときにはAI利用へ切り替えたいと考えています。",
+        focus: "資料・対話経路とAI活用経路を対等にし、途中変更と共通の学習目標・評価規準を調べます。",
+        tags: ["[共通] 02｜人間中心のAI社会原則", "[共通] 03 [明] 01｜生成AI利活用ガイドラインVer.2.0", "[直] 01｜学習評価の在り方"],
+        sources: ["[共通] 02｜人間中心のAI社会原則", "[共通] 03 [明] 01｜生成AI利活用ガイドラインVer.2.0", "[直] 01｜学習評価の在り方"],
+        task: "直が【資料・対話経路】と【AI活用経路】を対等に選び、授業途中でも双方向に切り替えられる班活動を検討してください。両経路で論点整理・複数案・質問づくり・根拠確認ができ、AIの利用有無や発言量、作業速度ではなく、共通の学習目標と評価規準で学習成果を確認できるようにしてください。『学習評価の在り方』は確定制度ではなく検討資料として扱ってください。"
+      },
+      emma: {
+        name: "エマ",
+        rubyHtml: "エマ",
+        image: "images/case-emma.webp",
+        colorBar: "accent-color-bg",
+        situation: "状況に合う場所と方法で学び、授業時間内に参加できない場合も、考えたことを班の話合いや意思決定へ届けたいと考えています。",
+        focus: "授業へのアクセスと意思決定への参加を分け、同期・非同期の提出から結果返却・最終確認までを調べます。",
+        tags: ["[エマ] 01｜多様な学習ニーズに対応した学び", "[エマ] 02｜遠隔教育の類型と活用場面", "[エマ] 03｜県立高校の将来ビジョン（素案）"],
+        sources: ["[エマ] 01｜多様な学習ニーズに対応した学び", "[エマ] 02｜遠隔教育の類型と活用場面", "[エマ] 03｜県立高校の将来ビジョン（素案）"],
+        task: "エマについて、【授業内容にアクセスする方法】と【自分の意見を班の意思決定へ反映する方法】を区別し、同期・非同期を途中で切り替えられる班活動および学校全体の制度を検討してください。意見の提出、班の確認、採用・統合・修正・不採用の検討、理由の返却、最終案の確認まで扱ってください。『県立高校の将来ビジョン（素案）』は確定制度ではなく検討段階の方向性として扱ってください。"
+      }
+    };
+
+    function buildPrompt(c) {
+      const sourceLines = c.sources.map(source => `・${source}`).join("\n");
+      const routeWord = lesson === 4 ? "STEP 2で検討できる2〜3つの学習経路・学校制度案" : "STEP 3で検討できる2〜3つの学習・参加経路";
+
+      return `次の指定資料だけを使って回答してください。\n${sourceLines}\n\n【調査課題】\n${c.task}\n\n回答は、次の6つの見出しを使い、各項目を2〜3点程度の箇条書きで整理してください。\n\n1．資料に直接書かれていること\n2．資料から合理的に考えられること\n3．授業内で決める必要がある提案\n4．資料だけでは判断できないこと\n5．本人との対話で確認すること\n6．${routeWord}\n\n各項目には、可能な範囲で次を付けてください。\n・資料名\n・発行主体\n・ページ番号または見出し\n・資料に書かれている内容\n・このケースへの適用\n\n資料に直接書かれていない内容には、必ず【資料からの推論】または【授業内で決める提案】と表示してください。本人の診断、健康状態、心理状態、家庭事情を推測しないでください。一つの方法を正解として固定せず、本人が方法を選択し、必要に応じて途中で変更できるようにしてください。\n\n6の各案は、次の形で簡潔に示してください。\n・名称\n・具体的な流れ・仕組み\n・根拠となる資料\n・本人に確認すること\n・学校・授業内で決めること\n\n回答後は、引用番号を開いて原資料を確認できるようにしてください。`;
+    }
+
+    let selected = "";
+    let copyResetTimer = null;
+
+    // 第2時 / 第4時の動的テキスト更新
+    function setupPageByLesson() {
+      if (lesson === 4) {
+        document.getElementById('docTitle').textContent = "第4時 STEP 2｜エマの公式資料を調べる ガイド";
+        document.getElementById('headerTitle').textContent = "第4時 STEP 2「エマの公式資料を調べる」";
+        document.getElementById('headerBadge').innerHTML = `<i data-lucide="sparkles" class="w-3.5 h-3.5 text-yellow-300"></i><span>全班共通：エマのケース</span>`;
+        document.getElementById('heroBadge').textContent = "第4時 学校制度の構想と根拠資料";
+        document.getElementById('heroTitle').textContent = "個別の工夫を、学校全体の制度へつなぐ";
+        document.getElementById('heroSubtitle').innerHTML = "エマの願いに応える学習経路と学校制度を裏付けるため、多様な学び・遠隔教育・将来ビジョン素案などの公式資料を<strong>Gemini Notebook</strong>で精査します。";
+        document.getElementById('caseSelectHeading').textContent = "調査ケース（エマ共通）";
+        document.getElementById('caseSelectSub').textContent = "第4時は全班共通でエマを扱います（剛・明・直は過去の振り返り用）";
+        document.getElementById('takeawayHeading').textContent = "スライド・相互レビューへ持ち帰るもの";
+        document.getElementById('step6Heading').textContent = "タブを閉じてポータルへ戻り、スライド作成・相互レビューへ進む";
+        document.getElementById('step6Desc').innerHTML = "調べ学習が終わったら、このタブを閉じて授業ポータルへ戻り、集めた根拠をもとに<strong>班のスライド（経路と制度の二層構想）</strong>を作成してください。";
+      }
+    }
+
+    // ケースカードのレンダリング
+    function renderCards() {
+      const keys = Object.keys(CASES);
+
+      document.getElementById('caseGrid').innerHTML = keys.map(key => {
+        const c = CASES[key];
+        const isEmma = key === 'emma';
+        const isEmmaPreview = lesson === 2 && isEmma; // 第2時のエマはプレビュー（非活性）
+        const isMuted = lesson === 4 && !isEmma;      // 第4時の剛・明・直は控えめ表示
+
+        return `
+          <button type="button" data-case="${key}" aria-current="false"
+                  ${isEmmaPreview ? 'aria-disabled="true"' : ''}
+                  class="case-card action-btn group relative overflow-hidden rounded-xl border-2 p-4 text-left shadow-sm smooth-transition flex flex-col justify-between ${
+                    isEmmaPreview 
+                    ? 'border-dashed border-amber-300 bg-amber-50/30 hover:border-amber-400 cursor-not-allowed' 
+                    : isMuted 
+                      ? 'border-slate-200 bg-white/80 opacity-75 hover:opacity-100 hover:border-blue-300' 
+                      : 'border-slate-200 bg-white hover:border-blue-300 hover:shadow-md'
+                  }">
+            
+            <!-- ウォーターマーク背景イラスト -->
+            <img src="${c.image}" alt="" aria-hidden="true" 
+                 class="pointer-events-none absolute -right-2 -bottom-2 w-28 h-28 object-contain opacity-20 mix-blend-multiply group-hover:opacity-30 group-hover:scale-105 transition-all duration-300">
+
+            <div class="relative z-10">
+              <div class="h-1.5 w-10 rounded-full ${c.colorBar} mb-3"></div>
+              <div class="flex items-center justify-between gap-1">
+                <h3 class="text-base sm:text-lg font-bold text-slate-800 group-hover:text-[#4A90E2] smooth-transition leading-tight">
+                  ${c.rubyHtml}
+                </h3>
+                ${isEmmaPreview ? '<span class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800">第4時</span>' : ''}
+                ${isMuted ? '<span class="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">第2時対象</span>' : ''}
+              </div>
+              <p class="mt-2 text-xs leading-relaxed text-slate-600">
+                ${c.situation}
+              </p>
+            </div>
+
+            <div class="relative z-10 mt-4 pt-2.5 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-[11px] font-bold ${isEmmaPreview ? 'text-amber-700' : 'main-color-text'}">
+                ${isEmmaPreview ? '第4時に詳しく扱います' : 'このケースを調べる'}
+              </span>
+              <i data-lucide="${isEmmaPreview ? 'lock' : 'arrow-right'}" class="w-3.5 h-3.5 ${isEmmaPreview ? 'text-amber-600' : 'main-color-text transition-transform group-hover:translate-x-1'}"></i>
+            </div>
+          </button>
+        `;
+      }).join('');
+
+      document.querySelectorAll('[data-case]').forEach(btn => {
+        btn.addEventListener('click', () => handleCardClick(btn.dataset.case));
+      });
+    }
+
+    // カードクリック時のハンドラー
+    function handleCardClick(key) {
+      if (lesson === 2 && key === 'emma') {
+        const emmaBtn = document.querySelector('[data-case="emma"]');
+        emmaBtn.classList.remove('animate-shake');
+        void emmaBtn.offsetWidth; // リフロー発生
+        emmaBtn.classList.add('animate-shake');
+
+        const toast = document.getElementById('previewToast');
+        toast.classList.remove('hidden');
+        toast.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+
+      document.getElementById('previewToast').classList.add('hidden');
+      selectCase(key, true);
+    }
+
+    // ケース選択処理
+    function selectCase(key, scroll = true) {
+      selected = key;
+      const c = CASES[key];
+
+      // カードの選択状態更新
+      document.querySelectorAll('[data-case]').forEach(btn => {
+        btn.setAttribute('aria-current', btn.dataset.case === key ? 'true' : 'false');
+      });
+
+      // 表示内容更新
+      document.getElementById('caseTitle').textContent = `${c.name} の調査項目`;
+      document.getElementById('caseSituation').textContent = c.situation;
+      document.getElementById('focus').textContent = c.focus;
+      document.getElementById('prompt').textContent = buildPrompt(c);
+      document.getElementById('copyStatus').textContent = '';
+
+      // タグの動的生成
+      const tagsContainer = document.getElementById('caseTags');
+      tagsContainer.innerHTML = c.tags.map(t => `
+        <span class="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded bg-blue-100/70 text-blue-800">
+          #${t}
+        </span>
+      `).join('');
+
+      // localStorageからチェック状態を復元（時数ごとに分離）
+      loadAnswerChecklist(key);
+
+      // ガイドセクション表示
+      const guide = document.getElementById('guide');
+      guide.classList.remove('hidden');
+      if (scroll) {
+        guide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      lucide.createIcons();
+    }
+
+    // ★改善点4：localStorageの保存キーに授業時数（lesson）を含めて分離
+    function getStorageKey(key) {
+      return `konan_lesson${lesson}_official_sources_checks_${key}`;
+    }
+
+    function saveAnswerChecklist() {
+      if (!selected) return;
+      const checkboxes = document.querySelectorAll('.answer-check');
+      const states = Array.from(checkboxes).map(cb => cb.checked);
+      try {
+        localStorage.setItem(getStorageKey(selected), JSON.stringify(states));
+      } catch (e) {}
+      updateCheckProgress();
+    }
+
+    function loadAnswerChecklist(key) {
+      const checkboxes = document.querySelectorAll('.answer-check');
+      try {
+        const saved = localStorage.getItem(getStorageKey(key));
+        if (saved) {
+          const states = JSON.parse(saved);
+          checkboxes.forEach((cb, i) => {
+            cb.checked = !!states[i];
+          });
+        } else {
+          checkboxes.forEach(cb => { cb.checked = false; });
+        }
+      } catch (e) {
+        checkboxes.forEach(cb => { cb.checked = false; });
+      }
+      updateCheckProgress();
+    }
+
+    function updateCheckProgress() {
+      const checks = Array.from(document.querySelectorAll('.answer-check'));
+      const checked = checks.filter(item => item.checked).length;
+      const progress = document.getElementById('checkProgress');
+      progress.textContent = checked === checks.length ? `確認完了：${checked} / ${checks.length}` : `確認：${checked} / ${checks.length}`;
+      progress.className = checked === checks.length ? 'mt-3 text-xs font-bold text-emerald-700' : 'mt-3 text-xs font-bold text-emerald-800';
+    }
+
+    // 質問文のワンクリックコピー
+    document.getElementById('copyPrompt').addEventListener('click', async () => {
+      if (!selected) return;
+
+      const btn = document.getElementById('copyPrompt');
+      const statusText = document.getElementById('copyStatus');
+      const fullText = buildPrompt(CASES[selected]);
+
+      try {
+        await navigator.clipboard.writeText(fullText);
+        btn.innerHTML = `<span class="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-black">✓</span><i data-lucide="check" class="w-4 h-4 text-white"></i><span class="font-bold text-sm">コピー完了！</span>`;
+        btn.className = "action-btn rounded-xl bg-emerald-600 text-white p-3.5 smooth-transition flex items-center justify-center gap-2.5 shadow-sm";
+        statusText.textContent = "✓ 質問文をコピーしました。「② Gemini Notebookを開く」を押して貼り付けてください。";
+        statusText.className = "mt-2 text-xs font-bold text-emerald-700";
+        lucide.createIcons();
+
+        clearTimeout(copyResetTimer);
+        copyResetTimer = setTimeout(() => {
+          btn.innerHTML = `<span class="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-black">1</span><i data-lucide="copy" class="w-4 h-4"></i><span class="font-bold text-sm">質問をコピーする</span>`;
+          btn.className = "action-btn rounded-xl bg-slate-800 hover:bg-slate-700 text-white p-3.5 smooth-transition flex items-center justify-center gap-2.5 shadow-sm active:scale-[0.98]";
+          lucide.createIcons();
+        }, 2200);
+
+      } catch (err) {
+        statusText.textContent = "※自動コピーに失敗しました。枠内の文章を選択して手動でコピーしてください。";
+        statusText.className = "mt-2 text-xs font-bold text-rose-600";
+      }
+    });
+
+    // Gemini Notebookを開く
+    document.getElementById('openNotebook').addEventListener('click', () => {
+      if (!GEMINI_NOTEBOOK_URL) {
+        alert('Gemini NotebookのURLが設定されていません。portal-config.js を確認してください。');
+        return;
+      }
+      window.open(GEMINI_NOTEBOOK_URL, '_blank', 'noopener,noreferrer');
+    });
+
+    // ケース選び直し
+    document.getElementById('changeCase').addEventListener('click', () => {
+      document.getElementById('caseGrid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    // （handleBackToPortal 関数をまるごと削除）
+
+    // 初期化
+    document.addEventListener('DOMContentLoaded', () => {
+      setupPageByLesson();
+      renderCards();
+
+      // 第4時アクセス時は最初からエマを開く
+      if (lesson === 4) {
+        selectCase('emma', false);
+      }
+
+      document.querySelectorAll('.answer-check').forEach(item => {
+        item.addEventListener('change', saveAnswerChecklist);
+      });
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
