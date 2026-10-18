@@ -41,14 +41,19 @@
     formLesson4Exit: "https://forms.gle/PvrDXLn3EboPpZpm9"
   };
 
-  // ■ 自動クラス判定ロジック（URLパラメータ ?class=1 を優先、次にsessionStorage、無ければ1組）
+  // ■ 自動クラス判定ロジック（別タブでも消えないlocalStorageを併用）
   const params = new URLSearchParams(window.location.search);
   let currentClass = params.get('class');
 
   if (currentClass && CLASS_CONFIGS[currentClass]) {
-    try { sessionStorage.setItem('konan_current_class', currentClass); } catch(e) {}
+    try {
+      localStorage.setItem('konan_current_class', currentClass);
+      sessionStorage.setItem('konan_current_class', currentClass);
+    } catch(e) {}
   } else {
-    try { currentClass = sessionStorage.getItem('konan_current_class'); } catch(e) {}
+    try {
+      currentClass = localStorage.getItem('konan_current_class') || sessionStorage.getItem('konan_current_class');
+    } catch(e) {}
   }
 
   // デフォルトは1組

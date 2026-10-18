@@ -706,13 +706,21 @@
             </div>
           `;
         } else {
-          const isExternalOrFile = task.href.startsWith('http') || 
-                                   /\.html([?#].*)?$/i.test(task.href) || 
-                                   /\.(webp|png|jpe?g|gif|svg|pdf)([?#].*)?$/i.test(task.href);
-          const linkTarget = resolveTarget(task.href);
+          // HTMLリンクに現在のクラス番号を引き継ぐ（例: peer_review.html?class=2）
+          let taskHref = task.href;
+          if (taskHref && /\.html([?#].*)?$/i.test(taskHref) && PORTAL_CONFIG.classId) {
+            const classNum = PORTAL_CONFIG.classId.replace(/^0+/, '');
+            const sep = taskHref.includes('?') ? '&' : '?';
+            taskHref = `${taskHref}${sep}class=${classNum}`;
+          }
+
+          const isExternalOrFile = taskHref.startsWith('http') || 
+                                   /\.html([?#].*)?$/i.test(taskHref) || 
+                                   /\.(webp|png|jpe?g|gif|svg|pdf)([?#].*)?$/i.test(taskHref);
+          const linkTarget = resolveTarget(taskHref);
 
           actionButtonsHtml = `
-            <a href="${task.href}" ${linkTarget} class="w-full sm:w-36 justify-center rounded-lg px-3 py-2 text-xs font-bold text-white smooth-transition flex items-center gap-1.5 shadow-sm active:translate-y-0.5 ${
+            <a href="${taskHref}" ${linkTarget} class="w-full sm:w-36 justify-center rounded-lg px-3 py-2 text-xs font-bold text-white smooth-transition flex items-center gap-1.5 shadow-sm active:translate-y-0.5 ${
               task.primary ? "accent-color-bg accent-hover" : "main-color-bg main-hover"
             }">
               <span class="truncate">${task.action}</span>

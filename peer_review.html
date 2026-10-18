@@ -61,7 +61,7 @@
           <i data-lucide="route" class="w-5 h-5"></i>
         </div>
         <div>
-          <span class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
+          <span id="headerSubTitle" class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
           <span class="block font-bold text-sm sm:text-base leading-tight">相互レビュー進行ガイド</span>
         </div>
       </div>
@@ -561,8 +561,23 @@
 
     // 初期化
     document.addEventListener('DOMContentLoaded', () => {
+      // クラス名をヘッダーに反映（確認用）
+      if (window.PORTAL_CONFIG && window.PORTAL_CONFIG.className) {
+        const subTitle = document.getElementById('headerSubTitle');
+        if (subTitle) subTitle.textContent = `甲南高校${window.PORTAL_CONFIG.className} 公民科`;
+      }
+
+      // クラス別スライドURLの設定
       const link = document.getElementById('slideLink');
-      if (link) link.href = resolveSlideUrl();
+      if (link) {
+        const slideUrl = resolveSlideUrl();
+        link.href = slideUrl;
+        if (!slideUrl || slideUrl === '#') {
+          link.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+          link.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+      }
 
       renderStep();
       updateTimerDisplay();
