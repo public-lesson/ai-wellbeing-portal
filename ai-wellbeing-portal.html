@@ -469,50 +469,55 @@
       {
         id: 4,
         short: "第4時",
-        title: "学び方の選択と意思決定への参加を保障する制度へ",
-        subtitle: "～エマへの転移・相互レビュー・制度検証～",
-        question: "エマが状況に応じて学び方を選び、学びの意思決定にも参加できるようにするため、どのような学習経路と制度を保障する必要があるだろうか。",
-        summary: "全6班でエマのケースを扱い、第3時までの学びを転移します。相互レビューと制度検証を通して、選び直せる学習経路を一部の人の善意に頼らない制度へとつなげます。",
+        title: "エマの学びの充実と、それを支える教育環境",
+        subtitle: "～第3時の問いを転用し、学びと環境をつなぐ～",
+        question: "エマが状況に応じて学び方を選び、学びの意思決定にも参加できるようにするため、どのような学びと教育環境を保障する必要があるだろうか。",
+        summary: "第3時の問いをエマのケースへ転用し、①エマの学びの充実、②その学びを継続して支える教育環境を構想します。他班から短い問いを受け取り、班全員で採用・修正・保留・不採用を判断します。",
         tasks: [
           {
             icon: "users",
-            label: "エマへ学びを転移する",
-            detail: "剛・明・直のケースで得た視点から、エマの願い・強み・現在選べること・選びにくいことを捉え直します。ケースにない事情は推測しません。",
+            label: "エマのケースと第3時の問いを確認する",
+            detail: "エマの願い・強みをケース資料から確認し、第3時の問いを、そのまま使う・書き換える・今回は使わない・本人との対話まで保留する、のいずれかで扱います。ケースにない事情は推測しません。",
             action: "ケースを見る",
             href: "learner_cases.html?lesson=4",
             primary: false
           },
           {
-            icon: "presentation",
-            label: "経路と制度の二層構想",
-            detail: "本人が選べる【学習経路】と、善意に頼らず学校が保障する【制度・ルール】を整理します。",
-            actions: [
-              {
-                label: "公式資料を開く",
-                href: "step2_official_sources_guide.html?lesson=4",
-                primary: false,
-                icon: "file-search"
-              },
-              {
-                label: "班でスライド作成",
-                href: PORTAL_CONFIG.slidesLesson4 || "#",
-                primary: true,
-                icon: "presentation"
-              }
-            ]
+            icon: "route",
+            label: "① エマの学びの充実を構想する",
+            detail: "エマが選べる二つの学習・参加経路と、選び直し、共通の学習目標・評価をスライドに整理します。",
+            action: "班でスライド作成",
+            href: PORTAL_CONFIG.slidesLesson4 || "#",
+            primary: true
+          },
+          {
+            icon: "school",
+            label: "② 学びを支える教育環境を構想する",
+            detail: "誰が、いつ、どうやって支えるかを具体化します。最終決定前の意見反映、結果と理由の返却、担当不在時の代替、負担分散も考えます。",
+            action: "公式資料を確認",
+            href: PORTAL_CONFIG.lesson4SourceGuideUrl || "step2_official_sources_guide.html?lesson=4",
+            primary: false
           },
           {
             icon: "message-square-text",
-            label: "相互レビューと制度検証",
-            detail: "訪問班から問いを受け取り、異なる応答条件で制度案を確かめます。最後に、班が採用・修正・保留・不採用を判断します。",
-            action: "役割と手順を確認",
-            href: "peer_review.html",
+            label: "他班から短い問いを受け取る",
+            detail: "訪問班は、①エマの選択可能性が広がるか、②特定の人の善意に頼らず続くか、の二点から、維持したい点と問いを青い欄へ届けます。",
+            action: "相互レビューを始める",
+            href: PORTAL_CONFIG.peerReviewUrl || "peer_review.html",
+            primary: true
+          },
+          {
+            icon: "scale",
+            label: "班全員で判断し、構想を修正する",
+            detail: "自班へ戻り、受け取った問いを採用・修正・保留・不採用のいずれで扱うかを判断します。本人との実際の対話まで保留することも記録します。",
+            action: "自班スライドへ戻る",
+            href: PORTAL_CONFIG.slidesLesson4 || "#",
             primary: true
           },
           {
             icon: "clipboard-check",
-            label: "判断の変化を個人で振り返る",
-            detail: "何によって判断が変わったか、学校制度として必要なこと、本人との実際の対話まで保留することを記録します。",
+            label: "個人で振り返る",
+            detail: "エマの学びで重要だと考えたこと、それを支える教育環境、他班の問いへの判断、本人との対話まで保留することを個人で記録します。",
             action: "振り返り",
             href: PORTAL_CONFIG.formLesson4Exit || "#",
             primary: true
@@ -659,12 +664,32 @@
         // アクションボタン生成
         let actionButtonsHtml = '';
 
+        // リンクターゲット判定（スライドは同一タブに集約、HTMLやフォーム等は別タブで開く）
+        const resolveTarget = (url) => {
+          if (!url || url === '#') return '';
+          
+          // 1. Googleスライドは同一タブに集約（タブ乱立防止）
+          if (url.includes('docs.google.com/presentation')) {
+            return 'target="konan_slides_tab"';
+          }
+          
+          // 2. 外部URL(フォーム等)、HTMLファイル(ケース等)、画像・PDFはすべて別タブで開く
+          const isExternalOrFile = url.startsWith('http') || 
+                                   /\.html([?#].*)?$/i.test(url) || 
+                                   /\.(webp|png|jpe?g|gif|svg|pdf)([?#].*)?$/i.test(url);
+          if (isExternalOrFile) {
+            return 'target="_blank" rel="noopener"';
+          }
+          
+          return '';
+        };
+
         if (task.actions && Array.isArray(task.actions)) {
           const buttons = task.actions.map(act => {
             const isExt = act.href.startsWith('http') || 
                           /\.html([?#].*)?$/i.test(act.href) || 
                           /\.(webp|png|jpe?g|gif|svg|pdf)([?#].*)?$/i.test(act.href);
-            const target = isExt ? 'target="_blank" rel="noopener noreferrer"' : '';
+            const target = resolveTarget(act.href);
             const iconName = act.icon || (isExt ? 'external-link' : 'arrow-down-circle');
             const colorClass = act.primary ? "accent-color-bg accent-hover" : "main-color-bg main-hover";
             return `
@@ -684,7 +709,7 @@
           const isExternalOrFile = task.href.startsWith('http') || 
                                    /\.html([?#].*)?$/i.test(task.href) || 
                                    /\.(webp|png|jpe?g|gif|svg|pdf)([?#].*)?$/i.test(task.href);
-          const linkTarget = isExternalOrFile ? 'target="_blank" rel="noopener noreferrer"' : '';
+          const linkTarget = resolveTarget(task.href);
 
           actionButtonsHtml = `
             <a href="${task.href}" ${linkTarget} class="w-full sm:w-36 justify-center rounded-lg px-3 py-2 text-xs font-bold text-white smooth-transition flex items-center gap-1.5 shadow-sm active:translate-y-0.5 ${
