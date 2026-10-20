@@ -408,58 +408,47 @@
       {
         id: 3,
         short: "第3時",
-        title: "AIとの批判的対話で提案を問い直す",
-        subtitle: "～前提・反例・見落とされた立場の吟味～",
+        title: "AIとの批判的対話で構想を問い直す",
+        subtitle: "～前提・反例・見落とされた立場から問いを深める～",
         question: "私たちの案は、本当に相手の選択肢を広げているだろうか。",
-        summary: "Geminiを「答えの生成者」ではなく、前提や見落とされた立場を問う「対話のパートナー」として使います。",
+        summary: "Geminiとの最大3回の対話で前提や見落としを洗い出し、公式資料と照合した上で、人間が採用・修正・保留・不採用を暫定判断します。",
         tasks: [
           {
             icon: "book-open",
-            label: "AI利用の原則を確認",
-            detail: "人間が先に考え、AIの出力は参考の一つ（相対化）として扱います。",
-            action: "ルールを確認",
+            label: "AI利用の原則と今日の3段階を確認する",
+            detail: "AIで問い直す → 公式資料と照合する → 人間が暫定判断する、の流れを確認します。",
+            action: "原則を確認",
             href: "step3_common_rules.html",
             primary: false
           },
           {
-            icon: "message-square-share",
-            label: "問い直しの方法を選んで対話する",
-            detail: "Geminiとの対話、または問い直しカードのどちらかを選び、前提や見落としを確かめる問いを一つ選びます。",
-            actions: [
-              {
-                label: "Geminiと対話",
-                href: "step3_critique_guide.html#gemini",
-                primary: true,
-                icon: "bot"
-              },
-              {
-                label: "問い直しカード",
-                href: "step3_critique_guide.html#cards",
-                primary: true,
-                icon: "layers"
-              }
-            ]
-          },
-          {
-            icon: "file-text",
-            label: "根拠を公式資料と照合",
-            detail: "AIの指摘が妥当かを、公式資料の根拠と照らし合わせて確認します。",
-            action: "照合ガイドを開く",
-            href: "step3_evidence_check_guide.html",
-            primary: false
-          },
-          {
-            icon: "presentation",
-            label: "採否と理由を記録",
-            detail: "採用・修正・保留・不採用の区分と、その理由をスライドに残します。",
-            action: "班でスライド作成",
-            href: PORTAL_CONFIG.slidesLesson1to3 || "#",
+            icon: "bot",
+            label: "AIで構想を問い直す（最大3回対話）",
+            detail: "前提、反例・見落とされた立場をAIと対話し、公式資料で確かめる最重要の問いを1つに絞ります。",
+            action: "AIと対話する",
+            href: "step3_critique_guide.html",
             primary: true
           },
           {
+            icon: "scale",
+            label: "最重要の問いを公式資料と照合し、暫定判断する",
+            detail: "資料案内役としてGemini Notebookを使い、照合結果と班の暫定判断（採用・修正・保留・不採用）を整理します。",
+            action: "照合・判断する",
+            href: "step3_evidence_check_guide.html",
+            primary: true
+          },
+          {
+            icon: "presentation",
+            label: "班スライドに記録する",
+            detail: "照合結果カードをコピーし、班のGoogleスライド（橙色の欄）へ記録します。",
+            action: "スライドを開く",
+            href: PORTAL_CONFIG.slidesLesson1to3 || "#",
+            primary: false
+          },
+          {
             icon: "clipboard-check",
-            label: "個人で自己評価",
-            detail: "AIで気付いた前提と、自分自身の最終判断を出口フォームに記録します。",
+            label: "個人で振り返る",
+            detail: "班の暫定判断、個人が重視した根拠、エマへ転用する際の注意点をフォームに入力します。",
             action: "振り返り",
             href: PORTAL_CONFIG.formLesson3Exit || "#",
             primary: true

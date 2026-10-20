@@ -83,14 +83,18 @@
                     問い直す前に確認しよう
                 </h1>
                 <p class="mt-3 text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto leading-relaxed">
-                    今日の目的は、AIを使うことではありません。第2時に考えた案を別の視点から問い直し、根拠を確かめ、自分たちで判断することです。
+                    今日の目的は、AIを使うこと自体ではありません。第2時に考えた案を批判的対話によって問い直し、公式資料で根拠を確かめ、自分たちで暫定判断することです。
                 </p>
 
-                <!-- アクセントボックス -->
-                <div class="mt-6 max-w-xl mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-3.5 text-center sm:text-left backdrop-blur shadow-sm">
-                    <p class="text-xs sm:text-sm font-bold text-yellow-200 flex items-center justify-center sm:justify-start gap-2">
-                        <i data-lucide="sparkles" class="w-4 h-4 text-[#F5A623] shrink-0"></i>
-                        <span>AIを使う経路と、問い直しカードを使う経路は対等です。</span>
+                <!-- アクセントボックス：今日の3段階を提示 -->
+                <div class="mt-6 max-w-2xl mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-4 text-center sm:text-left backdrop-blur shadow-sm">
+                    <span class="text-xs font-bold text-yellow-300 block mb-1">本日の3段階の流れ</span>
+                    <p class="text-xs sm:text-sm font-bold text-white flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                        <span>① AIで問い直す</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-yellow-300"></i>
+                        <span>② 公式資料と照合する</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-yellow-300"></i>
+                        <span>③ 人間が暫定判断する</span>
                     </p>
                 </div>
             </div>
@@ -114,22 +118,18 @@
                             <div>
                                 <h3 class="text-sm sm:text-base font-bold text-slate-800">自分たちの案から始める</h3>
                                 <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
-                                    第2時に記録した、<strong class="text-slate-800">根拠、資料だけでは判断できないこと、本人に確認すること、代表的な2つの経路</strong>を先に確認します。
+                                    第2時に記録した、<strong class="text-slate-800">根拠、資料だけでは判断できないこと、本人に確認すること、代表的な2つの経路</strong>を出発点にして確認します。
                                 </p>
                             </div>
                         </li>
 
-                        <!-- ルール 2（画像枠を削除し、ポータルで選ぶ旨の注記にアップデート） -->
+                        <!-- ルール 2：最大3回対話に改訂 -->
                         <li class="flex items-start gap-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
                             <span class="w-6 h-6 rounded-full main-color-bg text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">2</span>
                             <div>
-                                <h3 class="text-sm sm:text-base font-bold text-slate-800">問い直す方法を選ぶ</h3>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-800">AIと最大3回対話し、問いを深める</h3>
                                 <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
-                                    「Geminiとの対話」または「視点を広げる問い直しカード」を選びます。どちらを選んでも評価は同じです。途中で変更しても構いません。
-                                </p>
-                                <p class="text-xs font-semibold text-[#4A90E2] mt-2 flex items-center gap-1.5">
-                                    <i data-lucide="info" class="w-3.5 h-3.5 shrink-0"></i>
-                                    <span>※このあとの授業ポータル（STEP 2）で、どちらの経路に進むかを選択します。</span>
+                                    AIに完成案を求めず、「1回目：前提」「2回目：反例・見落とされた立場」「3回目：最重要の問いへの焦点化」の順に対話します。十分な問いが得られれば途中で終了して構いません。
                                 </p>
                             </div>
                         </li>
@@ -145,37 +145,37 @@
                             </div>
                         </li>
 
-                        <!-- ルール 4 -->
+                        <!-- ルール 4：資料照合に特化 -->
                         <li class="flex items-start gap-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
                             <span class="w-6 h-6 rounded-full main-color-bg text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">4</span>
                             <div>
-                                <h3 class="text-sm sm:text-base font-bold text-slate-800">指摘をそのまま答えにしない</h3>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-800">AIの指摘を公式資料と照合する</h3>
                                 <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
-                                    AIやカードから得た指摘は参考の一つです。公式資料と照合し、<strong class="text-slate-800">採用・修正・保留・不採用</strong>を班で判断します。
+                                    AIの出力は参考の一つです。Gemini Notebookを資料案内役として使い、原則1件の原資料と照合して「確かめられた・修正が必要・判断できない」を確かめます。
                                 </p>
                             </div>
                         </li>
 
-                        <!-- ルール 5 -->
+                        <!-- ルール 5：人間による暫定判断に特化 -->
                         <li class="flex items-start gap-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-100">
                             <span class="w-6 h-6 rounded-full main-color-bg text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">5</span>
                             <div>
-                                <h3 class="text-sm sm:text-base font-bold text-slate-800">判断の過程を残す</h3>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-800">人間が暫定判断し、理由を残す</h3>
                                 <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
-                                    何に気づき、何を変更し、なぜそう判断したかを記録します。第4時には、相手からの問いや本人の応答を受けて、もう一度見直します。
+                                    照合結果を踏まえ、<strong class="text-slate-800">採用・修正・保留・不採用</strong>とその理由を班で判断します。最後に残した最重要の問い1つをスライドへ記録し、第4時へ引き継ぎます。
                                 </p>
                             </div>
                         </li>
                     </ol>
                 </section>
 
-                <!-- 右側：Geminiとの対話を選ぶ班へ（5カラム） -->
+                <!-- 右側：Geminiとの対話における原則（5カラム） -->
                 <aside class="lg:col-span-5 bg-amber-50/60 rounded-xl border border-amber-200 p-5 sm:p-6 shadow-sm space-y-4">
                     <div class="border-b border-amber-200 pb-3 flex items-center gap-2 text-amber-900">
                         <div class="w-7 h-7 rounded-lg accent-color-bg text-white flex items-center justify-center font-bold text-xs shadow-sm">
                             <i data-lucide="bot" class="w-4 h-4"></i>
                         </div>
-                        <h2 class="text-base sm:text-lg font-bold">Geminiとの対話を選ぶ班へ</h2>
+                        <h2 class="text-base sm:text-lg font-bold">Geminiとの対話における原則</h2>
                     </div>
 
                     <p class="text-xs sm:text-sm text-amber-900 font-medium leading-relaxed">
@@ -223,12 +223,12 @@
                 </div>
                 <p class="text-xs sm:text-sm text-emerald-950 leading-relaxed">
                     <strong>今日の判断は最終決定ではありません。</strong>
-                    第4時には、相手からの問いや、本人の選択・変更・保留・拒否などの応答を受けて、学習経路と制度案をもう一度見直します。
+                    第4年には、相手からの問いや、本人の選択・変更・保留・拒否などの応答を受けて、学習経路と制度案をもう一度見直します。
                 </p>
                 <div class="flex flex-wrap items-center gap-2 pt-1 text-xs font-bold text-emerald-900">
                     <span class="bg-white border border-emerald-200 px-3 py-1.5 rounded-full shadow-2xs">第2時｜根拠と2経路を記録</span>
                     <i data-lucide="arrow-right" class="w-4 h-4 text-emerald-600"></i>
-                    <span class="bg-emerald-600 text-white px-3 py-1.5 rounded-full shadow-2xs">第3時｜問い直し、照合、判断</span>
+                    <span class="bg-emerald-600 text-white px-3 py-1.5 rounded-full shadow-2xs">第3時｜問い直し、照合、暫定判断</span>
                     <i data-lucide="arrow-right" class="w-4 h-4 text-emerald-600"></i>
                     <span class="bg-white border border-emerald-200 px-3 py-1.5 rounded-full shadow-2xs">第4時｜応答を受けて再構成</span>
                 </div>
@@ -248,14 +248,14 @@
                     <label id="label-lesson2" class="flex items-start gap-3 p-3.5 rounded-lg border border-slate-200 bg-white cursor-pointer hover:border-blue-400 smooth-transition select-none">
                         <input type="checkbox" id="check-lesson2" class="w-5 h-5 mt-0.5 accent-[#4A90E2] rounded cursor-pointer">
                         <span class="text-xs sm:text-sm font-bold text-slate-700 leading-snug">
-                            第2時の記録を出発点にして、自分たちの案を問い直します。
+                            第2時の記録を出発点にして、AIとの対話で自分たちの案を問い直します。
                         </span>
                     </label>
 
                     <label id="label-judgment" class="flex items-start gap-3 p-3.5 rounded-lg border border-slate-200 bg-white cursor-pointer hover:border-blue-400 smooth-transition select-none">
                         <input type="checkbox" id="check-judgment" class="w-5 h-5 mt-0.5 accent-[#4A90E2] rounded cursor-pointer">
                         <span class="text-xs sm:text-sm font-bold text-slate-700 leading-snug">
-                            AIやカードの内容をそのまま答えにせず、公式資料を確かめ、最後は班で判断します。
+                            AIの指摘をそのまま答えにせず、公式資料を確かめ、最後は人間が暫定判断（採用・修正・保留・不採用）します。
                         </span>
                     </label>
                 </div>
@@ -270,7 +270,7 @@
                 </div>
             </section>
 
-            <!-- 6. 完了案内メッセージ：ブラウザのタブを閉じる指示に一本化 -->
+            <!-- 6. 完了案内メッセージ -->
             <section id="completeMessage" class="hidden rounded-xl border-2 border-emerald-400 bg-emerald-50 p-6 text-center space-y-4 shadow-md smooth-transition">
                 <div class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center mx-auto shadow-md">
                     <i data-lucide="check" class="w-6 h-6 stroke-[3]"></i>
@@ -282,7 +282,6 @@
                     </p>
                 </div>
 
-                <!-- 他画面と統一された「次の操作」枠 -->
                 <div class="max-w-md mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white p-4 text-left shadow-sm">
                     <span class="text-xs font-bold text-amber-900 block mb-1 flex items-center gap-1.5">
                         <i data-lucide="info" class="w-4 h-4 text-[#F5A623]"></i>
@@ -322,7 +321,6 @@
                 const checked1 = check1.checked;
                 const checked2 = check2.checked;
 
-                // チェック状態に応じたカード背景の装飾
                 label1.className = `flex items-start gap-3 p-3.5 rounded-lg border smooth-transition cursor-pointer select-none ${
                     checked1 ? "border-[#4A90E2] bg-blue-50/50 shadow-inner" : "border-slate-200 bg-white hover:border-blue-400"
                 }`;
@@ -330,7 +328,6 @@
                     checked2 ? "border-[#4A90E2] bg-blue-50/50 shadow-inner" : "border-slate-200 bg-white hover:border-blue-400"
                 }`;
 
-                // 2つともチェックでボタン有効化
                 confirmBtn.disabled = !(checked1 && checked2);
             }
 
@@ -340,17 +337,13 @@
             confirmBtn.addEventListener('click', () => {
                 if (confirmBtn.disabled) return;
 
-                // パネルの切り替え
                 confirmPanel.classList.add('hidden');
                 completeMessage.classList.remove('hidden');
                 lucide.createIcons();
 
-                // 完了メッセージへスムーズスクロール
                 completeMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
         });
-
-        // （closeCurrentTab 関数をまるごと削除）
     </script>
 </body>
 </html>

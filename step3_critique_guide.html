@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第3時 STEP 2｜提案を問い直すガイド（AI対話＆問い直しカード）</title>
+  <title>第3時 STEP 2｜AIで構想を問い直す - 公共「AI時代のウェルビーイングを考える」</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Noto Sans JP -->
@@ -16,70 +16,34 @@
       background-color: #f8fafc;
       color: #1f2937;
     }
-    /* 甲南高校デザインシステム */
     .main-color-bg { background-color: #4A90E2; }
     .main-color-text { color: #4A90E2; }
     .accent-color-bg { background-color: #F5A623; }
     .accent-color-text { color: #F5A623; }
     .accent-hover:hover { background-color: #E0961F; }
     .main-hover:hover { background-color: #3B7DC4; }
-
-    .smooth-transition {
-      transition: all 0.25s ease-in-out;
-    }
-
-    /* ルビのバランス微調整 */
-    rt {
-      user-select: none;
-    }
-
-    /* 選択中カードのアクティブスタイル */
-    .case-card[aria-current="true"] {
-      border-color: #4A90E2;
-      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25), 0 10px 25px -5px rgba(15, 23, 42, 0.1);
-      transform: translateY(-2px);
-    }
-    .question-card[aria-pressed="true"] {
-      border-color: #F5A623;
-      background-color: #FFFDF7;
-      box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.35);
-    }
-
-    /* タブ切り替えアニメーション */
-    .tab-content {
-      animation: fadeIn 0.25s ease-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: none; }
-    }
-
-    details summary::-webkit-details-marker {
-      display: none;
-    }
+    .smooth-transition { transition: all 0.25s ease-in-out; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased">
 
   <!-- ==========================================
-      1. Navigation Header (ポータル共通デザイン)
+      1. Navigation Header
   ========================================== -->
   <header class="sticky top-0 z-40 main-color-bg text-white shadow-md">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-      <!-- ボタンを撤廃し、シンプルなタイトル表示に -->
       <div class="flex items-center gap-3">
         <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner">
-          <i data-lucide="message-square-share" class="w-5 h-5 text-white"></i>
+          <i data-lucide="bot" class="w-5 h-5 text-white"></i>
         </div>
         <div>
           <span class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
-          <span class="block text-sm sm:text-base font-bold leading-tight">第3時 STEP 2「提案を問い直す」</span>
+          <span class="block text-sm sm:text-base font-bold leading-tight">第3時 STEP 2「AIで構想を問い直す」</span>
         </div>
       </div>
-
       <span class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-yellow-300"></i>
-        <span>剛・明・直の3ケース</span>
+        <span>最大3往復対話</span>
       </span>
     </div>
   </header>
@@ -89,313 +53,181 @@
   ========================================== -->
   <main class="flex-grow">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white px-4 py-10 md:py-14 shadow-inner">
+    <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white px-4 py-10 md:py-12 shadow-inner">
       <div class="max-w-4xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-4 py-1 text-xs font-bold text-yellow-300">
-          <i data-lucide="message-square-share" class="w-4 h-4"></i>
-          <span>第3時 STEP 2｜問い直しの方法を選ぶ</span>
+        <div class="inline-flex items-center gap-2 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-4 py-1 text-xs font-bold text-yellow-300 mb-3 shadow-sm">
+          <i data-lucide="message-square" class="w-4 h-4"></i>
+          <span>前提 → 反例・見落とされた立場 → 最重要の問い</span>
         </div>
-        <h1 class="mt-4 text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
-          答えを作らせず、前提を疑う
+        <h1 class="text-2xl sm:text-4xl font-extrabold leading-tight">
+          AIとの批判的対話で構想を問い直す
         </h1>
-        <p class="mt-3 text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-          第2時の案を持ち寄り、Geminiまたは問い直しカードを使って、案の前提・別の可能性・見落とされた立場を問い直します。
+        <p class="mt-2 text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
+          AIに完成案を求めず、対話を通じて自分たちの案の「前提」や「見落とし」に気づき、公式資料で確かめる問いを絞り込みます。
         </p>
 
         <!-- ゴールボックス -->
         <div class="mt-6 max-w-2xl mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-4 text-left backdrop-blur shadow-lg">
-          <span class="text-xs font-bold text-yellow-300 block mb-1">この活動のゴール</span>
+          <span class="text-xs font-bold text-yellow-300 block mb-1">本ステップのゴール</span>
           <p class="text-sm sm:text-base font-bold leading-snug text-white">
-            STEP 3で公式資料と照合する「最も重要な問い」を一つ決定する。
+            AIと最大3回やり取りし、公式資料で確かめる「最重要の問い」を1つに絞る。
           </p>
+          <p class="text-xs text-slate-300 mt-1">※十分な問いが得られた場合は、1回目または2回目で終えて構いません。</p>
         </div>
       </div>
     </section>
 
-    <!-- メインコンテンツコンテナ -->
-    <div class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+    <div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
 
-      <!-- ==========================================
-          手法切り替え タブUI（直の理念：対等性と往還）
-      ========================================== -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-2 shadow-sm">
-        <div class="grid grid-cols-2 gap-2" role="tablist">
-          <button id="tabBtnGemini" onclick="switchMethod('gemini')" role="tab" aria-selected="true"
-                  class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm sm:text-base smooth-transition bg-[#4A90E2] text-white shadow-sm">
-            <i data-lucide="bot" class="w-5 h-5"></i>
-            <span>経路A：Geminiと対話する</span>
-          </button>
-          <button id="tabBtnCards" onclick="switchMethod('cards')" role="tab" aria-selected="false"
-                  class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm sm:text-base smooth-transition text-slate-600 hover:bg-slate-100">
-            <i data-lucide="layers" class="w-5 h-5"></i>
-            <span>経路B：問い直しカードを使う</span>
-          </button>
+      <!-- 1. 第2時の記録を短く入力 -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
+          <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">1</span>
+          <h2 class="text-base sm:text-lg font-bold text-slate-800">第2時の記録を短く入力する</h2>
         </div>
-      </div>
 
-      <!-- ==========================================
-          【経路A】Geminiとの対話パネル
-      ========================================== -->
-      <div id="panelGemini" class="tab-content space-y-6">
-        
-        <!-- 1. 担当ケース選択（剛・明・直の3人） -->
-        <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-            <h2 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-              <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">1</span>
-              担当ケースを選ぶ
-            </h2>
-            <span class="text-xs text-slate-500">班のケースを1つ選択してください</span>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="caseSelect" class="block text-xs font-bold text-slate-700 mb-1">担当ケース</label>
+            <select id="caseSelect" onchange="buildStartPrompt()" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm font-bold text-slate-800 focus:border-[#4A90E2] outline-none bg-white">
+              <option value="剛">剛（たけし）</option>
+              <option value="明">明（あきら）</option>
+              <option value="直">直（なお）</option>
+            </select>
           </div>
-
-          <div id="caseGrid" class="mt-4 grid gap-4 sm:grid-cols-3">
-            <!-- JSで剛・明・直の3枚を生成 -->
+          <div>
+            <label for="inputEvidence" class="block text-xs font-bold text-slate-700 mb-1">公式資料で確認したこと（1文）</label>
+            <input type="text" id="inputEvidence" oninput="buildStartPrompt()" placeholder="例：口頭以外の意思表明手段が配慮として認められる" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none">
           </div>
-        </section>
+        </div>
 
-        <!-- 2. 第2時の記録を整理する（型セット ＆ 注意バナー） -->
-        <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
-            <div class="flex items-center gap-2">
-              <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">2</span>
-              <h2 class="text-base sm:text-lg font-black text-slate-800">第2時の記録を整理する</h2>
-            </div>
-            <!-- ★改善点2：コピペを防ぎ「思考の枠組み」を渡すボタン -->
-            <button type="button" id="loadFormatBtn" onclick="loadCaseFormat()" 
-                    class="text-xs font-bold text-[#4A90E2] bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg smooth-transition flex items-center gap-1.5 shadow-sm">
-              <i data-lucide="layout-template" class="w-3.5 h-3.5"></i>
-              <span>入力の型（フォーマット）をセット</span>
-            </button>
+        <div>
+          <label for="inputRoutes" class="block text-xs font-bold text-slate-700 mb-1">班の構想：学習・参加経路 A・B（各1文）</label>
+          <textarea id="inputRoutes" rows="2" oninput="buildStartPrompt()" placeholder="A：チャットやGoogleスライドへの書き込みで意見を出す&#10;B：後からGoogleフォームで意見を追加する" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none"></textarea>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="inputUnknown" class="block text-xs font-bold text-slate-700 mb-1">資料だけでは判断できないこと（1文）</label>
+            <input type="text" id="inputUnknown" oninput="buildStartPrompt()" placeholder="例：班の中でいつ合意形成するかという時間配分" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none">
           </div>
-
-          <!-- 注意喚起バナー（ボタン押下時またはフォーマット入力時に明示） -->
-          <div id="formatNotice" class="hidden mt-3 rounded-xl border border-amber-200 bg-amber-50/80 p-3.5 text-xs text-amber-900 flex items-start gap-2">
-            <i data-lucide="alert-triangle" class="w-4 h-4 text-[#F5A623] shrink-0 mt-0.5"></i>
-            <div>
-              <strong class="font-bold">これは記入の型（フォーマット）です：</strong>
-              <span>第2時で調査・検討した<strong>自分たち班の言葉や事実</strong>に置き換えて入力してください。</span>
-            </div>
+          <div>
+            <label for="inputPerson" class="block text-xs font-bold text-slate-700 mb-1">本人との対話で確認すること（1文）</label>
+            <input type="text" id="inputPerson" oninput="buildStartPrompt()" placeholder="例：本人がどの方法を納得して選んでいるか" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none">
           </div>
+        </div>
+      </section>
 
-          <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div>
-              <label for="inputEvidence" class="block text-xs font-bold text-slate-700 mb-1">
-                ① 公式資料で確認した根拠
-              </label>
-              <textarea id="inputEvidence" rows="3" oninput="saveInputs()"
-                        class="w-full rounded-xl border border-slate-300 p-3 text-xs sm:text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none smooth-transition" 
-                        placeholder="資料名、発行主体、該当ページ、直接書かれている事実"></textarea>
-            </div>
-            <div>
-              <label for="inputUnknown" class="block text-xs font-bold text-slate-700 mb-1">
-                ② 資料だけでは判断できないこと
-              </label>
-              <textarea id="inputUnknown" rows="3" oninput="saveInputs()"
-                        class="w-full rounded-xl border border-slate-300 p-3 text-xs sm:text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none smooth-transition" 
-                        placeholder="公的な指針だけでは決まらない学校・授業内の条件"></textarea>
-            </div>
-            <div>
-              <label for="inputPerson" class="block text-xs font-bold text-slate-700 mb-1">
-                ③ 本人との対話で確認すること
-              </label>
-              <textarea id="inputPerson" rows="3" oninput="saveInputs()"
-                        class="w-full rounded-xl border border-slate-300 p-3 text-xs sm:text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none smooth-transition" 
-                        placeholder="本人が選択・変更・保留・拒否したいタイミングや方法"></textarea>
-            </div>
-            <div>
-              <label for="inputRoutes" class="block text-xs font-bold text-slate-700 mb-1">
-                ④ 代表的な2つの学習経路
-              </label>
-              <textarea id="inputRoutes" rows="3" oninput="saveInputs()"
-                        class="w-full rounded-xl border border-slate-300 p-3 text-xs sm:text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none smooth-transition" 
-                        placeholder="経路1：…&#10;経路2：…"></textarea>
-            </div>
+      <!-- 2. AIと最大3回対話する（ステップ式プロンプトUI） -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">2</span>
+            <h2 class="text-base sm:text-lg font-bold text-slate-800">AIと対話を深める（最大3往復）</h2>
           </div>
+          <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-white accent-color-bg accent-hover px-3.5 py-1.5 rounded-lg smooth-transition flex items-center gap-1.5 shadow-sm">
+            <span>Geminiを開く</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
 
-          <!-- 記入例アコーディオン（困ったときの閲覧用ヒント） -->
-          <div class="mt-4 pt-3 border-t border-slate-100">
-            <details class="group rounded-xl border border-slate-200 bg-slate-50/70 p-3.5 smooth-transition open:bg-white open:border-blue-200">
-              <summary class="flex cursor-pointer items-center justify-between text-xs font-bold text-slate-700 select-none">
-                <span class="flex items-center gap-2">
-                  <i data-lucide="help-circle" class="w-4 h-4 main-color-text"></i>
-                  <span>【参考】各ケースの記入例（ヒント）を見る</span>
-                </span>
-                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 smooth-transition"></i>
-              </summary>
-              <div class="mt-3 pt-3 border-t border-slate-200/60 grid gap-3 sm:grid-cols-3 text-[11px] text-slate-600 leading-relaxed">
-                <div class="rounded-lg bg-blue-50/50 p-2.5 border border-blue-100">
-                  <strong class="font-bold text-blue-900 block mb-1">剛の例</strong>
-                  <p>合理的配慮指針より、口頭以外の書面やICTによる意思表明が認められる。一方、合意形成の時間ルールは班で決める必要がある。</p>
-                </div>
-                <div class="rounded-lg bg-emerald-50/50 p-2.5 border border-emerald-100">
-                  <strong class="font-bold text-emerald-900 block mb-1">明の例</strong>
-                  <p>AI利活用ガイドラインより、出力の鵜呑みを防ぎファクトチェックが必要。AI提案を保留・不採用にした理由の記録ルールを検討。</p>
-                </div>
-                <div class="rounded-lg bg-indigo-50/50 p-2.5 border border-indigo-100">
-                  <strong class="font-bold text-indigo-900 block mb-1">直の例</strong>
-                  <p>学習評価検討資料より、AI利用の有無ではなく思考・判断・表現の本質で共通評価する。納得した段階でのAI切り替えを模索。</p>
-                </div>
-              </div>
-            </details>
-          </div>
-        </section>
-
-        <!-- 3. プロンプト生成 ＆ 2ステップ・アクション -->
-        <section class="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 sm:p-6 shadow-sm">
-          <div class="flex items-center justify-between pb-3 border-b border-amber-200">
-            <div class="flex items-center gap-2">
-              <span class="w-7 h-7 rounded-full accent-color-bg text-white flex items-center justify-center text-xs font-black">3</span>
-              <h2 class="text-base sm:text-lg font-black text-amber-950">Geminiに入力するプロンプト</h2>
-            </div>
-            <button onclick="buildPrompt()" class="text-xs font-bold text-white accent-color-bg accent-hover px-3.5 py-1.5 rounded-lg smooth-transition shadow-sm">
-              プロンプトを更新
-            </button>
-          </div>
-
-          <pre id="promptDisplay" class="mt-4 whitespace-pre-wrap rounded-xl bg-white border border-amber-200 p-4 text-xs sm:text-sm leading-relaxed text-slate-700 font-sans shadow-inner"></pre>
-          <p id="promptStatus" class="mt-2 text-xs font-bold text-emerald-700 min-h-[1.25rem]" aria-live="polite"></p>
-
-          <div class="mt-3 grid gap-3 sm:grid-cols-2">
-            <!-- ボタン1：コピー -->
-            <button id="btnCopyPrompt" onclick="copyPromptText()" class="rounded-xl bg-slate-800 hover:bg-slate-700 text-white p-3.5 smooth-transition flex items-center justify-center gap-2.5 shadow-sm active:scale-[0.98]">
-              <span class="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-black">1</span>
-              <i data-lucide="copy" class="w-4 h-4"></i>
-              <span class="font-bold text-sm" id="btnCopyPromptText">プロンプトをコピー</span>
-            </button>
-
-            <!-- ボタン2：Geminiを開く -->
-            <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" 
-               class="rounded-xl accent-color-bg accent-hover text-white p-3.5 smooth-transition flex items-center justify-center gap-2.5 shadow active:scale-[0.98]">
-              <span class="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-black">2</span>
-              <span class="font-bold text-sm">Geminiを開いて対話する</span>
-              <i data-lucide="external-link" class="w-4 h-4"></i>
-            </a>
-          </div>
-          <p class="mt-2 text-center text-xs text-slate-500">
-            ※Geminiから問いを受け取り、班の考えを自分たちの言葉で返してください（最大3往復）。
-          </p>
-        </section>
-
-        <!-- 4. 最重要の問いを一つ選ぶ（引き継ぎ欄） -->
-        <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-          <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">4</span>
-            <h2 class="text-base sm:text-lg font-black text-slate-800">STEP 3へ引き継ぐ「最も重要な問い」</h2>
-          </div>
-          <p class="text-xs text-slate-600 mt-2">対話を通じて浮き彫りになった、公式資料で裏付けを確認すべき問いを1つ記録します。</p>
-          <textarea id="finalQuestionGemini" rows="2" oninput="saveInputs()"
-                    class="mt-3 w-full rounded-xl border border-slate-300 p-3 text-xs sm:text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none smooth-transition" 
-                    placeholder="例：書面や図による意見提出は、口頭発言と対等な評価規準が公的ガイドライン等で認められているか？"></textarea>
-          <div class="mt-3 rounded-xl border border-emerald-200 bg-emerald-50/70 p-3.5 text-xs text-emerald-900 flex items-start gap-2">
-            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-700 shrink-0 mt-0.5"></i>
-            <span><strong>次はSTEP 3へ：</strong>この問いを班のスライドへ持ち帰り、Gemini Notebookの公式資料で照合確認を行います。</span>
-          </div>
-        </section>
-
-      </div>
-
-      <!-- ==========================================
-          【経路B】問い直しカード パネル
-      ========================================== -->
-      <div id="panelCards" class="tab-content hidden space-y-6">
-
-        <!-- 進め方ガイド -->
-        <section class="rounded-2xl border border-blue-200 bg-blue-50/70 p-5 shadow-sm">
-          <h2 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
-            <i data-lucide="users" class="w-4 h-4 main-color-text"></i>
-            問い直しカードの進め方
-          </h2>
-          <div class="grid sm:grid-cols-4 gap-3 mt-3 text-xs">
-            <div class="rounded-xl bg-white p-3 border border-blue-100">
-              <strong class="main-color-text block text-sm mb-1">1. 共有</strong>
-              <span>第2時の4つの記録を班員同士で確認する。</span>
-            </div>
-            <div class="rounded-xl bg-white p-3 border border-blue-100">
-              <strong class="main-color-text block text-sm mb-1">2. 選択</strong>
-              <span>一人1枚ずつ異なる観点のカードを選ぶ。</span>
-            </div>
-            <div class="rounded-xl bg-white p-3 border border-blue-100">
-              <strong class="main-color-text block text-sm mb-1">3. 対話</strong>
-              <span>カードの問いを班員に投げ、答え合う。</span>
-            </div>
-            <div class="rounded-xl bg-white p-3 border border-blue-100">
-              <strong class="main-color-text block text-sm mb-1">4. 決定</strong>
-              <span>公式資料で調べる最重要の問いを1つ決める。</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- カード一覧グリッド（全9枚） -->
-        <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
-            <div>
-              <h2 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-                <i data-lucide="layers" class="w-5 h-5 main-color-text"></i>
-                問いのカードを選ぶ
-              </h2>
-              <p class="text-xs text-slate-500 mt-0.5">班で重ならないように異なる観点をタップしてください（複数選択可）。</p>
-            </div>
-            <button onclick="pickRandomCard()" class="text-xs font-bold text-white accent-color-bg accent-hover px-3.5 py-2 rounded-lg smooth-transition flex items-center gap-1.5 shadow-sm">
-              <i data-lucide="shuffle" class="w-3.5 h-3.5"></i>
-              <span>ランダムに1枚引く</span>
-            </button>
-          </div>
-
-          <div id="cardsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
-            <!-- JSで9枚のカードを描画 -->
-          </div>
-        </section>
-
-        <!-- 選択した問いの記録・一括コピー -->
-        <section class="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 sm:p-6 shadow-sm">
-          <div class="flex items-center justify-between pb-3 border-b border-amber-200">
-            <h2 class="text-base sm:text-lg font-black text-amber-950 flex items-center gap-2">
-              <i data-lucide="list-checks" class="w-5 h-5 accent-color-text"></i>
-              選択した問いのリスト
-            </h2>
-            <button id="btnCopySelectedCards" onclick="copySelectedCards()" disabled
-                    class="text-xs font-bold text-white main-color-bg main-hover disabled:bg-slate-300 disabled:cursor-not-allowed px-3.5 py-2 rounded-lg smooth-transition flex items-center gap-1.5 shadow-sm">
+        <!-- 1回目：前提 -->
+        <div class="rounded-xl border-2 border-blue-200 bg-blue-50/40 p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-900 bg-blue-100 px-2.5 py-0.5 rounded-full">
+              <span>第1往復</span><span>構想の前提を問う</span>
+            </span>
+            <button type="button" onclick="copyText('prompt1Display', 'copyBtn1')" id="copyBtn1" class="text-xs font-bold main-color-bg main-hover text-white px-3 py-1.5 rounded-lg smooth-transition flex items-center gap-1 shadow-sm">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-              <span id="copySelectedLabel">選択した問いをコピー</span>
+              <span>開始プロンプトをコピー</span>
             </button>
           </div>
+          <pre id="prompt1Display" class="whitespace-pre-wrap rounded-lg bg-white border border-blue-200 p-3 text-xs leading-relaxed text-slate-700 font-sans"></pre>
+        </div>
 
-          <div id="selectedCardsList" class="mt-4 space-y-2.5">
-            <p class="text-xs text-slate-500 bg-white rounded-xl p-4 border border-dashed border-amber-200 text-center">
-              上のカードをタップすると、ここに選んだ問いが追加されます。
-            </p>
+        <!-- 2回目：反例・立場 -->
+        <div class="rounded-xl border-2 border-slate-200 bg-slate-50/70 p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-200 px-2.5 py-0.5 rounded-full">
+              <span>第2往復</span><span>反例・見落とされた立場を問う</span>
+            </span>
+            <button type="button" onclick="copyTurn2Prompt()" id="copyBtn2" class="text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg smooth-transition flex items-center gap-1 shadow-sm">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>2回目の返信文をコピー</span>
+            </button>
           </div>
-        </section>
+          <p class="text-xs text-slate-600">AIからの1問目の問いに対し、班の考えを1文入力してコピーしてください：</p>
+          <div class="flex gap-2">
+            <input type="text" id="responseTurn1" placeholder="AIへの班の返答（例：話合いの速度より、全員の納得感を優先できると考えたから）" class="flex-grow rounded-lg border border-slate-300 p-2 text-xs focus:border-[#4A90E2] outline-none bg-white">
+          </div>
+        </div>
 
-        <!-- 最重要の問いを一つ選ぶ（引き継ぎ欄） -->
-        <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-          <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <span class="w-7 h-7 rounded-full accent-color-bg text-white flex items-center justify-center text-xs font-black">★</span>
-            <h2 class="text-base sm:text-lg font-black text-slate-800">STEP 3へ引き継ぐ「最も重要な問い」</h2>
+        <!-- 3回目：焦点化 -->
+        <div class="rounded-xl border-2 border-slate-200 bg-slate-50/70 p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-200 px-2.5 py-0.5 rounded-full">
+              <span>第3往復</span><span>最重要の問いへ焦点化する</span>
+            </span>
+            <button type="button" onclick="copyTurn3Prompt()" id="copyBtn3" class="text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg smooth-transition flex items-center gap-1 shadow-sm">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>3回目の返信文をコピー</span>
+            </button>
           </div>
-          <p class="text-xs text-slate-600 mt-2">対話を通じて決まった、公式資料で照合すべき最重要の問いを記録します。</p>
-          <textarea id="finalQuestionCards" rows="2" oninput="saveInputs()"
-                    class="mt-3 w-full rounded-xl border border-slate-300 p-3 text-xs sm:text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none smooth-transition" 
-                    placeholder="例：特定の生徒の意見を反映させる仕組みが、特定の班員や先生の善意・負担に依存していないか？"></textarea>
-          <div class="mt-3 rounded-xl border border-emerald-200 bg-emerald-50/70 p-3.5 text-xs text-emerald-900 flex items-start gap-2">
-            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-700 shrink-0 mt-0.5"></i>
-            <span><strong>次はSTEP 3へ：</strong>この問いを班のスライドへ持ち帰り、公式資料との照合確認に進みましょう。</span>
+          <p class="text-xs text-slate-600">AIからの2問目の問いに対し、班の考えを1文入力してコピーしてください：</p>
+          <div class="flex gap-2">
+            <input type="text" id="responseTurn2" placeholder="AIへの班の返答（例：書く手段があっても、後からの意見を拾う時間がないと形骸化するから）" class="flex-grow rounded-lg border border-slate-300 p-2 text-xs focus:border-[#4A90E2] outline-none bg-white">
           </div>
-        </section>
+        </div>
+      </section>
 
-      </div>
+      <!-- 3. 第4時へつながる最重要の問い -->
+      <section class="bg-amber-50/70 rounded-2xl border-2 border-amber-300 p-5 sm:p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-amber-200">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-full accent-color-bg text-white flex items-center justify-center text-xs font-black">3</span>
+            <h2 class="text-base sm:text-lg font-bold text-amber-950">第4時へつながる最重要の問い</h2>
+          </div>
+          <span class="text-xs font-bold text-amber-900 bg-amber-100 px-2.5 py-1 rounded-full">公式記録</span>
+        </div>
+
+        <div class="rounded-xl border border-amber-200 bg-white p-3.5 text-xs text-amber-900 leading-relaxed">
+          <strong>最重要の問いだけを記録します。</strong> AIの発言全文や3往復の履歴はスライドへ貼り付けません。AIが示した問いを班で吟味し、必要に応じて自分たちの言葉に書き換えてください。
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label for="finalQuestion" class="block text-xs font-bold text-slate-800">最重要の問い（80字以内）</label>
+            <span id="charCount" class="text-[11px] font-bold text-slate-400">0 / 80字</span>
+          </div>
+          <textarea id="finalQuestion" rows="2" maxlength="80" oninput="updateCharCount()" placeholder="例：書面や後からの意見提出は、口頭発言と対等な評価基準が公式資料で認められているか？" class="w-full rounded-xl border border-amber-300 p-3 text-xs sm:text-sm font-bold text-slate-800 focus:border-[#F5A623] focus:ring-1 focus:ring-[#F5A623] outline-none bg-white shadow-inner"></textarea>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+          <button type="button" onclick="copyFinalQuestion()" id="copyFinalBtn" class="w-full sm:w-auto px-6 py-2.5 rounded-xl accent-color-bg accent-hover text-white font-bold text-xs sm:text-sm shadow-sm smooth-transition flex items-center justify-center gap-2 active:scale-95">
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            <span>問いをコピーする</span>
+          </button>
+          <span class="text-[11px] text-slate-500 text-center sm:text-right">※次のSTEP 3（公式資料との照合）でこの問いを使います</span>
+        </div>
+      </section>
+
+      <!-- 4. 次の操作案内バナー -->
+      <section class="rounded-xl border-l-4 border-[#4A90E2] bg-blue-50/80 p-4 shadow-sm flex items-start gap-3">
+        <i data-lucide="info" class="w-5 h-5 main-color-text shrink-0 mt-0.5"></i>
+        <div class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+          <strong class="font-bold text-slate-800">次の操作：</strong>
+          最重要の問いが決まったら、ブラウザ上部の<strong>「×」ボタンでこのタブを閉じて</strong>授業ポータルに戻り、<strong>「STEP 3 公式資料と照合する」</strong>へ進んでください。
+        </div>
+      </section>
 
     </div>
   </main>
 
   <!-- ==========================================
-      Footer (ポータル共通デザイン)
+      Footer
   ========================================== -->
-  <footer class="mt-16 bg-slate-800 text-slate-400 py-6 text-center text-xs border-t border-slate-700">
-    <div class="max-w-4xl mx-auto px-4 space-y-1">
-      <p class="text-slate-300 font-medium">高等学校「公共」 授業支援ポータル</p>
-      <p class="text-slate-500">© 2026 鹿児島県立甲南高等学校 公民科</p>
-    </div>
+  <footer class="mt-12 bg-slate-800 text-slate-400 py-5 text-center text-xs border-t border-slate-700">
+    <p>© 2026 鹿児島県立甲南高等学校 公民科</p>
   </footer>
 
   <!-- ==========================================
@@ -404,364 +236,125 @@
   <script>
     'use strict';
 
-    // （PORTAL_URL 定数とコメントを完全に削除）
+    const STORAGE_KEY = 'konan_lesson3_critique_v2';
+    let isRestoring = false;
 
-    // 剛・明・直の3人限定データ定義
-    const CASES = {
-      takeshi: {
-        name: "剛",
-        reading: "たけし",
-        image: "images/case-takeshi.webp",
-        colorBar: "bg-sky-500",
-        wish: "考える時間を取り、文章や図で表したり、話合いの後から意見を加えたい"
-      },
-      akira: {
-        name: "明",
-        reading: "あきら",
-        image: "images/case-akira.webp",
-        colorBar: "bg-emerald-500",
-        wish: "AIの便利さを生かしながら、自分で確かめ、保留・不採用などの判断をしたことを説明したい"
-      },
-      nao: {
-        name: "直",
-        reading: "なお",
-        image: "images/case-nao.webp",
-        colorBar: "bg-indigo-500",
-        wish: "自分で資料を読み、人と話しながら考え、必要なときにAIを使いたい"
-      }
-    };
-
-    // 問い直しカード9枚（用語を「保留・不採用」に統一）
-    const QUESTION_CARDS = [
-      { cat: '前提を確かめる', icon: 'search', q: 'この案は、どのような状況や考え方を前提にしていますか。', hint: '当たり前として置いている条件を言葉にします。' },
-      { cat: '別の可能性を考える', icon: 'git-fork', q: 'この方法を選びたくない場合、別の経路はありますか。', hint: '一つの案だけを正解にしていないか確かめます。' },
-      { cat: '本人の選択を確かめる', icon: 'mouse-pointer-click', q: '本人は、いつ選び、いつ変更し、いつ保留や断ることができますか。', hint: '選択・変更・保留・拒否が実際に可能か確かめます。' },
-      { cat: '根拠を確かめる', icon: 'file-check-2', q: 'その判断は公式資料に直接書かれていますか。それとも推論や提案ですか。', hint: '根拠と判断を混同していないか確かめます。' },
-      { cat: '参加への接続を確かめる', icon: 'messages-square', q: '文章や図、後からの意見は、誰が、いつ確認し、意思決定に反映しますか。', hint: '表現できるだけで終わらず、参加につながるか確かめます。' },
-      { cat: '制度として続くか考える', icon: 'landmark', q: '特定の人の善意や負担に頼らず、この仕組みを続けられますか。', hint: '役割、時間、責任、支援体制を確かめます。' },
-      { cat: '評価の公正さを確かめる', icon: 'scale', q: '経路やAI利用の有無が違っても、共通の基準で公平に評価できますか。', hint: '方法の違いを有利・不利にしないか確かめます。' },
-      { cat: '結果の返し方を確かめる', icon: 'reply', q: '本人が出した意見を、班はどう検討し、採用・修正・保留・不採用の結果と理由を返しますか。', hint: '意見を受け取るだけで終わらないか確かめます。' },
-      { cat: '見落とされた立場を考える', icon: 'scan-eye', q: 'この案で選択肢が狭くなったり、参加しにくくなったりする人はいませんか。', hint: '案の利益だけでなく影響の偏りを確かめます。' }
-    ];
-
-    let selectedCaseKey = 'takeshi';
-    let selectedCardIndices = [];
-    let isRestoring = false; // ★復元中かどうかを判定するフラグを追加
-
-    // 初期化
-    function init() {
-      renderCaseCards();
-      renderQuestionCards();
-      loadSavedData();
-
-      // ハッシュURL対応（#cards なら最初からカードタブを開く）
-      if (window.location.hash === '#cards') {
-        switchMethod('cards');
-      } else {
-        switchMethod('gemini');
-      }
-      lucide.createIcons();
+    function getVal(id) {
+      return document.getElementById(id).value.trim();
     }
 
-    // タブ切り替え（gemini / cards）
-    function switchMethod(method) {
-      const isGemini = method === 'gemini';
-      
-      document.getElementById('tabBtnGemini').setAttribute('aria-selected', isGemini);
-      document.getElementById('tabBtnCards').setAttribute('aria-selected', !isGemini);
+    function buildStartPrompt() {
+      const caseName = document.getElementById('caseSelect').value;
+      const ev = getVal('inputEvidence') || '（未入力）';
+      const rts = getVal('inputRoutes') || '（未入力）';
+      const unk = getVal('inputUnknown') || '（未入力）';
+      const per = getVal('inputPerson') || '（未入力）';
 
-      if (isGemini) {
-        document.getElementById('tabBtnGemini').className = "flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm sm:text-base smooth-transition main-color-bg text-white shadow-sm";
-        document.getElementById('tabBtnCards').className = "flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm sm:text-base smooth-transition text-slate-600 hover:bg-slate-100";
-        document.getElementById('panelGemini').classList.remove('hidden');
-        document.getElementById('panelCards').classList.add('hidden');
-        history.replaceState(null, '', '#gemini');
-      } else {
-        document.getElementById('tabBtnCards').className = "flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm sm:text-base smooth-transition accent-color-bg text-white shadow-sm";
-        document.getElementById('tabBtnGemini').className = "flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm sm:text-base smooth-transition text-slate-600 hover:bg-slate-100";
-        document.getElementById('panelCards').classList.remove('hidden');
-        document.getElementById('panelGemini').classList.add('hidden');
-        history.replaceState(null, '', '#cards');
-      }
-      lucide.createIcons();
-    }
+      const promptText = `あなたは、高校「公共」の授業で班の構想を問い直す役です。完成案や解決策は出さず、まず班の構想の「前提」を問い直す質問を1つだけ返してください。
 
-    // ケースカード描画（剛・明・直の3人）
-    function renderCaseCards() {
-      const grid = document.getElementById('caseGrid');
-      grid.innerHTML = Object.entries(CASES).map(([key, c]) => `
-        <button type="button" data-case="${key}" onclick="selectCase('${key}')"
-                class="case-card group relative overflow-hidden rounded-xl border-2 border-slate-200 bg-white p-4 text-left shadow-sm smooth-transition hover:border-blue-300 hover:shadow-md flex flex-col justify-between"
-                aria-current="${key === selectedCaseKey}">
-          <img src="${c.image}" alt="" aria-hidden="true" 
-               class="pointer-events-none absolute -right-2 -bottom-2 w-28 h-28 object-contain opacity-20 mix-blend-multiply group-hover:opacity-30 group-hover:scale-105 transition-all duration-300">
-          <div class="relative z-10">
-            <div class="h-1.5 w-10 rounded-full ${c.colorBar} mb-3"></div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-800 leading-tight">
-              <ruby>${c.name}<rp>（</rp><rt class="text-[10px] font-normal text-slate-500">${c.reading}</rt><rp>）</rp></ruby>
-            </h3>
-            <p class="mt-2 text-xs leading-relaxed text-slate-600">${c.wish}</p>
-          </div>
-          <div class="relative z-10 mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold main-color-text">
-            <span>選択する</span>
-            <i data-lucide="check" class="w-3.5 h-3.5 ${key === selectedCaseKey ? 'opacity-100' : 'opacity-0'}"></i>
-          </div>
-        </button>
-      `).join('');
-    }
-
-    // ケース選択
-    function selectCase(key) {
-      selectedCaseKey = key;
-      document.querySelectorAll('#caseGrid [data-case]').forEach(btn => {
-        const isCurrent = btn.dataset.case === key;
-        btn.setAttribute('aria-current', isCurrent);
-        const checkIcon = btn.querySelector('[data-lucide="check"]');
-        if (checkIcon) {
-          // ★2つのクラスを排他的（どちらか一方のみ）に確実に切り替える
-          checkIcon.classList.toggle('opacity-100', isCurrent);
-          checkIcon.classList.toggle('opacity-0', !isCurrent);
-        }
-      });
-      buildPrompt();
-      
-      if (!isRestoring) {
-        saveInputs();
-      }
-    }
-
-    // ★改善点2：思考の枠組み（型）をセットする関数
-    function loadCaseFormat() {
-      document.getElementById('inputEvidence').value = "【資料名・発行主体】\n【根拠箇所（ページ・見出し）】\n【資料に直接書かれている事実】";
-      document.getElementById('inputUnknown').value = "【公的資料だけでは確定できない学校・授業内の条件】";
-      document.getElementById('inputPerson').value = "【本人が選択・変更・保留・拒否したいタイミングや方法】";
-      document.getElementById('inputRoutes').value = "【経路1（例：書く／非AI）】\n【経路2（例：話す／AI活用）】";
-      
-      // 注意バナーを表示
-      document.getElementById('formatNotice').classList.remove('hidden');
-      buildPrompt();
-      saveInputs();
-      lucide.createIcons();
-    }
-
-    // プロンプト構築（公共科・ケイパビリティ観点を強化した改善版）
-    function buildPrompt() {
-      const c = CASES[selectedCaseKey];
-      const ev = document.getElementById('inputEvidence').value.trim() || '（未入力：公式資料の根拠）';
-      const unk = document.getElementById('inputUnknown').value.trim() || '（未入力：資料だけでは判断できないこと）';
-      const per = document.getElementById('inputPerson').value.trim() || '（未入力：本人との対話で確認すること）';
-      const rts = document.getElementById('inputRoutes').value.trim() || '（未入力：代表的な2つの経路）';
-
-      const promptText = `私たちは高校の公民科「公共」の授業で「${c.name}」について、本人の選択肢（潜在能力）を広げる2つの学習・参加経路を検討しています。
-
-【公式資料で確認した根拠】
-${ev}
-
-【資料だけでは判断できないこと】
-${unk}
-
-【本人との対話で確認すること】
-${per}
-
-【代表的な2つの経路】
+【担当ケース】${caseName}
+【公式資料で確認したこと】${ev}
+【班の構想】
 ${rts}
+【資料だけでは判断できないこと】${unk}
+【本人との対話で確認すること】${per}
 
-【対話の絶対ルール】
-・あなたは答えを教える先生ではなく、私たちの案の前提や死角を突く「対話のパートナー」です。
-・完成案や解決策、まとめは絶対に提示しないでください。
-・私たちが回答に詰まっても、代わりに正解を教えず、別の角度から問い直してください。
-・ケースにない診断、健康状態、家庭環境は推測しないでください。
-・問いかけは【一度に一問だけ】【150字以内】で簡潔に投げかけてください。私たちが返答したら、次の問いを一問だけ返してください（最大3往復）。
-・特に「特定の人の善意や負担に依存していないか」「選択肢が形式だけでなく実質的に選べるか」を突いてください。
-・対話の最後に、私たちが公式資料に戻って裏付けを確認すべき「最も重要な問い」を一つだけ提示してください。`;
+条件：ケースにない心理、健康状態、家庭事情、具体的希望を推測しない。本人が選択・変更・拒否・保留できるかを意識する。解決策や評価は示さない。質問は1つ、100字以内。`;
 
-      document.getElementById('promptDisplay').textContent = promptText;
+      document.getElementById('prompt1Display').textContent = promptText;
+      if (!isRestoring) saveData();
     }
 
-    // プロンプトコピー
-    async function copyPromptText() {
-      const text = document.getElementById('promptDisplay').textContent;
-      const btn = document.getElementById('btnCopyPrompt');
-      const btnText = document.getElementById('btnCopyPromptText');
-      const status = document.getElementById('promptStatus');
-
-      try {
-        await navigator.clipboard.writeText(text);
-        btn.className = "rounded-xl bg-emerald-600 text-white p-3.5 smooth-transition flex items-center justify-center gap-2.5 shadow-sm";
-        btnText.textContent = "コピー完了！";
-        status.textContent = "✓ プロンプトをコピーしました。「② Geminiを開いて対話する」へ進んでください。";
-
-        setTimeout(() => {
-          btn.className = "rounded-xl bg-slate-800 hover:bg-slate-700 text-white p-3.5 smooth-transition flex items-center justify-center gap-2.5 shadow-sm active:scale-[0.98]";
-          btnText.textContent = "プロンプトをコピー";
-        }, 2200);
-      } catch (e) {
-        status.textContent = "※自動コピーに失敗しました。枠内の文章を選択して手動でコピーしてください。";
-        status.className = "mt-2 text-xs font-bold text-rose-600";
-      }
+    function copyTurn2Prompt() {
+      const resp = getVal('responseTurn1') || '構想の実現を目指している';
+      const text = `班の考えは「${resp}」です。次は、反例または見落とされた立場から、さらに問いを1つだけ示してください。解決策は示さないでください。`;
+      copyTextContent(text, 'copyBtn2', '2回目の返信文をコピー');
     }
 
-    // 問い直しカード描画
-    function renderQuestionCards() {
-      const grid = document.getElementById('cardsGrid');
-      grid.innerHTML = QUESTION_CARDS.map((item, idx) => `
-        <button type="button" onclick="toggleCard(${idx})" id="qCard-${idx}" aria-pressed="false"
-                class="question-card rounded-xl border-2 border-slate-200 bg-white p-4 text-left smooth-transition hover:border-amber-300 shadow-sm flex flex-col justify-between">
-          <div class="flex items-start gap-3">
-            <span class="w-8 h-8 rounded-lg bg-amber-50 accent-color-text flex items-center justify-center shrink-0 mt-0.5">
-              <i data-lucide="${item.icon}" class="w-4 h-4"></i>
-            </span>
-            <div>
-              <span class="text-[10px] font-black tracking-wider uppercase accent-color-text block">${item.cat}</span>
-              <p class="mt-1 text-xs sm:text-sm font-bold leading-snug text-slate-800">${item.q}</p>
-            </div>
-          </div>
-          <p class="mt-2.5 pt-2 border-t border-slate-100 text-[11px] text-slate-500 leading-relaxed">${item.hint}</p>
-        </button>
-      `).join('');
+    function copyTurn3Prompt() {
+      const resp = getVal('responseTurn2') || '提示された点も踏まえて検討中である';
+      const text = `班の考えは「${resp}」です。ここまでの対話から、公式資料で確かめる最重要の問いを1つに絞ってください。問い1文と、確認する資料の観点1文だけ、全体150字以内で示してください。`;
+      copyTextContent(text, 'copyBtn3', '3回目の返信文をコピー');
     }
 
-    // カード選択切り替え
-    function toggleCard(idx) {
-      const cardEl = document.getElementById(`qCard-${idx}`);
-      if (selectedCardIndices.includes(idx)) {
-        selectedCardIndices = selectedCardIndices.filter(i => i !== idx);
-        cardEl.setAttribute('aria-pressed', 'false');
-      } else {
-        selectedCardIndices.push(idx);
-        cardEl.setAttribute('aria-pressed', 'true');
-      }
-      renderSelectedCardsList();
-      saveInputs();
+    function updateCharCount() {
+      const q = document.getElementById('finalQuestion').value;
+      document.getElementById('charCount').textContent = `${q.length} / 80字`;
+      if (!isRestoring) saveData();
     }
 
-    // ランダム引き
-    function pickRandomCard() {
-      const unselected = QUESTION_CARDS.map((_, i) => i).filter(i => !selectedCardIndices.includes(i));
-      const pool = unselected.length > 0 ? unselected : QUESTION_CARDS.map((_, i) => i);
-      const randomIdx = pool[Math.floor(Math.random() * pool.length)];
-
-      if (!selectedCardIndices.includes(randomIdx)) {
-        toggleCard(randomIdx);
-      }
-      const targetCard = document.getElementById(`qCard-${randomIdx}`);
-      targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // 選択されたカードリスト描画
-    function renderSelectedCardsList() {
-      const container = document.getElementById('selectedCardsList');
-      const copyBtn = document.getElementById('btnCopySelectedCards');
-
-      if (selectedCardIndices.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-500 bg-white rounded-xl p-4 border border-dashed border-amber-200 text-center">上のカードをタップすると、ここに選んだ問いが追加されます。</p>`;
-        copyBtn.disabled = true;
+    async function copyFinalQuestion() {
+      const q = getVal('finalQuestion');
+      if (!q) {
+        alert('最重要の問いを入力してください。');
         return;
       }
+      copyTextContent(`【第4時へ引き継ぐ最重要の問い】\n${q}`, 'copyFinalBtn', '問いをコピーする');
+    }
 
-      container.innerHTML = selectedCardIndices.map((cardIdx, order) => {
-        const item = QUESTION_CARDS[cardIdx];
-        return `
-          <div class="rounded-xl bg-white border border-amber-200 p-3 text-xs sm:text-sm flex items-start justify-between gap-3 shadow-sm">
-            <div>
-              <span class="text-[10px] font-bold accent-color-text bg-amber-50 px-2 py-0.5 rounded-full">問い ${order + 1}｜${item.cat}</span>
-              <p class="font-bold text-slate-800 mt-1 leading-snug">${item.q}</p>
-            </div>
-            <button onclick="toggleCard(${cardIdx})" class="text-slate-400 hover:text-rose-500 p-1" title="削除">
-              <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
-          </div>
-        `;
-      }).join('');
+    async function copyText(elementId, btnId) {
+      const text = document.getElementById(elementId).textContent;
+      copyTextContent(text, btnId, '開始プロンプトをコピー');
+    }
 
-      copyBtn.disabled = false;
+    async function copyTextContent(text, btnId, defaultText) {
+      const btn = document.getElementById(btnId);
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i><span>コピー完了！</span>`;
+        btn.classList.add('bg-emerald-600');
+        setTimeout(() => {
+          btn.innerHTML = `<i data-lucide="copy" class="w-3.5 h-3.5"></i><span>${defaultText}</span>`;
+          btn.classList.remove('bg-emerald-600');
+          lucide.createIcons();
+        }, 1800);
+      } catch (e) {
+        alert('クリップボードへのコピーに失敗しました。');
+      }
       lucide.createIcons();
     }
 
-    // 選択した問いを一括コピー
-    async function copySelectedCards() {
-      const text = selectedCardIndices.map((cardIdx, order) => {
-        const item = QUESTION_CARDS[cardIdx];
-        return `【問い${order + 1}：${item.cat}】\n${item.q}`;
-      }).join('\n\n');
-
-      const label = document.getElementById('copySelectedLabel');
-      try {
-        await navigator.clipboard.writeText(text);
-        label.textContent = "コピーしました！";
-        setTimeout(() => { label.textContent = "選択した問いをコピー"; }, 2000);
-      } catch (e) {
-        alert("コピーに失敗しました。画面の問いを手動で選択してください。");
-      }
-    }
-
-    // ★改善点4：localStorageの独立保存
-    function saveInputs() {
+    function saveData() {
       const data = {
-        caseKey: selectedCaseKey,
-        evidence: document.getElementById('inputEvidence').value,
-        unknown: document.getElementById('inputUnknown').value,
-        person: document.getElementById('inputPerson').value,
-        routes: document.getElementById('inputRoutes').value,
-        finalGemini: document.getElementById('finalQuestionGemini').value,
-        finalCards: document.getElementById('finalQuestionCards').value,
-        selectedCards: selectedCardIndices
+        caseSelect: document.getElementById('caseSelect').value,
+        inputEvidence: document.getElementById('inputEvidence').value,
+        inputRoutes: document.getElementById('inputRoutes').value,
+        inputUnknown: document.getElementById('inputUnknown').value,
+        inputPerson: document.getElementById('inputPerson').value,
+        responseTurn1: document.getElementById('responseTurn1').value,
+        responseTurn2: document.getElementById('responseTurn2').value,
+        finalQuestion: document.getElementById('finalQuestion').value
       };
       try {
-        localStorage.setItem('konan_lesson3_critique_data', JSON.stringify(data));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       } catch (e) {}
     }
 
-    function loadSavedData() {
-      isRestoring = true; // ★復元開始（一時的に自動保存をブロック）
-
+    function loadData() {
+      isRestoring = true;
       try {
-        const saved = JSON.parse(localStorage.getItem('konan_lesson3_critique_data'));
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
         if (saved) {
-          // ケースの選択状態を復元（この中のsaveInputsはブロックされる）
-          if (saved.caseKey && CASES[saved.caseKey]) {
-            selectCase(saved.caseKey);
-          }
-          
-          // 各入力欄を安全に復元
-          document.getElementById('inputEvidence').value = saved.evidence || '';
-          document.getElementById('inputUnknown').value = saved.unknown || '';
-          document.getElementById('inputPerson').value = saved.person || '';
-          document.getElementById('inputRoutes').value = saved.routes || '';
-          document.getElementById('finalQuestionGemini').value = saved.finalGemini || '';
-          document.getElementById('finalQuestionCards').value = saved.finalCards || '';
-
-          if (Array.isArray(saved.selectedCards)) {
-            // 不正なインデックスを除外して復元
-            selectedCardIndices = saved.selectedCards.filter(
-              idx => Number.isInteger(idx) && idx >= 0 && idx < QUESTION_CARDS.length
-            );
-            selectedCardIndices.forEach(idx => {
-              const card = document.getElementById(`qCard-${idx}`);
-              if (card) card.setAttribute('aria-pressed', 'true');
-            });
-            renderSelectedCardsList();
-          }
+          if (saved.caseSelect) document.getElementById('caseSelect').value = saved.caseSelect;
+          if (saved.inputEvidence) document.getElementById('inputEvidence').value = saved.inputEvidence;
+          if (saved.inputRoutes) document.getElementById('inputRoutes').value = saved.inputRoutes;
+          if (saved.inputUnknown) document.getElementById('inputUnknown').value = saved.inputUnknown;
+          if (saved.inputPerson) document.getElementById('inputPerson').value = saved.inputPerson;
+          if (saved.responseTurn1) document.getElementById('responseTurn1').value = saved.responseTurn1;
+          if (saved.responseTurn2) document.getElementById('responseTurn2').value = saved.responseTurn2;
+          if (saved.finalQuestion) document.getElementById('finalQuestion').value = saved.finalQuestion;
         }
       } catch (e) {
-        console.warn('保存データを復元できませんでした。', e);
       } finally {
-        isRestoring = false; // ★何があっても必ず復元フラグを解除する
+        isRestoring = false;
       }
-
-      buildPrompt();
+      buildStartPrompt();
+      updateCharCount();
     }
 
-    // ポータルへのURL依存と関数を丸ごと削除し、初期化呼び出しだけにします
-    document.addEventListener('DOMContentLoaded', init);
-
-    // ★URLの末尾（#cards や #gemini）が変わったときにも即座にタブを切り替える
-    window.addEventListener('hashchange', () => {
-      if (window.location.hash === '#cards') {
-        switchMethod('cards');
-      } else if (window.location.hash === '#gemini') {
-        switchMethod('gemini');
-      }
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+      lucide.createIcons();
     });
   </script>
 </body>

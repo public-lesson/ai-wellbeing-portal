@@ -3,377 +3,337 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第3時 STEP 3｜根拠を公式資料と照合する</title>
+  <title>第3時 STEP 3｜公式資料との照合と暫定判断 - 公共「AI時代のウェルビーイングを考える」</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans JP -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- 共通設定ファイル -->
   <script src="portal-config.js"></script>
   <style>
-    body { font-family: 'Noto Sans JP', sans-serif; background: #f8fafc; color: #1f2937; }
-    .main-bg { background-color: #4A90E2; }
-    .main-text { color: #4A90E2; }
-    .accent-bg { background-color: #F5A623; }
-    .accent-text { color: #F5A623; }
-    .main-hover:hover { background-color: #3B7DC4; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: #f8fafc;
+      color: #1f2937;
+    }
+    .main-color-bg { background-color: #4A90E2; }
+    .main-color-text { color: #4A90E2; }
+    .accent-color-bg { background-color: #F5A623; }
+    .accent-color-text { color: #F5A623; }
     .accent-hover:hover { background-color: #E0961F; }
-    .smooth { transition: all .2s ease-in-out; }
-    .case-card[aria-current="true"] { border-color: #4A90E2; background: #eff6ff; box-shadow: 0 0 0 3px rgba(74,144,226,.18); }
-    .source-card[aria-pressed="true"] { border-color: #F5A623; background: #fffaf0; box-shadow: 0 0 0 2px rgba(245,166,35,.2); }
-    .result-option[aria-pressed="true"] { border-color: #4A90E2; background: #eff6ff; box-shadow: inset 4px 0 #4A90E2; }
-    .field-label { display: block; margin-bottom: .3rem; font-size: .75rem; line-height: 1rem; font-weight: 700; color: #334155; }
-    .field { width: 100%; border-radius: .75rem; border: 1px solid #cbd5e1; padding: .75rem; font-size: .875rem; outline: none; transition: all .2s; background: white; }
-    .field:focus { border-color: #4A90E2; box-shadow: 0 0 0 2px rgba(74,144,226,.15); }
-    .badge-direct { background:#e0f2fe; color:#075985; }
-    .badge-infer { background:#ede9fe; color:#5b21b6; }
-    .badge-propose { background:#fef3c7; color:#92400e; }
-    .badge-unknown { background:#fee2e2; color:#991b1b; }
-    .badge-person { background:#d1fae5; color:#065f46; }
-    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+    .main-hover:hover { background-color: #3B7DC4; }
+    .smooth-transition { transition: all 0.25s ease-in-out; }
+
+    /* チップ選択のアクティブ表示 */
+    .chip-btn[aria-pressed="true"] {
+      background-color: #4A90E2 !important;
+      color: white !important;
+      border-color: #4A90E2 !important;
+      box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3) !important;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased">
-  <header class="sticky top-0 z-40 main-bg text-white shadow-md">
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+  <!-- ==========================================
+      1. Navigation Header
+  ========================================== -->
+  <header class="sticky top-0 z-40 main-color-bg text-white shadow-md">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center">
-          <i data-lucide="file-search-2" class="w-5 h-5"></i>
+        <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shadow-inner">
+          <i data-lucide="scale" class="w-5 h-5 text-white"></i>
         </div>
         <div>
           <span class="block text-xs font-semibold tracking-wider text-yellow-300">甲南高校79期生 公民科</span>
-          <span class="block text-sm sm:text-base font-bold leading-tight">第3時 STEP 3「根拠を公式資料と照合する」</span>
+          <span class="block text-sm sm:text-base font-bold leading-tight">第3時 STEP 3「公式資料との照合と暫定判断」</span>
         </div>
       </div>
-      <span class="hidden sm:inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-bold">剛・明・直</span>
+      <span class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-yellow-300"></i>
+        <span>資料照合＆暫定判断</span>
+      </span>
     </div>
   </header>
 
+  <!-- ==========================================
+      Main Content
+  ========================================== -->
   <main class="flex-grow">
-    <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white px-4 py-10 md:py-14 shadow-inner">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white px-4 py-10 md:py-12 shadow-inner">
       <div class="max-w-4xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-4 py-1 text-xs font-bold text-yellow-300">
-          <i data-lucide="scan-search" class="w-4 h-4"></i>
-          <span>第3時 STEP 3｜EVIDENCE CHECK</span>
+        <div class="inline-flex items-center gap-2 rounded-full border border-yellow-300/40 bg-yellow-400/10 px-4 py-1 text-xs font-bold text-yellow-300 mb-3 shadow-sm">
+          <i data-lucide="file-check-2" class="w-4 h-4"></i>
+          <span>資料の範囲を確かめ、第4時へ引き継ぐ問いを決める</span>
         </div>
-        <h1 class="mt-4 text-2xl sm:text-4xl md:text-5xl font-black tracking-tight">問いと根拠の距離を確かめる</h1>
-        <p class="mt-3 text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-          STEP 2で選んだ問いを公式資料に戻って確かめ、資料に直接書かれていることと、班が考えたことを分けます。
+        <h1 class="text-2xl sm:text-4xl font-extrabold leading-tight">
+          公式資料との照合と暫定判断
+        </h1>
+        <p class="mt-2 text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
+          AIとの対話で絞った最重要の問いを公式資料と照合し、資料の限界を踏まえて人間が暫定判断します。
         </p>
-        <div class="mt-6 max-w-2xl mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-4 text-left">
-          <span class="text-xs font-bold text-yellow-300 block mb-1">この活動のゴール</span>
-          <p class="text-sm sm:text-base font-bold">STEP 4で判断できるように、公式資料の根拠、資料の限界、本人に確認することを整理する。</p>
+
+        <!-- ゴールボックス -->
+        <div class="mt-6 max-w-2xl mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-4 text-left backdrop-blur shadow-lg">
+          <span class="text-xs font-bold text-yellow-300 block mb-1">本ステップのゴール</span>
+          <p class="text-sm sm:text-base font-bold leading-snug text-white">
+            照合結果と「採用・修正・保留・不採用」の理由を整理し、班のスライドへ記録する。
+          </p>
         </div>
       </div>
     </section>
 
-    <div class="max-w-5xl mx-auto px-4 py-8 space-y-6">
-      <section class="rounded-2xl border border-blue-200 bg-blue-50/70 p-5 shadow-sm">
-        <h2 class="font-black text-slate-800 flex items-center gap-2">
-          <i data-lucide="help-circle" class="w-5 h-5 main-text"></i>
-          本時の中心となる問い
-        </h2>
-        <p class="mt-2 text-sm sm:text-base font-bold text-blue-950">
-          その判断は、公式資料のどこまでを根拠にでき、どこから先は班の判断や本人との対話が必要なのだろうか。
-        </p>
-      </section>
+    <div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
 
-      <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-        <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
-          <span class="w-7 h-7 rounded-full main-bg text-white flex items-center justify-center text-xs font-black">1</span>
-          <h2 class="text-base sm:text-lg font-black">STEP 2の問いを引き継ぐ</h2>
-        </div>
-        <div class="mt-4 grid gap-4">
-          <div>
-            <span class="field-label">担当ケース</span>
-            <div id="caseGrid" class="grid grid-cols-3 gap-3">
-              <button type="button" data-case="剛" class="case-card min-h-12 rounded-xl border-2 border-slate-200 bg-white font-bold smooth" aria-current="true">剛</button>
-              <button type="button" data-case="明" class="case-card min-h-12 rounded-xl border-2 border-slate-200 bg-white font-bold smooth" aria-current="false">明</button>
-              <button type="button" data-case="直" class="case-card min-h-12 rounded-xl border-2 border-slate-200 bg-white font-bold smooth" aria-current="false">直</button>
-            </div>
-          </div>
-          <label>
-            <span class="field-label">STEP 2で選んだ「最も重要な問い」</span>
-            <textarea id="criticalQuestion" rows="3" class="field" placeholder="Geminiまたは問い直しカードから選んだ問いを、自分たちの言葉で記録"></textarea>
-          </label>
-          <div>
-            <span class="field-label">問いが生まれた経路</span>
-            <div class="grid sm:grid-cols-4 gap-2 text-sm">
-              <label class="flex items-center gap-2 rounded-xl border bg-white p-3 cursor-pointer"><input type="radio" name="route" value="Geminiとの対話" class="w-5 h-5 accent-[#4A90E2]">Geminiとの対話</label>
-              <label class="flex items-center gap-2 rounded-xl border bg-white p-3 cursor-pointer"><input type="radio" name="route" value="問い直しカード" class="w-5 h-5 accent-[#4A90E2]">問い直しカード</label>
-              <label class="flex items-center gap-2 rounded-xl border bg-white p-3 cursor-pointer"><input type="radio" name="route" value="両方" class="w-5 h-5 accent-[#4A90E2]">両方</label>
-              <label class="flex items-center gap-2 rounded-xl border bg-white p-3 cursor-pointer"><input type="radio" name="route" value="班員同士の追加対話" class="w-5 h-5 accent-[#4A90E2]">追加対話</label>
-            </div>
-            <p class="mt-2 text-xs text-slate-500">経路の優劣を評価するためではなく、問いの検討過程を明らかにするために記録します。</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
+      <!-- 1. 問いと資料 -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
           <div class="flex items-center gap-2">
-            <span class="w-7 h-7 rounded-full main-bg text-white flex items-center justify-center text-xs font-black">2</span>
-            <h2 class="text-base sm:text-lg font-black">確認する公式資料を選ぶ</h2>
+            <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">1</span>
+            <h2 class="text-base sm:text-lg font-bold text-slate-800">問いと確認資料</h2>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <a href="step2_official_sources_guide.html?lesson=2" target="_blank" rel="noopener noreferrer" class="min-h-11 inline-flex items-center gap-2 rounded-xl main-bg main-hover text-white px-4 py-2 text-xs font-bold smooth">
-              公式資料ガイドを開く <i data-lucide="external-link" class="w-4 h-4"></i>
-            </a>
-            <!-- 直接開くaリンク（URLはJSから安全に動的設定） -->
-            <a id="notebookLink" href="#" target="_blank" rel="noopener noreferrer" class="min-h-11 inline-flex items-center gap-2 rounded-xl accent-bg accent-hover text-white px-4 py-2 text-xs font-bold smooth">
-              Gemini Notebookを開く <i data-lucide="external-link" class="w-4 h-4"></i>
-            </a>
+          <!-- Gemini Notebookへの直通リンク -->
+          <a id="notebookLink" href="#" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-white main-color-bg main-hover px-3 py-1.5 rounded-lg smooth-transition flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+            <span>Gemini Notebookを開く</span>
+            <i data-lucide="external-link" class="w-3 h-3"></i>
+          </a>
+        </div>
+
+        <div>
+          <label for="inputQuestion" class="block text-xs font-bold text-slate-700 mb-1">最重要の問い（STEP 2で決めた問い）</label>
+          <textarea id="inputQuestion" rows="2" maxlength="80" oninput="renderCard()" placeholder="STEP 2で絞り込んだ最重要の問いを入力" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none"></textarea>
+        </div>
+
+        <div>
+          <label for="inputSource" class="block text-xs font-bold text-slate-700 mb-1">確認した資料（原則1件：番号または短い資料名）</label>
+          <input type="text" id="inputSource" oninput="renderCard()" placeholder="例：[剛] 01｜合理的配慮と校内支援体制（p.14）" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none">
+          <p class="text-[11px] text-slate-500 mt-1">※Gemini Notebookは資料案内役として使い、必ず原資料の該当箇所を確認します。</p>
+        </div>
+      </section>
+
+      <!-- 2. 照合結果と根拠 -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
+          <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">2</span>
+          <h2 class="text-base sm:text-lg font-bold text-slate-800">照合結果と根拠</h2>
+        </div>
+
+        <div>
+          <span class="block text-xs font-bold text-slate-700 mb-2">照合結果（3択から選択）</span>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5" id="matchChips">
+            <button type="button" onclick="selectMatch('公式資料で確かめられた')" class="chip-btn py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">確かめられた</button>
+            <button type="button" onclick="selectMatch('公式資料を踏まえると修正が必要')" class="chip-btn py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">修正が必要</button>
+            <button type="button" onclick="selectMatch('公式資料だけでは判断できない')" class="chip-btn py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">判断できない</button>
           </div>
+          <input type="hidden" id="matchResult">
         </div>
-        <p class="mt-3 text-xs text-slate-600">ケースとの対応は目安です。問いに必要であれば共通資料や別ケースの資料も確認できます。</p>
-        <div id="sourceGrid" class="mt-4 grid sm:grid-cols-2 gap-3"></div>
-        <div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-xs text-amber-900 flex items-start gap-2">
-          <i data-lucide="triangle-alert" class="w-4 h-4 accent-text shrink-0 mt-0.5"></i>
-          <span><strong>Gemini Notebookの回答だけで判断しません。</strong> 原資料を開き、資料名、発行主体、版・発行年、ページまたは見出しを確認します。</span>
+
+        <div>
+          <label for="inputBasis" class="block text-xs font-bold text-slate-700 mb-1">根拠（1文・120字以内）</label>
+          <textarea id="inputBasis" rows="2" maxlength="120" oninput="renderCard()" placeholder="資料の該当箇所や原則を踏まえ、なぜそう判断したかを1文で簡潔に記述" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none"></textarea>
+        </div>
+
+        <div>
+          <label for="inputHold" class="block text-xs font-bold text-slate-700 mb-1">本人との対話まで保留すること（必要な場合のみ・80字以内）</label>
+          <input type="text" id="inputHold" maxlength="80" oninput="renderCard()" placeholder="例：本人がどちらの提出方法を心地よいと感じているか" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none">
         </div>
       </section>
 
-      <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+      <!-- 3. 人間が暫定判断 -->
+      <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
         <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
-          <span class="w-7 h-7 rounded-full main-bg text-white flex items-center justify-center text-xs font-black">3</span>
-          <h2 class="text-base sm:text-lg font-black">根拠資料を記録する</h2>
+          <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">3</span>
+          <h2 class="text-base sm:text-lg font-bold text-slate-800">人間が暫定判断する</h2>
         </div>
-        <p class="mt-2 text-xs text-slate-600">根拠資料1件目は必須、2件目は任意です。Gemini Notebookの回答をそのまま貼り付けず、原資料を確認して自分たちの言葉で記録します。</p>
-        <div class="mt-4 space-y-4">
-          <article class="rounded-xl border border-blue-200 bg-blue-50/40 p-4">
-            <h3 class="font-black text-sm text-blue-950">根拠資料1件目 <span class="text-rose-600">必須</span></h3>
-            <div class="mt-3 grid sm:grid-cols-2 gap-3">
-              <label><span class="field-label">資料名</span><input id="source1Title" class="field" type="text"></label>
-              <label><span class="field-label">発行主体</span><input id="source1Publisher" class="field" type="text"></label>
-              <label><span class="field-label">版・発行年</span><input id="source1Edition" class="field" type="text"></label>
-              <label><span class="field-label">ページまたは見出し</span><input id="source1Location" class="field" type="text"></label>
-              <label class="sm:col-span-2"><span class="field-label">資料に直接書かれていること</span><textarea id="source1Direct" rows="3" class="field"></textarea></label>
-              <label class="sm:col-span-2"><span class="field-label">STEP 2の問いとの関係</span><textarea id="source1Relation" rows="2" class="field"></textarea></label>
-            </div>
-          </article>
-          <details class="rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <summary class="cursor-pointer font-black text-sm flex items-center justify-between">根拠資料2件目を追加する <i data-lucide="chevron-down" class="w-4 h-4"></i></summary>
-            <div class="mt-4 grid sm:grid-cols-2 gap-3">
-              <label><span class="field-label">資料名</span><input id="source2Title" class="field" type="text"></label>
-              <label><span class="field-label">発行主体</span><input id="source2Publisher" class="field" type="text"></label>
-              <label><span class="field-label">版・発行年</span><input id="source2Edition" class="field" type="text"></label>
-              <label><span class="field-label">ページまたは見出し</span><input id="source2Location" class="field" type="text"></label>
-              <label class="sm:col-span-2"><span class="field-label">資料に直接書かれていること</span><textarea id="source2Direct" rows="3" class="field"></textarea></label>
-              <label class="sm:col-span-2"><span class="field-label">STEP 2の問いとの関係</span><textarea id="source2Relation" rows="2" class="field"></textarea></label>
-            </div>
-          </details>
-        </div>
-      </section>
 
-      <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-        <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
-          <span class="w-7 h-7 rounded-full accent-bg text-white flex items-center justify-center text-xs font-black">4</span>
-          <h2 class="text-base sm:text-lg font-black">照合結果を5つに分ける</h2>
-        </div>
-        <div class="mt-4 grid gap-4">
-          <label class="rounded-xl border border-sky-200 bg-sky-50/60 p-4"><span class="inline-block rounded-full badge-direct px-2.5 py-1 text-[11px] font-black">1 資料に直接書かれていること</span><textarea id="directFinding" rows="3" class="field mt-3" placeholder="原資料の本文から直接確認できたこと"></textarea></label>
-          <label class="rounded-xl border border-violet-200 bg-violet-50/60 p-4"><span class="inline-block rounded-full badge-infer px-2.5 py-1 text-[11px] font-black">2 【資料からの推論】</span><textarea id="inference" rows="3" class="field mt-3" placeholder="どの記述から、どのように考えたか"></textarea></label>
-          <label class="rounded-xl border border-amber-200 bg-amber-50/60 p-4"><span class="inline-block rounded-full badge-propose px-2.5 py-1 text-[11px] font-black">3 【授業内で決める提案】</span><textarea id="proposal" rows="3" class="field mt-3" placeholder="何を、誰が、いつ、どのように決める必要があるか"></textarea></label>
-          <label class="rounded-xl border border-rose-200 bg-rose-50/60 p-4"><span class="inline-block rounded-full badge-unknown px-2.5 py-1 text-[11px] font-black">4 資料だけでは判断できないこと</span><textarea id="unknownFinding" rows="3" class="field mt-3" placeholder="公式資料では確定できなかったこと"></textarea></label>
-          <label class="rounded-xl border border-emerald-200 bg-emerald-50/60 p-4"><span class="inline-block rounded-full badge-person px-2.5 py-1 text-[11px] font-black">5 本人との対話で確認すること</span><textarea id="personCheck" rows="3" class="field mt-3" placeholder="第4時に本人へ確認したい問い"></textarea></label>
-        </div>
-      </section>
-
-      <section class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-        <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
-          <span class="w-7 h-7 rounded-full main-bg text-white flex items-center justify-center text-xs font-black">5</span>
-          <h2 class="text-base sm:text-lg font-black">現時点の回答をまとめる</h2>
-        </div>
-        <div class="mt-4 grid gap-4">
-          <label><span class="field-label">公式資料から確認できたこと</span><textarea id="currentConfirmed" rows="3" class="field"></textarea></label>
-          <label><span class="field-label">班が現時点で考えたこと</span><textarea id="currentJudgment" rows="3" class="field" placeholder="推論または授業内提案であることが分かるように記録"></textarea></label>
-          <label><span class="field-label">まだ決めないこと</span><textarea id="currentHold" rows="3" class="field" placeholder="資料だけでは判断できないこと、本人に確認すること"></textarea></label>
-        </div>
-        <div class="mt-5">
-          <span class="field-label">照合結果</span>
-          <div id="resultOptions" class="grid sm:grid-cols-2 gap-3">
-            <button type="button" data-result="根拠を確認できた" class="result-option rounded-xl border-2 border-slate-200 bg-white p-3 text-left smooth" aria-pressed="false"><strong class="block text-sm">根拠を確認できた</strong><span class="text-xs text-slate-500">原則や条件が資料に直接書かれていた。</span></button>
-            <button type="button" data-result="一部を確認できた" class="result-option rounded-xl border-2 border-slate-200 bg-white p-3 text-left smooth" aria-pressed="false"><strong class="block text-sm">一部を確認できた</strong><span class="text-xs text-slate-500">一部は確認できたが、方法までは決められない。</span></button>
-            <button type="button" data-result="資料からの推論が必要" class="result-option rounded-xl border-2 border-slate-200 bg-white p-3 text-left smooth" aria-pressed="false"><strong class="block text-sm">資料からの推論が必要</strong><span class="text-xs text-slate-500">直接記載はないが、合理的に考えられる。</span></button>
-            <button type="button" data-result="資料だけでは判断できない" class="result-option rounded-xl border-2 border-slate-200 bg-white p-3 text-left smooth" aria-pressed="false"><strong class="block text-sm">資料だけでは判断できない</strong><span class="text-xs text-slate-500">本人との対話や授業内の合意が必要。</span></button>
+        <div>
+          <span class="block text-xs font-bold text-slate-700 mb-2">暫定判断（4択から選択）</span>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="judgeChips">
+            <button type="button" onclick="selectJudge('採用')" class="chip-btn py-2.5 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">採用</button>
+            <button type="button" onclick="selectJudge('修正')" class="chip-btn py-2.5 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">修正</button>
+            <button type="button" onclick="selectJudge('保留')" class="chip-btn py-2.5 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">保留</button>
+            <button type="button" onclick="selectJudge('不採用')" class="chip-btn py-2.5 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">不採用</button>
           </div>
+          <input type="hidden" id="judgeResult">
+        </div>
+
+        <div>
+          <label for="inputJudgeReason" class="block text-xs font-bold text-slate-700 mb-1">判断理由（1文・100字以内）</label>
+          <textarea id="inputJudgeReason" rows="2" maxlength="100" oninput="renderCard()" placeholder="班としてなぜその判断を下したのかの理由を1文で記述" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none"></textarea>
+        </div>
+
+        <div class="rounded-xl border border-amber-200 bg-amber-50/80 p-3.5 text-xs text-amber-900 leading-relaxed">
+          <strong>第4時へ引き継ぐのは、照合と暫定判断を踏まえて最後に残した「最重要の問い」1つです。</strong>
+        </div>
+
+        <div>
+          <label for="finalQ" class="block text-xs font-bold text-slate-800 mb-1">第4時へ引き継ぐ最重要の問い（必要なら書き換える・80字以内）</label>
+          <textarea id="finalQ" rows="2" maxlength="80" oninput="renderCard()" placeholder="照合と判断を踏まえ、第4時へ渡す最終的な問いを1つ記述" class="w-full rounded-xl border border-amber-300 p-2.5 text-xs sm:text-sm font-bold text-slate-800 focus:border-[#F5A623] outline-none bg-white"></textarea>
         </div>
       </section>
 
-      <section class="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 sm:p-6 shadow-sm">
+      <!-- 4. STEP 4 スライド記録カード -->
+      <section class="bg-amber-50/70 rounded-2xl border-2 border-amber-300 p-5 sm:p-6 shadow-sm space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-amber-200">
           <div class="flex items-center gap-2">
-            <i data-lucide="clipboard-check" class="w-5 h-5 accent-text"></i>
-            <h2 class="text-base sm:text-lg font-black text-amber-950">STEP 4へ渡す照合結果カード</h2>
+            <i data-lucide="clipboard-check" class="w-5 h-5 accent-color-text"></i>
+            <h2 class="text-base sm:text-lg font-bold text-amber-950">班スライドへ貼り付ける記録カード</h2>
           </div>
-          <button id="copySummary" type="button" class="min-h-11 rounded-xl main-bg main-hover px-4 py-2 text-xs font-bold text-white smooth inline-flex items-center gap-2">
-            <i data-lucide="copy" class="w-4 h-4"></i><span id="copyLabel">照合結果をコピー</span>
-          </button>
-        </div>
-        <pre id="summary" class="mt-4 whitespace-pre-wrap rounded-xl border border-amber-200 bg-white p-4 text-xs sm:text-sm leading-relaxed font-sans text-slate-700"></pre>
-        <div class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-3.5 text-xs text-emerald-900 flex items-start gap-2">
-          <i data-lucide="arrow-right-circle" class="w-4 h-4 shrink-0 mt-0.5"></i>
-          <span><strong>次はSTEP 4へ：</strong>この照合結果を基に、STEP 2で受け取った指摘を「採用・修正・保留・不採用」のどれとして扱うか、班で判断します。</span>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="copyCardContent()" id="copyCardBtn" class="px-4 py-2 rounded-xl accent-color-bg accent-hover text-white font-bold text-xs shadow-sm smooth-transition flex items-center gap-1.5 active:scale-95">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>スライド用にコピー</span>
+            </button>
+            <a id="slideLink" href="#" target="konan_slides_tab" class="px-3.5 py-2 rounded-xl border border-amber-300 bg-white hover:bg-amber-100 text-amber-900 font-bold text-xs smooth-transition flex items-center gap-1 shadow-sm">
+              <span>スライドを開く</span>
+              <i data-lucide="external-link" class="w-3 h-3"></i>
+            </a>
+          </div>
         </div>
 
-        <!-- ★全画面共通の「次の操作」案内枠を追加 -->
-        <div class="mt-4 rounded-xl border-l-4 border-[#F5A623] bg-amber-50/70 p-4 text-left shadow-sm">
-          <span class="text-xs font-bold text-amber-900 block mb-1 flex items-center gap-1.5">
-            <i data-lucide="info" class="w-4 h-4 text-[#F5A623]"></i>
-            <span>次の操作</span>
-          </span>
-          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-            照合結果をコピーして班のスライドに貼り付けたら、ブラウザ上部の<strong>「×」ボタンでこのタブを閉じて</strong>授業ポータルに戻り、<strong>STEP 3の「完了」ボタン</strong>を押して進捗を記録してください。
-          </p>
+        <pre id="cardOutput" class="whitespace-pre-wrap rounded-xl border border-amber-200 bg-white p-4 text-xs sm:text-sm leading-relaxed font-sans text-slate-700 shadow-inner"></pre>
+      </section>
+
+      <!-- 5. 次の操作案内バナー -->
+      <section class="rounded-xl border-l-4 border-emerald-500 bg-emerald-50/80 p-4 shadow-sm flex items-start gap-3">
+        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+        <div class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+          <strong class="font-bold text-emerald-950">スライド貼り付け後の操作：</strong>
+          内容をコピーして班スライドの橙色欄へ貼り付けたら、ブラウザ上部の<strong>「×」ボタンでこのタブを閉じて</strong>授業ポータルに戻り、<strong>「STEP 5 個人で振り返る」</strong>へ進んでください。
         </div>
       </section>
+
     </div>
   </main>
 
+  <!-- ==========================================
+      Footer
+  ========================================== -->
   <footer class="mt-12 bg-slate-800 text-slate-400 py-5 text-center text-xs border-t border-slate-700">
     <p>© 2026 鹿児島県立甲南高等学校 公民科</p>
   </footer>
 
+  <!-- ==========================================
+      JavaScript Logic
+  ========================================== -->
   <script>
     'use strict';
-    // ノートブックURL（portal-config.js から自動読込、実URLフォールバックなし）
-    const GEMINI_NOTEBOOK_URL = (window.PORTAL_CONFIG && window.PORTAL_CONFIG.geminiNotebookUrl)
-      ? window.PORTAL_CONFIG.geminiNotebookUrl
-      : "";
 
-    const STORAGE_KEY = 'konan_lesson3_evidence_check_data';
-    const SOURCES = [
-      { id:'go_support', cases:['剛'], title:'[剛] 01｜合理的配慮と校内支援体制', note:'参加方法、意思表明、校内支援体制' },
-      { id:'human_ai', cases:['剛','明','直'], title:'[共通] 02｜人間中心のAI社会原則', note:'人間中心、選択、責任、公平性' },
-      { id:'genai', cases:['明','直'], title:'[共通] 03 [明] 01｜生成AI利活用ガイドラインVer.2.0', note:'出力の確認、個人情報、最終判断' },
-      { id:'assessment', cases:['直'], title:'[直] 01｜学習評価の在り方', note:'共通の目標と評価規準、評価の公正さ' }
-    ];
-    const INPUT_IDS = ['criticalQuestion','source1Title','source1Publisher','source1Edition','source1Location','source1Direct','source1Relation','source2Title','source2Publisher','source2Edition','source2Location','source2Direct','source2Relation','directFinding','inference','proposal','unknownFinding','personCheck','currentConfirmed','currentJudgment','currentHold'];
-    let selectedCase = '剛';
-    let selectedSources = [];
-    let selectedResult = '';
+    const STORAGE_KEY = 'konan_lesson3_evidence_v2';
     let isRestoring = false;
 
-    function renderSources() {
-      const grid = document.getElementById('sourceGrid');
-      grid.innerHTML = SOURCES.map(s => `
-        <button type="button" data-source="${s.id}" aria-pressed="${selectedSources.includes(s.id)}"
-          class="source-card rounded-xl border-2 border-slate-200 bg-white p-4 text-left smooth hover:border-amber-300">
-          <span class="text-[11px] font-black main-text">${s.cases.join('・')}に関連</span>
-          <strong class="block mt-1 text-sm text-slate-800">${s.title}</strong>
-          <span class="block mt-2 text-xs text-slate-500">${s.note}</span>
-        </button>`).join('');
-      document.querySelectorAll('.source-card').forEach(btn => btn.addEventListener('click', () => toggleSource(btn.dataset.source)));
-      lucide.createIcons();
+    function v(id) {
+      return document.getElementById(id).value.trim() || '（未入力）';
     }
 
-    function init() {
-      // リンクURLを安全に設定（未設定時は無効化）
-      const nbLink = document.getElementById('notebookLink');
-      if (nbLink) {
-        if (GEMINI_NOTEBOOK_URL) {
-          nbLink.href = GEMINI_NOTEBOOK_URL;
-        } else {
-          nbLink.href = '#';
-          nbLink.setAttribute('aria-disabled', 'true');
-          nbLink.classList.add('opacity-50', 'cursor-not-allowed');
-          nbLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Gemini NotebookのURLが設定されていません。portal-config.js を確認してください。');
-          });
-        }
+    function selectMatch(val) {
+      document.getElementById('matchResult').value = val;
+      document.querySelectorAll('#matchChips button').forEach(btn => {
+        btn.setAttribute('aria-pressed', btn.textContent.trim() === val.replace('公式資料で', '').replace('公式資料を踏まえると', '').replace('公式資料だけでは', ''));
+      });
+      renderCard();
+    }
+
+    function selectJudge(val) {
+      document.getElementById('judgeResult').value = val;
+      document.querySelectorAll('#judgeChips button').forEach(btn => {
+        btn.setAttribute('aria-pressed', btn.textContent.trim() === val);
+      });
+      renderCard();
+    }
+
+    function renderCard() {
+      const match = v('matchResult');
+      const basis = v('inputBasis');
+      const hold = document.getElementById('inputHold').value.trim();
+      const judge = v('judgeResult');
+      const reason = v('inputJudgeReason');
+      const finalq = v('finalQ');
+
+      let text = `【照合結果】${match}\n【根拠】${basis}`;
+      if (hold) {
+        text += `\n【本人との対話まで保留】${hold}`;
       }
+      text += `\n【暫定判断】${judge}\n【判断理由】${reason}\n【第4時へ引き継ぐ最重要の問い】${finalq}`;
 
-      renderSources();
-      bindEvents();
-      loadData();
-      updateSummary();
-      lucide.createIcons();
-    }
-    
-    function bindEvents() {
-      document.querySelectorAll('.case-card').forEach(btn => btn.addEventListener('click', () => {
-        selectedCase = btn.dataset.case;
-        document.querySelectorAll('.case-card').forEach(b => b.setAttribute('aria-current', b === btn));
-        saveAndUpdate();
-      }));
-      document.querySelectorAll('.result-option').forEach(btn => btn.addEventListener('click', () => {
-        selectedResult = btn.dataset.result;
-        document.querySelectorAll('.result-option').forEach(b => b.setAttribute('aria-pressed', b === btn));
-        saveAndUpdate();
-      }));
-      INPUT_IDS.forEach(id => document.getElementById(id).addEventListener('input', saveAndUpdate));
-      document.querySelectorAll('input[name="route"]').forEach(r => r.addEventListener('change', saveAndUpdate));
-      document.getElementById('copySummary').addEventListener('click', copySummary);
-      // （notebookBtnのalertイベント処理は削除）
-    }
-
-    function toggleSource(id) {
-      selectedSources = selectedSources.includes(id) ? selectedSources.filter(x => x !== id) : [...selectedSources, id];
-      document.querySelectorAll('.source-card').forEach(btn => btn.setAttribute('aria-pressed', selectedSources.includes(btn.dataset.source)));
-      saveAndUpdate();
-    }
-
-    function value(id) { return document.getElementById(id).value.trim(); }
-    function routeValue() { return document.querySelector('input[name="route"]:checked')?.value || '未選択'; }
-    function selectedSourceTitles() { return SOURCES.filter(s => selectedSources.includes(s.id)).map(s => s.title).join('／') || '未選択'; }
-
-    function updateSummary() {
-      const source2 = value('source2Title') ? `\n\n【根拠資料2】\n資料名：${value('source2Title')}\n発行主体：${value('source2Publisher')}\n版・発行年：${value('source2Edition')}\nページ・見出し：${value('source2Location')}\n直接記載：${value('source2Direct')}\n問いとの関係：${value('source2Relation')}` : '';
-      document.getElementById('summary').textContent = `【担当ケース】\n${selectedCase}\n\n【問いが生まれた経路】\n${routeValue()}\n\n【STEP 2で選んだ問い】\n${value('criticalQuestion')}\n\n【確認対象として選んだ資料】\n${selectedSourceTitles()}\n\n【根拠資料1】\n資料名：${value('source1Title')}\n発行主体：${value('source1Publisher')}\n版・発行年：${value('source1Edition')}\nページ・見出し：${value('source1Location')}\n直接記載：${value('source1Direct')}\n問いとの関係：${value('source1Relation')}${source2}\n\n【資料に直接書かれていること】\n${value('directFinding')}\n\n【資料からの推論】\n${value('inference')}\n\n【授業内で決める提案】\n${value('proposal')}\n\n【資料だけでは判断できないこと】\n${value('unknownFinding')}\n\n【本人との対話で確認すること】\n${value('personCheck')}\n\n【現時点で確認できたこと】\n${value('currentConfirmed')}\n\n【班が現時点で考えたこと】\n${value('currentJudgment')}\n\n【まだ決めないこと】\n${value('currentHold')}\n\n【照合結果】\n${selectedResult || '未選択'}\n\n【STEP 4で判断すること】\nSTEP 2で受け取った指摘を、採用・修正・保留・不採用のどれとして扱うか。`;
-    }
-
-    function saveAndUpdate() {
-      updateSummary();
+      document.getElementById('cardOutput').textContent = text;
       if (!isRestoring) saveData();
     }
 
+    async function copyCardContent() {
+      const text = document.getElementById('cardOutput').textContent;
+      const btn = document.getElementById('copyCardBtn');
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i><span>コピー完了！</span>`;
+        btn.classList.add('bg-emerald-600');
+        setTimeout(() => {
+          btn.innerHTML = `<i data-lucide="copy" class="w-3.5 h-3.5"></i><span>スライド用にコピー</span>`;
+          btn.classList.remove('bg-emerald-600');
+          lucide.createIcons();
+        }, 1800);
+      } catch (e) {
+        alert('クリップボードへのコピーに失敗しました。');
+      }
+      lucide.createIcons();
+    }
+
     function saveData() {
-      const fields = {};
-      INPUT_IDS.forEach(id => fields[id] = document.getElementById(id).value);
-      const data = { selectedCase, selectedSources, selectedResult, route: routeValue(), fields };
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+      const data = {
+        question: document.getElementById('inputQuestion').value,
+        source: document.getElementById('inputSource').value,
+        match: document.getElementById('matchResult').value,
+        basis: document.getElementById('inputBasis').value,
+        hold: document.getElementById('inputHold').value,
+        judge: document.getElementById('judgeResult').value,
+        reason: document.getElementById('inputJudgeReason').value,
+        finalQ: document.getElementById('finalQ').value
+      };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {}
     }
 
     function loadData() {
       isRestoring = true;
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if (!saved) return;
-        if (['剛','明','直'].includes(saved.selectedCase)) selectedCase = saved.selectedCase;
-        selectedSources = Array.isArray(saved.selectedSources) ? saved.selectedSources.filter(id => SOURCES.some(s => s.id === id)) : [];
-        selectedResult = typeof saved.selectedResult === 'string' ? saved.selectedResult : '';
-        if (saved.fields) INPUT_IDS.forEach(id => { if (typeof saved.fields[id] === 'string') document.getElementById(id).value = saved.fields[id]; });
-        document.querySelectorAll('.case-card').forEach(b => b.setAttribute('aria-current', b.dataset.case === selectedCase));
-        document.querySelectorAll('.source-card').forEach(b => b.setAttribute('aria-pressed', selectedSources.includes(b.dataset.source)));
-        document.querySelectorAll('.result-option').forEach(b => b.setAttribute('aria-pressed', b.dataset.result === selectedResult));
-        if (saved.route) {
-          const radio = [...document.querySelectorAll('input[name="route"]')].find(r => r.value === saved.route);
-          if (radio) radio.checked = true;
+        if (saved) {
+          if (saved.question) document.getElementById('inputQuestion').value = saved.question;
+          if (saved.source) document.getElementById('inputSource').value = saved.source;
+          if (saved.match) selectMatch(saved.match);
+          if (saved.basis) document.getElementById('inputBasis').value = saved.basis;
+          if (saved.hold) document.getElementById('inputHold').value = saved.hold;
+          if (saved.judge) selectJudge(saved.judge);
+          if (saved.reason) document.getElementById('inputJudgeReason').value = saved.reason;
+          if (saved.finalQ) document.getElementById('finalQ').value = saved.finalQ;
         }
       } catch (e) {
-        console.warn('保存データを復元できませんでした。', e);
       } finally {
         isRestoring = false;
       }
+      renderCard();
     }
 
-    async function copySummary() {
-      const required = ['criticalQuestion','source1Title','source1Publisher','source1Location','source1Direct'];
-      if (required.some(id => !value(id))) {
-        alert('最も重要な問いと、根拠資料1件目の必須項目を入力してください。');
-        return;
+    document.addEventListener('DOMContentLoaded', () => {
+      // portal-config.js のURL反映
+      const cfg = window.PORTAL_CONFIG || {};
+      const nbLink = document.getElementById('notebookLink');
+      if (nbLink && cfg.geminiNotebookUrl) {
+        nbLink.href = cfg.geminiNotebookUrl;
       }
-      try {
-        await navigator.clipboard.writeText(document.getElementById('summary').textContent);
-        const label = document.getElementById('copyLabel');
-        label.textContent = 'コピーしました';
-        setTimeout(() => label.textContent = '照合結果をコピー', 1800);
-      } catch (e) {
-        alert('コピーできませんでした。照合結果カードの文章を選択してコピーしてください。');
+      const sLink = document.getElementById('slideLink');
+      if (sLink && cfg.slidesLesson1to3) {
+        sLink.href = cfg.slidesLesson1to3;
       }
-    }
 
-    document.addEventListener('DOMContentLoaded', init);
+      loadData();
+      lucide.createIcons();
+    });
   </script>
 </body>
 </html>
