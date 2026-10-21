@@ -158,7 +158,7 @@
           </div>
           <p class="text-xs text-slate-600">AIからの1問目の問いに対し、班の考えを1文入力してコピーしてください：</p>
           <div class="flex gap-2">
-            <input type="text" id="responseTurn1" placeholder="AIへの班の返答（例：話合いの速度より、全員の納得感を優先できると考えたから）" class="flex-grow rounded-lg border border-slate-300 p-2 text-xs focus:border-[#4A90E2] outline-none bg-white">
+            <input type="text" id="responseTurn1" placeholder="AIへの班の返答（例：話合いのスピードより、全員が納得することを大切にしたいから）" class="flex-grow rounded-lg border border-slate-300 p-2 text-xs focus:border-[#4A90E2] outline-none bg-white">
           </div>
         </div>
 
@@ -175,7 +175,7 @@
           </div>
           <p class="text-xs text-slate-600">AIからの2問目の問いに対し、班の考えを1文入力してコピーしてください：</p>
           <div class="flex gap-2">
-            <input type="text" id="responseTurn2" placeholder="AIへの班の返答（例：書く手段があっても、後からの意見を拾う時間がないと形骸化するから）" class="flex-grow rounded-lg border border-slate-300 p-2 text-xs focus:border-[#4A90E2] outline-none bg-white">
+            <input type="text" id="responseTurn2" placeholder="AIへの班の返答（例：後から意見を出せても、すでに話合いが終わっていたら意味がないから）" class="flex-grow rounded-lg border border-slate-300 p-2 text-xs focus:border-[#4A90E2] outline-none bg-white">
           </div>
         </div>
       </section>
@@ -250,7 +250,8 @@
       const unk = getVal('inputUnknown') || '（未入力）';
       const per = getVal('inputPerson') || '（未入力）';
 
-      const promptText = `あなたは、高校「公共」の授業で班の構想を問い直す役です。完成案や解決策は出さず、まず班の構想の「前提」を問い直す質問を1つだけ返してください。
+      // ★高校生向けに言葉づかいをチューニングした開始プロンプト
+      const promptText = `あなたは、高校「公共」の授業で生徒たちの構想を問い直す対話のパートナーです。完成案や解決策は出さず、まず生徒の構想の「前提」を疑う質問を1つだけ投げかけてください。
 
 【担当ケース】${caseName}
 【公式資料で確認したこと】${ev}
@@ -259,7 +260,12 @@ ${rts}
 【資料だけでは判断できないこと】${unk}
 【本人との対話で確認すること】${per}
 
-条件：ケースにない心理、健康状態、家庭事情、具体的希望を推測しない。本人が選択・変更・拒否・保留できるかを意識する。解決策や評価は示さない。質問は1つ、100字以内。`;
+【回答のルール】
+・高校生が班で話し合えるよう、難しい専門用語（保障、集約、規準など）を使わず、身近でわかりやすい日常の言葉で問いかけてください。
+・文末は「〜はどう考える？」「〜はどうなるかな？」など、話し合いの口火を切りやすい自然な問いかけにしてください。
+・ケースにない診断、健康状態、家庭環境は推測しないでください。
+・解決策や評価、まとめは絶対に示さないでください。
+・質問は1つだけ、80〜100字程度で簡潔にお願いします。`;
 
       document.getElementById('prompt1Display').textContent = promptText;
       if (!isRestoring) saveData();
@@ -267,13 +273,15 @@ ${rts}
 
     function copyTurn2Prompt() {
       const resp = getVal('responseTurn1') || '構想の実現を目指している';
-      const text = `班の考えは「${resp}」です。次は、反例または見落とされた立場から、さらに問いを1つだけ示してください。解決策は示さないでください。`;
+      // ★「反例・見落とされた立場」を平易な言葉でAIに指示
+      const text = `班の考えは「${resp}」です。これを受けて、「もしその案がうまくいかない場面」や「その方法だと困ってしまう人」を想像できるように、高校生向けの平易な言葉で問いを1つだけ投げかけてください。難しい言葉は使わず、解決策は示さないでください（80字以内）。`;
       copyTextContent(text, 'copyBtn2', '2回目の返信文をコピー');
     }
 
     function copyTurn3Prompt() {
       const resp = getVal('responseTurn2') || '提示された点も踏まえて検討中である';
-      const text = `班の考えは「${resp}」です。ここまでの対話から、公式資料で確かめる最重要の問いを1つに絞ってください。問い1文と、確認する資料の観点1文だけ、全体150字以内で示してください。`;
+      // ★高校生がスライドに書きやすい言葉をAIに要求
+      const text = `班の考えは「${resp}」です。ここまでの対話を踏まえて、私たちが公式資料（国のガイドラインや学校の資料など）で確かめるべき「一番大切な問い」を1つに絞ってください。高校生が班スライドにそのまま書ける、短くすっきりした言葉（問い1文＋調べる観点1文、全体で120字以内）で示してください。`;
       copyTextContent(text, 'copyBtn3', '3回目の返信文をコピー');
     }
 
