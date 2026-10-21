@@ -80,7 +80,7 @@
         <div class="mt-6 max-w-2xl mx-auto rounded-xl border-l-4 border-[#F5A623] bg-white/10 p-4 text-left backdrop-blur shadow-lg">
           <span class="text-xs font-bold text-yellow-300 block mb-1">本ステップのゴール</span>
           <p class="text-sm sm:text-base font-bold leading-snug text-white">
-            照合結果と「採用・修正・保留・不採用」の理由を整理し、班のスライドへ記録する。
+            資料の事実と、班の「採用・修正・保留・不採用」の理由を整理し、班のスライドへ記録する。
           </p>
         </div>
       </div>
@@ -144,7 +144,7 @@
             </a>
           </div>
 
-          <!-- 【確認3：ワンポイント確認ガイド】 -->
+          <!-- ワンポイント確認ガイド -->
           <div class="rounded-lg border border-amber-200 bg-amber-50/90 p-3 text-xs text-amber-900 leading-relaxed flex items-start gap-2">
             <i data-lucide="lightbulb" class="w-4 h-4 text-[#F5A623] shrink-0 mt-0.5"></i>
             <div>
@@ -167,58 +167,78 @@
       </section>
 
       <!-- ==========================================
-          2. 照合結果と根拠
+          2. 公式資料にはどう書かれていたか？（事実の確認）
       ========================================== -->
       <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
-        <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
-          <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">2</span>
-          <h2 class="text-base sm:text-lg font-bold text-slate-800">照合結果と根拠</h2>
+        <div class="border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">2</span>
+            <h2 class="text-base sm:text-lg font-bold text-slate-800">公式資料にはどう書かれていたか？</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">【主語：公式資料は】調べた結果、問いに対する答えが資料に書かれていたかを選びます。</p>
         </div>
 
         <div>
-          <span class="block text-xs font-bold text-slate-700 mb-2">照合結果（原資料を確かめて3択から選択）</span>
+          <span class="block text-xs font-bold text-slate-700 mb-2">問いに対する資料の記載（3択から選択）</span>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5" id="matchChips">
-            <button type="button" onclick="selectMatch('公式資料で確かめられた')" class="chip-btn py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">確かめられた</button>
-            <button type="button" onclick="selectMatch('公式資料を踏まえると修正が必要')" class="chip-btn py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">修正が必要</button>
-            <button type="button" onclick="selectMatch('公式資料だけでは判断できない')" class="chip-btn py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">判断できない</button>
+            <button type="button" onclick="selectMatch('公式資料で確かめられた')" class="chip-btn py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">
+              書かれていた（確かめられた）
+            </button>
+            <button type="button" onclick="selectMatch('公式資料を踏まえると修正が必要')" class="chip-btn py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">
+              ズレがある（修正が必要）
+            </button>
+            <button type="button" onclick="selectMatch('公式資料だけでは判断できない')" class="chip-btn py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">
+              書かれていない（判断できない）
+            </button>
           </div>
           <input type="hidden" id="matchResult">
         </div>
 
         <div>
-          <label for="inputBasis" class="block text-xs font-bold text-slate-700 mb-1">根拠（1文・120字以内）</label>
-          <textarea id="inputBasis" rows="2" maxlength="120" oninput="renderCard()" placeholder="資料の該当箇所や原則を踏まえ、なぜそう判断したかを1文で簡潔に記述" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none"></textarea>
+          <label for="inputBasis" class="block text-xs font-bold text-slate-700 mb-1">資料に書かれていた事実（1文・120字以内）</label>
+          <textarea id="inputBasis" rows="2" maxlength="120" oninput="renderCard()" placeholder="例：p.14に「口頭以外の意思表明も配慮に含まれる」と直接書かれていた。" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none"></textarea>
         </div>
 
         <div>
-          <label for="inputHold" class="block text-xs font-bold text-slate-700 mb-1">本人との対話まで保留すること（必要な場合のみ・80字以内）</label>
-          <input type="text" id="inputHold" maxlength="80" oninput="renderCard()" placeholder="例：本人がどちらの提出方法を心地よいと感じているか" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none">
+          <label for="inputHold" class="block text-xs font-bold text-slate-700 mb-1">資料にはなく、本人に直接聞かないと分からないこと（必要な場合のみ・80字以内）</label>
+          <input type="text" id="inputHold" maxlength="80" oninput="renderCard()" placeholder="例：剛くん自身が、どの提出方法なら安心して参加できるか。" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none">
         </div>
       </section>
 
       <!-- ==========================================
-          3. 人間が暫定判断する
+          3. 資料を踏まえて、班の案をどうするか？（人間による暫定判断）
       ========================================== -->
       <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
-        <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
-          <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">3</span>
-          <h2 class="text-base sm:text-lg font-bold text-slate-800">人間が暫定判断する</h2>
+        <div class="border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-full main-color-bg text-white flex items-center justify-center text-xs font-black">3</span>
+            <h2 class="text-base sm:text-lg font-bold text-slate-800">資料を踏まえて、班の案をどうするか？</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">【主語：私たち班は】資料の事実を踏まえて、自分たちの案をどうするかを決めます。</p>
         </div>
 
         <div>
-          <span class="block text-xs font-bold text-slate-700 mb-2">暫定判断（4択から選択）</span>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="judgeChips">
-            <button type="button" onclick="selectJudge('採用')" class="chip-btn py-2.5 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">採用</button>
-            <button type="button" onclick="selectJudge('修正')" class="chip-btn py-2.5 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">修正</button>
-            <button type="button" onclick="selectJudge('保留')" class="chip-btn py-2.5 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">保留</button>
-            <button type="button" onclick="selectJudge('不採用')" class="chip-btn py-2.5 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">不採用</button>
+          <span class="block text-xs font-bold text-slate-700 mb-2">班としての暫定判断（4択から選択）</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5" id="judgeChips">
+            <button type="button" onclick="selectJudge('採用')" class="chip-btn py-2.5 px-2 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">
+              採用する（案に取り入れる）
+            </button>
+            <button type="button" onclick="selectJudge('修正')" class="chip-btn py-2.5 px-2 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">
+              修正する（案を書き換える）
+            </button>
+            <button type="button" onclick="selectJudge('保留')" class="chip-btn py-2.5 px-2 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">
+              保留する（本人と話すまで決めない）
+            </button>
+            <button type="button" onclick="selectJudge('不採用')" class="chip-btn py-2.5 px-2 rounded-xl border-2 border-slate-200 bg-white text-xs font-bold text-slate-700 smooth-transition hover:border-blue-300" aria-pressed="false">
+              不採用にする（今回は見送る）
+            </button>
           </div>
           <input type="hidden" id="judgeResult">
         </div>
 
         <div>
-          <label for="inputJudgeReason" class="block text-xs font-bold text-slate-700 mb-1">判断理由（1文・100字以内）</label>
-          <textarea id="inputJudgeReason" rows="2" maxlength="100" oninput="renderCard()" placeholder="班としてなぜその判断を下したのかの理由を1文で記述" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none"></textarea>
+          <label for="inputJudgeReason" class="block text-xs font-bold text-slate-700 mb-1">そう決めた理由（1文・100字以内）</label>
+          <textarea id="inputJudgeReason" rows="2" maxlength="100" oninput="renderCard()" placeholder="例：資料で公式に認められているため、チャットでの意見提出を正式な経路として採用する。" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs sm:text-sm focus:border-[#4A90E2] outline-none"></textarea>
         </div>
 
         <div class="rounded-xl border border-amber-200 bg-amber-50/80 p-3.5 text-xs text-amber-900 leading-relaxed">
@@ -227,32 +247,60 @@
 
         <div>
           <label for="finalQ" class="block text-xs font-bold text-slate-800 mb-1">第4時へ引き継ぐ最重要の問い（必要なら書き換える・80字以内）</label>
-          <textarea id="finalQ" rows="2" maxlength="80" oninput="renderCard()" placeholder="照合と判断を踏まえ、第4時へ渡す最終的な問いを1つ記述" class="w-full rounded-xl border border-amber-300 p-2.5 text-xs sm:text-sm font-bold text-slate-800 focus:border-[#F5A623] outline-none bg-white"></textarea>
+          <textarea id="finalQ" rows="2" maxlength="80" oninput="renderCard()" placeholder="例：書面で出した意見を、班の話し合いにどうやって反映させるか？" class="w-full rounded-xl border border-amber-300 p-2.5 text-xs sm:text-sm font-bold text-slate-800 focus:border-[#F5A623] outline-none bg-white"></textarea>
         </div>
       </section>
 
       <!-- ==========================================
-          4. 班スライドへ貼り付ける記録カード
+          4. 班スライドへの転記エリア（最適化UI）
       ========================================== -->
       <section class="bg-amber-50/70 rounded-2xl border-2 border-amber-300 p-5 sm:p-6 shadow-sm space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-amber-200">
           <div class="flex items-center gap-2">
-            <i data-lucide="clipboard-check" class="w-5 h-5 accent-color-text"></i>
-            <h2 class="text-base sm:text-lg font-bold text-amber-950">班スライドへ貼り付ける記録カード</h2>
+            <i data-lucide="presentation" class="w-5 h-5 accent-color-text"></i>
+            <h2 class="text-base sm:text-lg font-bold text-amber-950">班スライドへ転記する</h2>
           </div>
-          <div class="flex items-center gap-2">
-            <button type="button" onclick="copyCardContent()" id="copyCardBtn" class="px-4 py-2 rounded-xl accent-color-bg accent-hover text-white font-bold text-xs shadow-sm smooth-transition flex items-center gap-1.5 active:scale-95">
-              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-              <span>スライド用にコピー</span>
-            </button>
-            <a id="slideLink" href="#" target="konan_slides_tab" class="px-3.5 py-2 rounded-xl border border-amber-300 bg-white hover:bg-amber-100 text-amber-900 font-bold text-xs smooth-transition flex items-center gap-1 shadow-sm">
-              <span>スライドを開く</span>
-              <i data-lucide="external-link" class="w-3 h-3"></i>
-            </a>
-          </div>
+          <a id="slideLink" href="#" target="konan_slides_tab" class="px-4 py-2 rounded-xl border border-amber-300 bg-white hover:bg-amber-100 text-amber-900 font-bold text-xs smooth-transition flex items-center gap-1.5 shadow-sm">
+            <span>班のスライドを開く</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
         </div>
 
-        <pre id="cardOutput" class="whitespace-pre-wrap rounded-xl border border-amber-200 bg-white p-4 text-xs sm:text-sm leading-relaxed font-sans text-slate-700 shadow-inner"></pre>
+        <!-- アクション1：スライド④（橙色欄）用の最重要コピー -->
+        <div class="bg-white rounded-xl border-2 border-amber-300 p-4 space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="inline-flex items-center gap-1 text-[11px] font-black accent-color-text bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
+                スライド下段 ④ 橙色の枠へ貼り付け
+              </span>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-800 mt-1">第4時へ引き継ぐ最重要の問い（80字以内）</h3>
+            </div>
+            <button type="button" onclick="copyFinalQOnly()" id="copyFinalQBtn" 
+                    class="px-5 py-2.5 rounded-xl accent-color-bg accent-hover text-white font-bold text-xs shadow-sm smooth-transition flex items-center justify-center gap-1.5 active:scale-95 shrink-0">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span id="copyFinalQBtnText">問いをコピー（スライド④用）</span>
+            </button>
+          </div>
+          <p id="finalQPreview" class="text-xs font-bold text-slate-700 bg-amber-50/40 p-2.5 rounded-lg border border-amber-200/60 leading-relaxed"></p>
+        </div>
+
+        <!-- アクション2：スライド上段②・③への転記用サマリー -->
+        <div class="bg-white rounded-xl border border-slate-200 p-4 space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="inline-flex items-center gap-1 text-[11px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                スライド上段 ②・③ の枠への転記用
+              </span>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-800 mt-1">照合結果と暫定判断の記録</h3>
+            </div>
+            <button type="button" onclick="copyUpperSummary()" id="copyUpperBtn" 
+                    class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs shadow-sm smooth-transition flex items-center justify-center gap-1.5 active:scale-95 shrink-0">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span id="copyUpperBtnText">②・③の記録をコピー</span>
+            </button>
+          </div>
+          <pre id="cardOutput" class="whitespace-pre-wrap rounded-lg bg-slate-50 border border-slate-200 p-3 text-xs leading-relaxed font-sans text-slate-600 shadow-inner"></pre>
+        </div>
       </section>
 
       <!-- ==========================================
@@ -261,8 +309,8 @@
       <section class="rounded-xl border-l-4 border-emerald-500 bg-emerald-50/80 p-4 shadow-sm flex items-start gap-3">
         <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
         <div class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-          <strong class="font-bold text-emerald-950">スライド貼り付け後の操作：</strong>
-          内容をコピーして班スライドの橙色欄へ貼り付けたら、ブラウザ上部の<strong>「×」ボタンでこのタブを閉じて</strong>授業ポータルに戻り、<strong>「STEP 5 個人で振り返る」</strong>へ進んでください。
+          <strong class="font-bold text-emerald-950">スライド記録後の操作：</strong>
+          スライドの橙色枠④へ「最重要の問い」を貼り付け、上段②・③へ照合結果と判断理由を転記したら、ブラウザ上部の<strong>「×」ボタンでこのタブを閉じて</strong>授業ポータルに戻り、<strong>「STEP 5 個人で振り返る」</strong>へ進んでください。
         </div>
       </section>
 
@@ -290,15 +338,30 @@
       return document.getElementById(id).value.trim() || '（未入力）';
     }
 
-    // 問いの入力イベント（プロンプトと記録カードをリアルタイム更新）
+    // 見出しラベル等の混入を徹底的に削り落とすサニタイズ処理
+    function cleanQuestionText(text) {
+      if (!text) return '';
+      return text
+        .replace(/^【(?:第[34]時へ引き継ぐ)?最重要の問い】\s*/gm, '')
+        .replace(/^【最重要の問い】\s*/gm, '')
+        .trim();
+    }
+
+    // 問いの入力イベント（手動ペースト時も即座にサニタイズして反映）
     function onQuestionInput() {
+      const el = document.getElementById('inputQuestion');
+      const cleaned = cleanQuestionText(el.value);
+      if (el.value !== cleaned) {
+        el.value = cleaned;
+      }
       buildNotebookPrompt();
       renderCard();
     }
 
     // 調査用プロンプトの自動生成
     function buildNotebookPrompt() {
-      const q = document.getElementById('inputQuestion').value.trim() || '（最重要の問いを入力してください）';
+      const rawQ = document.getElementById('inputQuestion').value;
+      const q = cleanQuestionText(rawQ) || '（最重要の問いを入力してください）';
       const promptText = `次の「最重要の問い」について、登録されている公式資料に直接書かれている事実や原則があるか調べてください。
 
 【最重要の問い】
@@ -334,7 +397,8 @@ ${q}
     function selectMatch(val) {
       document.getElementById('matchResult').value = val;
       document.querySelectorAll('#matchChips button').forEach(btn => {
-        btn.setAttribute('aria-pressed', btn.textContent.trim() === val.replace('公式資料で', '').replace('公式資料を踏まえると', '').replace('公式資料だけでは', ''));
+        const btnVal = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+        btn.setAttribute('aria-pressed', btnVal === val);
       });
       renderCard();
     }
@@ -342,40 +406,70 @@ ${q}
     function selectJudge(val) {
       document.getElementById('judgeResult').value = val;
       document.querySelectorAll('#judgeChips button').forEach(btn => {
-        btn.setAttribute('aria-pressed', btn.textContent.trim() === val);
+        const btnVal = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+        btn.setAttribute('aria-pressed', btnVal === val);
       });
       renderCard();
     }
 
     function renderCard() {
       const match = v('matchResult');
+      const source = v('inputSource');
       const basis = v('inputBasis');
       const hold = document.getElementById('inputHold').value.trim();
       const judge = v('judgeResult');
       const reason = v('inputJudgeReason');
-      const finalq = v('finalQ');
+      const finalq = cleanQuestionText(v('finalQ'));
 
-      let text = `【照合結果】${match}\n【根拠】${basis}`;
+      // スライド④のプレビュー更新
+      document.getElementById('finalQPreview').textContent = finalq || '（まだ入力されていません）';
+
+      // スライド②・③への転記用サマリー更新
+      let text = `【② 公式資料との照合】\n・確認資料：${source}\n・照合結果：${match}\n・根拠の事実：${basis}`;
       if (hold) {
-        text += `\n【本人との対話まで保留】${hold}`;
+        text += `\n・本人保留：${hold}`;
       }
-      text += `\n【暫定判断】${judge}\n【判断理由】${reason}\n【第4時へ引き継ぐ最重要の問い】${finalq}`;
+      text += `\n\n【③ 人間による暫定判断】\n・班の判断：${judge}\n・判断理由：${reason}`;
 
       document.getElementById('cardOutput').textContent = text;
       if (!isRestoring) saveData();
     }
 
-    async function copyCardContent() {
+    // アクション1：スライド④用「最重要の問い」だけをコピー
+    async function copyFinalQOnly() {
+      const finalq = cleanQuestionText(v('finalQ'));
+      if (!finalq || finalq === '（未入力）') {
+        alert('先に「第4時へ引き継ぐ最重要の問い」を入力してください。');
+        return;
+      }
+      const btn = document.getElementById('copyFinalQBtn');
+      const btnText = document.getElementById('copyFinalQBtnText');
+      try {
+        await navigator.clipboard.writeText(finalq);
+        btn.classList.add('bg-emerald-600');
+        btnText.textContent = 'コピー完了！スライド④へ';
+        setTimeout(() => {
+          btn.classList.remove('bg-emerald-600');
+          btnText.textContent = '問いをコピー（スライド④用）';
+        }, 1800);
+      } catch (e) {
+        alert('クリップボードへのコピーに失敗しました。');
+      }
+      lucide.createIcons();
+    }
+
+    // アクション2：スライド②・③用の記録サマリーをコピー
+    async function copyUpperSummary() {
       const text = document.getElementById('cardOutput').textContent;
-      const btn = document.getElementById('copyCardBtn');
+      const btn = document.getElementById('copyUpperBtn');
+      const btnText = document.getElementById('copyUpperBtnText');
       try {
         await navigator.clipboard.writeText(text);
-        btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i><span>コピー完了！</span>`;
         btn.classList.add('bg-emerald-600');
+        btnText.textContent = 'コピー完了！スライド②③へ';
         setTimeout(() => {
-          btn.innerHTML = `<i data-lucide="copy" class="w-3.5 h-3.5"></i><span>スライド用にコピー</span>`;
           btn.classList.remove('bg-emerald-600');
-          lucide.createIcons();
+          btnText.textContent = '②・③の記録をコピー';
         }, 1800);
       } catch (e) {
         alert('クリップボードへのコピーに失敗しました。');
@@ -385,14 +479,14 @@ ${q}
 
     function saveData() {
       const data = {
-        question: document.getElementById('inputQuestion').value,
+        question: cleanQuestionText(document.getElementById('inputQuestion').value),
         source: document.getElementById('inputSource').value,
         match: document.getElementById('matchResult').value,
         basis: document.getElementById('inputBasis').value,
         hold: document.getElementById('inputHold').value,
         judge: document.getElementById('judgeResult').value,
         reason: document.getElementById('inputJudgeReason').value,
-        finalQ: document.getElementById('finalQ').value
+        finalQ: cleanQuestionText(document.getElementById('finalQ').value)
       };
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -405,16 +499,18 @@ ${q}
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
         let qValue = '';
 
-        // 1. 本画面（STEP 3）で以前入力した問いがあれば最優先
+        // 1. 本画面（STEP 3）で以前入力した問いがあれば最優先（サニタイズ適用）
         if (saved && saved.question) {
-          qValue = saved.question;
+          qValue = cleanQuestionText(saved.question);
         } else {
-          // 2. なければ STEP 2 の保存データから安全に自動引き継ぎ（フェイルセーフA案）
+          // 2. なければ STEP 2 の保存データから安全に自動引き継ぎ（完全サニタイズ適用）
           try {
             const critiqueSaved = JSON.parse(localStorage.getItem(CRITIQUE_STORAGE_KEY));
             if (critiqueSaved && critiqueSaved.finalQuestion) {
-              qValue = critiqueSaved.finalQuestion.replace(/^【第4時へ引き継ぐ最重要の問い】\s*/, '').trim();
-              document.getElementById('autoLoadBadge').classList.remove('hidden');
+              qValue = cleanQuestionText(critiqueSaved.finalQuestion);
+              if (qValue) {
+                document.getElementById('autoLoadBadge').classList.remove('hidden');
+              }
             }
           } catch (e) {}
         }
@@ -428,7 +524,7 @@ ${q}
           if (saved.hold) document.getElementById('inputHold').value = saved.hold;
           if (saved.judge) selectJudge(saved.judge);
           if (saved.reason) document.getElementById('inputJudgeReason').value = saved.reason;
-          if (saved.finalQ) document.getElementById('finalQ').value = saved.finalQ;
+          if (saved.finalQ) document.getElementById('finalQ').value = cleanQuestionText(saved.finalQ);
         }
       } catch (e) {
       } finally {
